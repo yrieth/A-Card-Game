@@ -1,25 +1,35 @@
-extends TextureRect
+extends TextureButton
 class_name Card
 
-@export var life: int
+
+
+var life: int
 var currentLife: int
 var maxLife: int
 var displayLife: Label
-@export var attack: int
+var attack: int
 var currentAttack: int
 var displayAttack: Label
-@export var cost: int
+var cost: int
 var currentCost: int
 var displayCost: Label
-@export var cardName: String
-@export var cardDesc: String
+var cardName: String
+var cardDesc: String
 
 
-
+static func getValues(card: Card, id:int) -> void:
+	var dict = Global.Collection[id]
+	card.life = dict.Life
+	card.attack = dict.Attack
+	card.cost = dict.Cost
+	card.cardName = dict.Name
+	card.cardDesc = dict.Description
+	
+	
 
 func makeLife() -> Label:
 	var tempLabel:Label = Label.new()
-	tempLabel.label_settings = load("res://LabelSettingMain.tres")
+	tempLabel.label_settings = load("res://misc/LabelSettingMain.tres")
 	tempLabel.size = Vector2(12, 9)
 	tempLabel.position = Vector2(102, 162)
 	tempLabel.text = str(currentLife)
@@ -29,7 +39,7 @@ func makeLife() -> Label:
 
 func makeAttack() -> Label:
 	var tempLabel:Label = Label.new()
-	tempLabel.label_settings = load("res://LabelSettingMain.tres")
+	tempLabel.label_settings = load("res://misc/LabelSettingMain.tres")
 	tempLabel.size = Vector2(12, 9)
 	tempLabel.position = Vector2(9, 162)
 	tempLabel.text = str(currentAttack)
@@ -39,7 +49,7 @@ func makeAttack() -> Label:
 	
 func makeCost() -> Label:
 	var tempLabel:Label = Label.new()
-	tempLabel.label_settings = load("res://LabelSettingMain.tres")
+	tempLabel.label_settings = load("res://misc/LabelSettingMain.tres")
 	tempLabel.size = Vector2(12, 9)
 	tempLabel.position = Vector2(102, 12)
 	tempLabel.text = str(currentCost)
@@ -49,7 +59,7 @@ func makeCost() -> Label:
 
 func makeName() -> void:
 	var tempLabel:Label = Label.new()
-	tempLabel.label_settings = load("res://LabelSettingMain.tres")
+	tempLabel.label_settings = load("res://misc/LabelSettingMain.tres")
 	tempLabel.size = Vector2(83, 14)
 	tempLabel.position = Vector2(6, 72)
 	tempLabel.scale = Vector2(1.3, 1.3)
@@ -59,8 +69,15 @@ func makeName() -> void:
 	self.add_child(tempLabel)
 
 func _ready() -> void:
-	self.texture = load("res://sprites/CardTemplate.png")
+	self.stretch_mode = TextureButton.STRETCH_SCALE
+	self.texture_normal = load("res://sprites/CardTemplate.png")
 	self.size = Vector2(120, 180)
+	self.modulate = Color(1,1,1)
+	self.pivot_offset = Vector2(60, 90)
+	
+	connect("mouse_entered", _on_mouse_entered)
+	connect("mouse_exited", _on_mouse_exited)
+	
 	
 	currentLife = life
 	maxLife = life
@@ -71,3 +88,15 @@ func _ready() -> void:
 	displayAttack = makeAttack()
 	displayCost = makeCost()
 	makeName()
+
+
+
+func _on_mouse_entered() -> void:
+	self.modulate = Color(1.2, 1.2, 1.2)
+	self.scale = Vector2(1.3,1.3)
+
+
+func _on_mouse_exited() -> void:
+	self.modulate = Color(1,1,1)
+	self.scale = Vector2(1,1)
+	

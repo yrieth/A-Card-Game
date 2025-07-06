@@ -1,6 +1,6 @@
 [gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://2peck6xro5bh"]
 
-[ext_resource type="FontFile" uid="uid://br13vltb1ppwc" path="res://Monocraft.ttc" id="1_w4m68"]
+[ext_resource type="FontFile" uid="uid://br13vltb1ppwc" path="res://misc/Monocraft.ttc" id="1_w4m68"]
 
 [resource]
 font = ExtResource("1_w4m68")
