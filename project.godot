@@ -11,5 +11,19 @@ config_version=5
 [application]
 
 config/name="A-Card-Game"
+run/main_scene="uid://m17gunt0t2i6"
 config/features=PackedStringArray("4.4", "Forward Plus")
+run/max_fps=60
 config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+mouse_cursor/custom_image="uid://31w0h3xekodr"
+mouse_cursor/custom_image_hotspot=Vector2(32, 32)
+mouse_cursor/tooltip_position_offset=Vector2(0, 0)
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0
