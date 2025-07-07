@@ -1,0 +1,7 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://dcan5rmdigkqp"]
+
+[ext_resource type="FontFile" uid="uid://br13vltb1ppwc" path="res://misc/Monocraft.ttc" id="1_uf87i"]
+
+[resource]
+font = ExtResource("1_uf87i")
+font_size = 27

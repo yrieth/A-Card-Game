@@ -17,6 +17,7 @@ var cardName: String
 var cardDesc: String
 
 
+
 static func getValues(card: Card, id:int) -> void:
 	var dict = Global.Collection[id]
 	card.life = dict.Life
@@ -78,7 +79,6 @@ func _ready() -> void:
 	connect("mouse_entered", _on_mouse_entered)
 	connect("mouse_exited", _on_mouse_exited)
 	
-	
 	currentLife = life
 	maxLife = life
 	currentAttack = attack
@@ -88,7 +88,6 @@ func _ready() -> void:
 	displayAttack = makeAttack()
 	displayCost = makeCost()
 	makeName()
-
 
 
 func _on_mouse_entered() -> void:
