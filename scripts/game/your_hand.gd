@@ -1,17 +1,17 @@
 extends Control
 
-const SlotPositions: Array[int] = [24, 2*24+120, 3*24+120*2, 4*24+120*3, 5*24+120*4, 6*24+120*5, 7*24+120*6]
-const MaxCards = 7
+const SLOT_POSITIONS: Array[int] = [24, 2*24+120, 3*24+120*2, 4*24+120*3, 5*24+120*4, 6*24+120*5, 7*24+120*6]
+const MAX_CARDS = 7
 @onready var cardSlots: Array[Card] = [null, null, null, null, null, null, null]
 @onready var focusedCard: int = -1
 @onready var numCards: int = 0
 
 func get_card() -> void:
-	if numCards < MaxCards:
+	if numCards < MAX_CARDS:
 		#card:Card = deck.get_card()
 		var card:Card = Card.new()
-		Card.getValues(card, 1)
-		card.position = Vector2(SlotPositions[numCards], 0)
+		card.getValues(1)
+		card.position = Vector2(SLOT_POSITIONS[numCards], 0)
 		self.add_child(card)
 		cardSlots[numCards] = card
 		card.connect("pressed",make_focused.bind(numCards))
@@ -24,10 +24,10 @@ func make_focused(from: int) -> void:
 		focusedCard = -1
 	else :
 		focusedCard = from
-	update_focused_text(focusedCard)
+	update_focused_text()
 	
-func update_focused_text(focused: int) -> void:
-	$Label.text = "Focused: %d" % focused
+func update_focused_text() -> void:
+	$Label.text = "Focused in hand: %d" % focusedCard
 
 func remove_focused() -> void:
 	cardSlots[focusedCard].disconnect("pressed", make_focused.bind(focusedCard))
@@ -37,10 +37,10 @@ func remove_focused() -> void:
 		cardSlots[i] = cardSlots[i+1]
 		cardSlots[i].disconnect("pressed", make_focused.bind(i+1))
 		cardSlots[i].connect("pressed",make_focused.bind(i))
-		cardSlots[i].position = Vector2(SlotPositions[i], 0)
+		cardSlots[i].position = Vector2(SLOT_POSITIONS[i], 0)
 	cardSlots[numCards] = null
 	focusedCard = -1
-	update_focused_text(-1)
+	update_focused_text()
 
 func _on_button_pressed() -> void:
 	get_card()

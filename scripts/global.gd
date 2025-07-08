@@ -1,7 +1,7 @@
 extends Node
 
 
-const Collection = [
+const COLLECTION = [
 	{
 		Name = "Name",
 		Description = "",
@@ -17,3 +17,9 @@ const Collection = [
 		Cost = 3
 	}
 ]
+
+@onready var isServer: bool = false
+@onready var isClient: bool = false
+@onready var port = 25565
+@onready var ipAdress = "127.0.0.1"
+var peerID

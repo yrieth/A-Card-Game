@@ -1,6 +1,6 @@
 extends Control
 
-const SlotPositions: Array[int] = [8, 8+24+120, 8+2*24+120*2, 8+3*24+120*3, 8+4*24+120*4]
+const SLOT_POSITIONS: Array[int] = [8, 8+24+120, 8+2*24+120*2, 8+3*24+120*3, 8+4*24+120*4]
 @onready var cardSlots: Array[Card] = [null, null, null, null, null]
 
 
@@ -10,7 +10,8 @@ func put_card(slot:int) -> void:
 		cardSlots[slot] = card
 		%YourHand.remove_focused()
 		self.add_child(card)
-		card.position = Vector2(SlotPositions[slot], 8)
+		card.position = Vector2(SLOT_POSITIONS[slot], 8)
+		multiplayer.rpc(Global.peerID, %EnemyPlace, "put_card", [card.cardId,slot])
 
 func _on_your_slot_0_pressed() -> void:
 	put_card(0)

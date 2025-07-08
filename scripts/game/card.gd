@@ -2,7 +2,7 @@ extends TextureButton
 class_name Card
 
 
-
+var cardId: int
 var life: int
 var currentLife: int
 var maxLife: int
@@ -18,13 +18,14 @@ var cardDesc: String
 
 
 
-static func getValues(card: Card, id:int) -> void:
-	var dict = Global.Collection[id]
-	card.life = dict.Life
-	card.attack = dict.Attack
-	card.cost = dict.Cost
-	card.cardName = dict.Name
-	card.cardDesc = dict.Description
+func getValues(id:int) -> void:
+	var dict = Global.COLLECTION[id]
+	self.cardId = id
+	self.life = dict.Life
+	self.attack = dict.Attack
+	self.cost = dict.Cost
+	self.cardName = dict.Name
+	self.cardDesc = dict.Description
 	
 	
 
@@ -61,9 +62,9 @@ func makeCost() -> Label:
 func makeName() -> void:
 	var tempLabel:Label = Label.new()
 	tempLabel.label_settings = load("res://misc/LabelSettingMain.tres")
-	tempLabel.size = Vector2(83, 14)
-	tempLabel.position = Vector2(6, 72)
-	tempLabel.scale = Vector2(1.3, 1.3)
+	tempLabel.scale = Vector2(0.8, 0.8)
+	tempLabel.size = Vector2(130, 20)
+	tempLabel.position = Vector2(8, 72)
 	tempLabel.text = cardName
 	tempLabel.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	tempLabel.vertical_alignment = VERTICAL_ALIGNMENT_CENTER

@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="A-Card-Game"
+config/version="0.1"
 run/main_scene="uid://m17gunt0t2i6"
 config/features=PackedStringArray("4.4", "Forward Plus")
 run/max_fps=60
@@ -24,9 +25,15 @@ Global="*res://scripts/global.gd"
 window/size/viewport_width=1280
 window/size/viewport_height=720
 window/size/initial_position_type=0
+window/size/resizable=false
+window/stretch/mode="viewport"
 mouse_cursor/custom_image="uid://31w0h3xekodr"
 mouse_cursor/custom_image_hotspot=Vector2(32, 32)
 mouse_cursor/tooltip_position_offset=Vector2(0, 0)
+
+[gui]
+
+theme/custom="uid://dvp0ubmmq4iyk"
 
 [rendering]
 

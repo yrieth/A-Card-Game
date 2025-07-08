@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=4 format=3 uid="uid://dvp0ubmmq4iyk"]
+[gd_resource type="Theme" load_steps=6 format=3 uid="uid://dvp0ubmmq4iyk"]
 
 [ext_resource type="FontFile" uid="uid://br13vltb1ppwc" path="res://misc/Monocraft.ttc" id="1_dya70"]
 
@@ -8,6 +8,12 @@ bg_color = Color(0.571857, 0.620186, 0.840401, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bwdhm"]
 bg_color = Color(0, 0, 0, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qtshl"]
+bg_color = Color(0.000113828, 0.000113828, 0.000113828, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x3tb2"]
+bg_color = Color(0.117647, 0.117647, 0.180392, 1)
+
 [resource]
 Button/colors/font_color = Color(1, 1, 1, 1)
 Button/colors/font_disabled_color = Color(0.875, 0.875, 0.875, 0.5)
@@ -16,3 +22,10 @@ Button/font_sizes/font_size = 18
 Button/fonts/font = ExtResource("1_dya70")
 Button/styles/hover = SubResource("StyleBoxFlat_dya70")
 Button/styles/normal = SubResource("StyleBoxFlat_bwdhm")
+LineEdit/colors/font_selected_color = Color(1, 1, 1, 1)
+LineEdit/font_sizes/font_size = 18
+LineEdit/fonts/font = ExtResource("1_dya70")
+LineEdit/styles/normal = SubResource("StyleBoxFlat_qtshl")
+Tree/font_sizes/font_size = 18
+Tree/fonts/font = ExtResource("1_dya70")
+Tree/styles/panel = SubResource("StyleBoxFlat_x3tb2")

@@ -1,0 +1,165 @@
+[gd_scene load_steps=8 format=3 uid="uid://m17gunt0t2i6"]
+
+[ext_resource type="Theme" uid="uid://dvp0ubmmq4iyk" path="res://misc/ThemeMain.tres" id="1_yqorp"]
+[ext_resource type="Script" uid="uid://dotocl54g1gqh" path="res://scripts/main/exit_button.gd" id="2_0ykhv"]
+[ext_resource type="Script" uid="uid://bhdoyr24n0jti" path="res://scripts/main/create_lobby_button.gd" id="2_2wh52"]
+[ext_resource type="Script" uid="uid://bh87lvt88f38v" path="res://scripts/main/join_lobby_button.gd" id="3_ow34m"]
+[ext_resource type="Script" uid="uid://ctocr445rob06" path="res://scripts/main/help_button.gd" id="5_vcsgt"]
+[ext_resource type="Script" uid="uid://c7eu86rct6wkl" path="res://scripts/main/back_button.gd" id="6_c01mt"]
+[ext_resource type="Script" uid="uid://7xbapiuih2pg" path="res://scripts/main/help_tree.gd" id="7_nxtc6"]
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MainMenu" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+
+[node name="CreateLobbyButton" type="Button" parent="MainMenu"]
+layout_mode = 0
+offset_left = 512.0
+offset_top = 128.0
+offset_right = 768.0
+offset_bottom = 192.0
+theme = ExtResource("1_yqorp")
+text = "Create"
+script = ExtResource("2_2wh52")
+
+[node name="JoinLobbyButton" type="Button" parent="MainMenu"]
+layout_mode = 0
+offset_left = 320.0
+offset_top = 256.0
+offset_right = 576.0
+offset_bottom = 320.0
+focus_next = NodePath("../ExitButton")
+focus_previous = NodePath("../CreateLobbyButton")
+text = "Join"
+script = ExtResource("3_ow34m")
+
+[node name="IPInput" type="LineEdit" parent="MainMenu"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 640.0
+offset_top = 256.0
+offset_right = 832.0
+offset_bottom = 320.0
+focus_next = NodePath("../PORTInput")
+focus_previous = NodePath("../JoinLobbyButton")
+placeholder_text = "127.0.0.1"
+alignment = 1
+
+[node name="PORTInput" type="LineEdit" parent="MainMenu"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 896.0
+offset_top = 256.0
+offset_right = 1024.0
+offset_bottom = 320.0
+focus_next = NodePath("../JoinLobbyButton")
+focus_previous = NodePath("../IPInput")
+placeholder_text = "25565"
+alignment = 1
+
+[node name="ExitButton" type="Button" parent="MainMenu"]
+layout_mode = 0
+offset_left = 704.0
+offset_top = 384.0
+offset_right = 960.0
+offset_bottom = 448.0
+focus_next = NodePath("../CreateLobbyButton")
+focus_previous = NodePath("../JoinLobbyButton")
+theme = ExtResource("1_yqorp")
+text = "Exit"
+script = ExtResource("2_0ykhv")
+
+[node name="HelpButton" type="Button" parent="MainMenu"]
+layout_mode = 0
+offset_left = 320.0
+offset_top = 384.0
+offset_right = 576.0
+offset_bottom = 448.0
+text = "Help"
+script = ExtResource("5_vcsgt")
+
+[node name="HelpMenu" type="Control" parent="."]
+unique_name_in_owner = true
+anchors_preset = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+
+[node name="HelpTree" type="Tree" parent="HelpMenu"]
+layout_mode = 0
+offset_right = 320.0
+offset_bottom = 720.0
+script = ExtResource("7_nxtc6")
+
+[node name="AllArticles" type="Control" parent="HelpMenu"]
+anchors_preset = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="HelpMenu/AllArticles"]
+layout_mode = 0
+offset_left = 320.0
+offset_right = 1280.0
+offset_bottom = 720.0
+text = "11
+1
+1
+1
+1
+1
+1
+1
+11
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+
+1
+1
+1
+1
+11
+
+11
+1
+1
+1
+1
+1
+"
+
+[node name="BackButton" type="Button" parent="HelpMenu"]
+layout_mode = 0
+offset_left = 1024.0
+offset_top = 640.0
+offset_right = 1216.0
+offset_bottom = 704.0
+text = "Back"
+script = ExtResource("6_c01mt")
+
+[connection signal="pressed" from="MainMenu/HelpButton" to="MainMenu/HelpButton" method="_on_pressed"]
+[connection signal="pressed" from="HelpMenu/BackButton" to="HelpMenu/BackButton" method="_on_pressed"]
