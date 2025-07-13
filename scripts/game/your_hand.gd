@@ -8,9 +8,10 @@ const MAX_CARDS = 7
 
 func get_card() -> void:
 	if numCards < MAX_CARDS:
+		#Substitute for deck
 		#card:Card = deck.get_card()
 		var card:Card = Card.new()
-		card.getValues(1)
+		card.getValues(0)
 		card.position = Vector2(SLOT_POSITIONS[numCards], 0)
 		self.add_child(card)
 		cardSlots[numCards] = card
@@ -27,7 +28,7 @@ func make_focused(from: int) -> void:
 	update_focused_text()
 	
 func update_focused_text() -> void:
-	$Label.text = "Focused in hand: %d" % focusedCard
+	$FocusedDisplay.text = "Focused in hand: %d" % focusedCard
 
 func remove_focused() -> void:
 	cardSlots[focusedCard].disconnect("pressed", make_focused.bind(focusedCard))
@@ -42,5 +43,5 @@ func remove_focused() -> void:
 	focusedCard = -1
 	update_focused_text()
 
-func _on_button_pressed() -> void:
-	get_card()
+func update_gold() -> void:
+	$GoldDisplay.text = "Gold: " + str(get_parent().gold) + "/" + str(get_parent().maxGold)

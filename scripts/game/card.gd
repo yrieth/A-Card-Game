@@ -1,6 +1,7 @@
 extends TextureButton
 class_name Card
 
+static var whenPlacedFunctions: Node
 
 var cardId: int
 var life: int
@@ -15,6 +16,7 @@ var currentCost: int
 var displayCost: Label
 var cardName: String
 var cardDesc: String
+var whenPlacedFunc: String
 
 
 
@@ -26,7 +28,7 @@ func getValues(id:int) -> void:
 	self.cost = dict.Cost
 	self.cardName = dict.Name
 	self.cardDesc = dict.Description
-	
+	self.whenPlacedFunc = dict.whenPlacedFunc
 	
 
 func makeLife() -> Label:
@@ -90,6 +92,9 @@ func _ready() -> void:
 	displayCost = makeCost()
 	makeName()
 
+func whenPlaced() -> void:
+	if whenPlacedFunc != "":
+		whenPlacedFunctions.call(whenPlacedFunc)
 
 func _on_mouse_entered() -> void:
 	self.modulate = Color(1.2, 1.2, 1.2)

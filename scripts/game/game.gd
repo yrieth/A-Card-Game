@@ -2,8 +2,11 @@ extends Control
 
 
 const MAX_CLIENTS = 1
+@onready var maxGold = 0
+var gold
 
 func _ready() -> void:
+	Global.gameNode = self
 	var peer = ENetMultiplayerPeer.new()
 	if Global.isServer:
 		peer.create_server(Global.port, MAX_CLIENTS)
@@ -14,10 +17,37 @@ func _ready() -> void:
 		multiplayer.multiplayer_peer = peer
 		Global.peerID = 1
 	
+	multiplayer.peer_connected.connect(start_game)
 	print(Global.ipAdress + ':' + str(Global.port))
+	Card.whenPlacedFunctions = %whenPlacedFunctions
+	
+	
 
 func assign_id(id: int) -> void:
 	Global.peerID = id
+
+@rpc("any_peer")
+func change_turn() -> void:
+	$EndTurnButton.disabled = Global.yourTurn
+	Global.yourTurn = !Global.yourTurn
+	$TurnDisplay.text = "Your turn: " + str(Global.yourTurn)
+
+	#For start and end turn mechanics
+	if Global.yourTurn:
+		maxGold += 1
+		gold = maxGold
+		%YourHand.update_gold()
+		%YourHand.get_card()
+	else :
+		pass
+
+
+func start_game(id: int)->void:
+	if Global.isServer:
+		if randf() > 0.5:
+			change_turn()
+		else :
+			multiplayer.rpc(Global.peerID, self, "change_turn")
 
 #func _process(delta: float) -> void:
 	#print(Global.peerID)

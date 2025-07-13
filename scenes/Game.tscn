@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://djur2hwfvtgsb"]
+[gd_scene load_steps=14 format=3 uid="uid://djur2hwfvtgsb"]
 
 [ext_resource type="Script" uid="uid://dku4vyxuhqe52" path="res://scripts/game/enemy_place.gd" id="1_400sg"]
 [ext_resource type="Texture2D" uid="uid://dip3afap5pgvb" path="res://sprites/CardTemplate.png" id="1_cpr0p"]
@@ -9,6 +9,8 @@
 [ext_resource type="LabelSettings" uid="uid://dcan5rmdigkqp" path="res://misc/LabelSettingTitle.tres" id="3_kiw3p"]
 [ext_resource type="LabelSettings" uid="uid://2peck6xro5bh" path="res://misc/LabelSettingMain.tres" id="3_s0nni"]
 [ext_resource type="Theme" uid="uid://dvp0ubmmq4iyk" path="res://misc/ThemeMain.tres" id="6_aug50"]
+[ext_resource type="Script" uid="uid://b7j6bdqwhmora" path="res://scripts/game/end_turn_button.gd" id="10_qy1jj"]
+[ext_resource type="Script" uid="uid://nrg5nnpb4trf" path="res://scripts/game/when_placed_functions.gd" id="11_3xj3m"]
 
 [sub_resource type="Gradient" id="Gradient_78awf"]
 offsets = PackedFloat32Array(0)
@@ -51,17 +53,25 @@ offset_right = 1024.0
 offset_bottom = 704.0
 script = ExtResource("1_s0nni")
 
-[node name="Label" type="Label" parent="YourHand"]
+[node name="FocusedDisplay" type="Label" parent="YourHand"]
 layout_mode = 0
-offset_top = 176.0
-offset_right = 320.0
-offset_bottom = 208.0
+offset_top = -512.0
+offset_right = 342.0
+offset_bottom = -480.0
 theme = ExtResource("6_aug50")
 text = "Focused in hand: -1"
 label_settings = ExtResource("3_kiw3p")
 
+[node name="GoldDisplay" type="Label" parent="YourHand"]
+layout_mode = 0
+offset_top = -480.0
+offset_right = 342.0
+offset_bottom = -448.0
+theme = ExtResource("6_aug50")
+text = "Gold: 0/0"
+label_settings = ExtResource("3_kiw3p")
+
 [node name="YourPlace" type="Control" parent="."]
-unique_name_in_owner = true
 anchors_preset = 0
 offset_left = 232.0
 offset_top = 288.0
@@ -103,15 +113,6 @@ offset_right = 712.0
 offset_bottom = 192.0
 texture_normal = ExtResource("3_aug50")
 
-[node name="Button" type="Button" parent="."]
-layout_mode = 0
-offset_left = 1048.0
-offset_top = 512.0
-offset_right = 1256.0
-offset_bottom = 704.0
-theme = ExtResource("6_aug50")
-text = "Get Card"
-
 [node name="CardTemplate2" type="TextureButton" parent="."]
 layout_mode = 0
 offset_left = -170.0
@@ -133,9 +134,31 @@ label_settings = ExtResource("3_s0nni")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="EndTurnButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1088.0
+offset_top = 320.0
+offset_right = 1216.0
+offset_bottom = 384.0
+disabled = true
+text = "End Turn"
+script = ExtResource("10_qy1jj")
+
+[node name="TurnDisplay" type="Label" parent="."]
+layout_mode = 0
+offset_top = 64.0
+offset_right = 344.0
+offset_bottom = 96.0
+text = "Your turn: false"
+label_settings = ExtResource("3_kiw3p")
+
+[node name="whenPlacedFunctions" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("11_3xj3m")
+
 [connection signal="pressed" from="YourPlace/YourSlot0" to="YourPlace" method="_on_your_slot_0_pressed"]
 [connection signal="pressed" from="YourPlace/YourSlot1" to="YourPlace" method="_on_your_slot_1_pressed"]
 [connection signal="pressed" from="YourPlace/YourSlot2" to="YourPlace" method="_on_your_slot_2_pressed"]
 [connection signal="pressed" from="YourPlace/YourSlot3" to="YourPlace" method="_on_your_slot_3_pressed"]
 [connection signal="pressed" from="YourPlace/YourSlot4" to="YourPlace" method="_on_your_slot_4_pressed"]
-[connection signal="pressed" from="Button" to="YourHand" method="_on_button_pressed"]
+[connection signal="pressed" from="EndTurnButton" to="EndTurnButton" method="_on_pressed"]
