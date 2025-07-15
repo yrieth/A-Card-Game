@@ -3,7 +3,9 @@ extends Control
 
 const MAX_CLIENTS = 1
 @onready var maxGold = 0
-var gold
+var gold: int
+@onready var placeSelected: bool = false
+@onready var enemySelected: bool = false
 
 func _ready() -> void:
 	Global.gameNode = self
@@ -20,6 +22,7 @@ func _ready() -> void:
 	multiplayer.peer_connected.connect(start_game)
 	print(Global.ipAdress + ':' + str(Global.port))
 	Card.whenPlacedFunctions = %whenPlacedFunctions
+	Card.whenAttackFunctions = %whenAttackFunctions
 	
 	
 
@@ -43,6 +46,7 @@ func change_turn() -> void:
 
 
 func start_game(id: int)->void:
+	gold = maxGold
 	if Global.isServer:
 		if randf() > 0.5:
 			change_turn()

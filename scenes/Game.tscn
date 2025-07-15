@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://djur2hwfvtgsb"]
+[gd_scene load_steps=15 format=3 uid="uid://djur2hwfvtgsb"]
 
 [ext_resource type="Script" uid="uid://dku4vyxuhqe52" path="res://scripts/game/enemy_place.gd" id="1_400sg"]
 [ext_resource type="Texture2D" uid="uid://dip3afap5pgvb" path="res://sprites/CardTemplate.png" id="1_cpr0p"]
@@ -11,6 +11,7 @@
 [ext_resource type="Theme" uid="uid://dvp0ubmmq4iyk" path="res://misc/ThemeMain.tres" id="6_aug50"]
 [ext_resource type="Script" uid="uid://b7j6bdqwhmora" path="res://scripts/game/end_turn_button.gd" id="10_qy1jj"]
 [ext_resource type="Script" uid="uid://nrg5nnpb4trf" path="res://scripts/game/when_placed_functions.gd" id="11_3xj3m"]
+[ext_resource type="Script" uid="uid://bry6aajngt5l0" path="res://scripts/game/when_attack_functions.gd" id="12_mcffj"]
 
 [sub_resource type="Gradient" id="Gradient_78awf"]
 offsets = PackedFloat32Array(0)
@@ -72,6 +73,7 @@ text = "Gold: 0/0"
 label_settings = ExtResource("3_kiw3p")
 
 [node name="YourPlace" type="Control" parent="."]
+unique_name_in_owner = true
 anchors_preset = 0
 offset_left = 232.0
 offset_top = 288.0
@@ -115,10 +117,10 @@ texture_normal = ExtResource("3_aug50")
 
 [node name="CardTemplate2" type="TextureButton" parent="."]
 layout_mode = 0
-offset_left = -170.0
-offset_top = 106.0
-offset_right = -50.0
-offset_bottom = 286.0
+offset_left = -176.0
+offset_top = 104.0
+offset_right = -56.0
+offset_bottom = 284.0
 texture_normal = ExtResource("1_cpr0p")
 stretch_mode = 0
 
@@ -127,7 +129,7 @@ layout_mode = 0
 offset_left = 8.0
 offset_top = 72.0
 offset_right = 138.0
-offset_bottom = 92.0
+offset_bottom = 90.0
 scale = Vector2(0.8, 0.8)
 text = "Something"
 label_settings = ExtResource("3_s0nni")
@@ -155,6 +157,13 @@ label_settings = ExtResource("3_kiw3p")
 [node name="whenPlacedFunctions" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("11_3xj3m")
+
+[node name="whenAttackFunctions" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("12_mcffj")
+
+[node name="Arrow" type="Line2D" parent="."]
+unique_name_in_owner = true
 
 [connection signal="pressed" from="YourPlace/YourSlot0" to="YourPlace" method="_on_your_slot_0_pressed"]
 [connection signal="pressed" from="YourPlace/YourSlot1" to="YourPlace" method="_on_your_slot_1_pressed"]

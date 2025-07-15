@@ -10,3 +10,7 @@ func put_card(cardId: int ,slot:int) -> void:
 	cardSlots[slot] = card
 	self.add_child(card)
 	card.position = Vector2(SLOT_POSITIONS[slot], 8)
+	
+	#Signals
+	card.connect("mouse_entered", %YourPlace.make_focused_enemy.bind(slot))
+	card.connect("mouse_exited", %YourPlace.make_focused_enemy.bind(-1))

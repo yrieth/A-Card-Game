@@ -7,7 +7,8 @@ const COLLECTION = [
 		Life = 1,
 		Attack = 1,
 		Cost = 1,
-		whenPlacedFunc = ""
+		whenPlacedFunc = "",
+		whenAttackFunc = ""
 	},
 	{
 		Name = "Something",
@@ -15,7 +16,8 @@ const COLLECTION = [
 		Life = 3,
 		Attack = 3,
 		Cost = 3,
-		whenPlacedFunc = "whenPlacedSomething"
+		whenPlacedFunc = "whenPlacedSomething",
+		whenAttackFunc = ""
 	}
 ]
 

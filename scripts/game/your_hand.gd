@@ -3,7 +3,7 @@ extends Control
 const SLOT_POSITIONS: Array[int] = [24, 2*24+120, 3*24+120*2, 4*24+120*3, 5*24+120*4, 6*24+120*5, 7*24+120*6]
 const MAX_CARDS = 7
 @onready var cardSlots: Array[Card] = [null, null, null, null, null, null, null]
-@onready var focusedCard: int = -1
+@onready var focusedHandCard: int = -1
 @onready var numCards: int = 0
 
 func get_card() -> void:
@@ -21,26 +21,26 @@ func get_card() -> void:
 		print("Too many cards")
 
 func make_focused(from: int) -> void:
-	if from == focusedCard:
-		focusedCard = -1
+	if from == focusedHandCard:
+		focusedHandCard = -1
 	else :
-		focusedCard = from
+		focusedHandCard = from
 	update_focused_text()
 	
 func update_focused_text() -> void:
-	$FocusedDisplay.text = "Focused in hand: %d" % focusedCard
+	$FocusedDisplay.text = "Focused in hand: %d" % focusedHandCard
 
 func remove_focused() -> void:
-	cardSlots[focusedCard].disconnect("pressed", make_focused.bind(focusedCard))
-	self.remove_child(cardSlots[focusedCard])
+	cardSlots[focusedHandCard].disconnect("pressed", make_focused.bind(focusedHandCard))
+	self.remove_child(cardSlots[focusedHandCard])
 	numCards-=1
-	for i in range(focusedCard, numCards):
+	for i in range(focusedHandCard, numCards):
 		cardSlots[i] = cardSlots[i+1]
 		cardSlots[i].disconnect("pressed", make_focused.bind(i+1))
 		cardSlots[i].connect("pressed",make_focused.bind(i))
 		cardSlots[i].position = Vector2(SLOT_POSITIONS[i], 0)
 	cardSlots[numCards] = null
-	focusedCard = -1
+	focusedHandCard = -1
 	update_focused_text()
 
 func update_gold() -> void:
