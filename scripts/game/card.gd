@@ -21,6 +21,7 @@ var cardDesc: String
 var whenPlacedFunc: String
 var whenAttackFunc: String
 
+var asleep: bool
 
 func getValues(id:int) -> void:
 	var dict = Global.COLLECTION[id]
@@ -32,6 +33,7 @@ func getValues(id:int) -> void:
 	self.cardDesc = dict.Description
 	self.whenPlacedFunc = dict.whenPlacedFunc
 	self.whenAttackFunc = dict.whenAttackFunc
+	self.asleep = true
 
 func makeLife() -> Label:
 	var tempLabel:Label = Label.new()
@@ -94,6 +96,7 @@ func _ready() -> void:
 	displayCost = makeCost()
 	makeName()
 
+@rpc("any_peer")
 func get_damaged(amount: int)->void:
 	self.currentLife -= amount
 	self.displayLife.text = str(currentLife)
@@ -103,6 +106,7 @@ func whenPlaced() -> void:
 func whenAttack() -> void:
 	if whenAttackFunc != "":
 		whenAttackFunctions.call(whenAttackFunc)
+	
 
 func _on_mouse_entered() -> void:
 	self.modulate = Color(1.2, 1.2, 1.2)

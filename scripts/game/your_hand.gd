@@ -4,44 +4,64 @@ const SLOT_POSITIONS: Array[int] = [24, 2*24+120, 3*24+120*2, 4*24+120*3, 5*24+1
 const MAX_CARDS = 7
 @onready var cardSlots: Array[Card] = [null, null, null, null, null, null, null]
 @onready var focusedHandCard: int = -1
+@onready var focusedPlaceSlot: int = -1
 @onready var numCards: int = 0
+
+func _ready() -> void:
+	
+	#Signals
+	var tempSlotArray: Array[Node] = %YourPlace.get_children()
+	for i in range(0, len(tempSlotArray)):
+		tempSlotArray[i].connect("mouse_entered", make_focused_place.bind(i))
+		tempSlotArray[i].connect("mouse_exited", make_focused_place.bind(-1))
 
 func get_card() -> void:
 	if numCards < MAX_CARDS:
 		#Substitute for deck
 		#card:Card = deck.get_card()
 		var card:Card = Card.new()
-		card.getValues(0)
+		card.getValues(1)
 		card.position = Vector2(SLOT_POSITIONS[numCards], 0)
 		self.add_child(card)
 		cardSlots[numCards] = card
-		card.connect("pressed",make_focused.bind(numCards))
+		card.connect("button_down",make_focused.bind(numCards))
+		card.connect("button_up",make_move)
 		numCards+=1
 	else:
 		print("Too many cards")
 
 func make_focused(from: int) -> void:
-	if from == focusedHandCard:
-		focusedHandCard = -1
-	else :
-		focusedHandCard = from
-	update_focused_text()
-	
-func update_focused_text() -> void:
-	$FocusedDisplay.text = "Focused in hand: %d" % focusedHandCard
+	focusedHandCard = from
+	if focusedHandCard == -1:
+		focusedPlaceSlot = -1
+		%ArrowHand.clear_points()
+func make_focused_place(from: int) -> void:
+	focusedPlaceSlot = from
+	if focusedHandCard != -1 and focusedPlaceSlot != -1:
+		%ArrowHand.add_point(Vector2(0, 512) + Vector2(SLOT_POSITIONS[focusedHandCard], 0) + Vector2(60, 90))
+		%ArrowHand.add_point(Vector2(232, 288) + Vector2(%YourPlace.SLOT_POSITIONS[focusedPlaceSlot], 8) + Vector2(60, 90))
+	else:
+		%ArrowHand.clear_points()
+func make_move() -> void:
+	if (focusedHandCard != -1 and
+		focusedPlaceSlot != -1 and
+		%YourPlace.cardSlots[focusedPlaceSlot] == null and
+		Global.yourTurn and
+		cardSlots[focusedHandCard].cost <= get_parent().gold):
+			%YourPlace.put_card(focusedPlaceSlot, cardSlots[focusedHandCard])
+	make_focused(-1)
 
 func remove_focused() -> void:
-	cardSlots[focusedHandCard].disconnect("pressed", make_focused.bind(focusedHandCard))
+	cardSlots[focusedHandCard].disconnect("button_down", make_focused.bind(focusedHandCard))
+	cardSlots[focusedHandCard].disconnect("button_up", make_move)
 	self.remove_child(cardSlots[focusedHandCard])
 	numCards-=1
 	for i in range(focusedHandCard, numCards):
 		cardSlots[i] = cardSlots[i+1]
-		cardSlots[i].disconnect("pressed", make_focused.bind(i+1))
-		cardSlots[i].connect("pressed",make_focused.bind(i))
+		cardSlots[i].disconnect("button_down", make_focused.bind(i+1))
+		cardSlots[i].connect("button_down",make_focused.bind(i))
 		cardSlots[i].position = Vector2(SLOT_POSITIONS[i], 0)
 	cardSlots[numCards] = null
-	focusedHandCard = -1
-	update_focused_text()
 
 func update_gold() -> void:
 	$GoldDisplay.text = "Gold: " + str(get_parent().gold) + "/" + str(get_parent().maxGold)

@@ -41,17 +41,17 @@ func change_turn() -> void:
 		gold = maxGold
 		%YourHand.update_gold()
 		%YourHand.get_card()
+		for card:Card in %YourPlace.cardSlots:
+			if card!=null:
+				card.asleep = false
 	else :
 		pass
 
 
-func start_game(id: int)->void:
+func start_game(_id: int)->void:
 	gold = maxGold
 	if Global.isServer:
 		if randf() > 0.5:
 			change_turn()
 		else :
 			multiplayer.rpc(Global.peerID, self, "change_turn")
-
-#func _process(delta: float) -> void:
-	#print(Global.peerID)

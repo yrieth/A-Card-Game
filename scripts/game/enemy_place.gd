@@ -14,3 +14,11 @@ func put_card(cardId: int ,slot:int) -> void:
 	#Signals
 	card.connect("mouse_entered", %YourPlace.make_focused_enemy.bind(slot))
 	card.connect("mouse_exited", %YourPlace.make_focused_enemy.bind(-1))
+
+@rpc("any_peer")
+func remove_card(slot:int) -> void:
+	cardSlots[slot].disconnect("mouse_entered", %YourPlace.make_focused_enemy.bind(slot))
+	cardSlots[slot].disconnect("mouse_exited", %YourPlace.make_focused_enemy.bind(-1))
+	cardSlots[slot].queue_free()
+	cardSlots[slot] = null
+	

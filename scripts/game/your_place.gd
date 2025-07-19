@@ -5,59 +5,73 @@ const SLOT_POSITIONS: Array[int] = [8, 8+24+120, 8+2*24+120*2, 8+3*24+120*3, 8+4
 @onready var focusedPlaceCard: int = -1
 @onready var focusedEnemyCard: int = -1
 
-func put_card(slot:int) -> void:
-	if  can_play_card(slot):
-		var card: Card = %YourHand.cardSlots[%YourHand.focusedHandCard]
-		cardSlots[slot] = card
-		get_parent().gold -= card.cost
-		%YourHand.update_gold()
-		%YourHand.remove_focused()
-		self.add_child(card)
-		card.position = Vector2(SLOT_POSITIONS[slot], 8)
-		card.whenPlaced()
-		multiplayer.rpc(Global.peerID, %EnemyPlace, "put_card", [card.cardId,slot])
-		
-		#Signals
-		card.connect("button_down", make_focused.bind(slot))
-		card.connect("button_up", make_attack)
-
-func can_play_card(slot: int) -> bool:
-	return (
-	%YourHand.focusedHandCard != -1 and
-	cardSlots[slot] == null and
-	Global.yourTurn and
-	%YourHand.cardSlots[%YourHand.focusedHandCard].cost <= get_parent().gold
-	)
+func put_card(slot:int, card:Card) -> void:
+	cardSlots[slot] = card
+	get_parent().gold -= card.cost
+	%YourHand.update_gold()
+	%YourHand.remove_focused()
+	self.add_child(card)
+	card.position = Vector2(SLOT_POSITIONS[slot], 8)
+	card.whenPlaced()
+	multiplayer.rpc(Global.peerID, %EnemyPlace, "put_card", [card.cardId,slot])
+	
+	#Signals
+	card.connect("button_down", make_focused.bind(slot))
+	card.connect("button_up", make_attack)
 
 func make_focused(from: int) -> void:
 	focusedPlaceCard = from
 	if focusedPlaceCard == -1:
 		focusedEnemyCard = -1
-		%Arrow.clear_points()
+		%ArrowPlace.clear_points()
 func make_focused_enemy(from: int) -> void:
 	focusedEnemyCard = from
 	if focusedPlaceCard != -1 and focusedEnemyCard != -1:
-		%Arrow.add_point(Vector2(232, 288) + Vector2(SLOT_POSITIONS[focusedPlaceCard], 8) + Vector2(60, 90))
-		%Arrow.add_point(Vector2(232, 80) + Vector2(%EnemyPlace.SLOT_POSITIONS[focusedEnemyCard], 8) + Vector2(60, 90))
+		%ArrowPlace.add_point(Vector2(232, 288) + Vector2(SLOT_POSITIONS[focusedPlaceCard], 8) + Vector2(60, 90))
+		%ArrowPlace.add_point(Vector2(232, 80) + Vector2(%EnemyPlace.SLOT_POSITIONS[focusedEnemyCard], 8) + Vector2(60, 90))
 	else:
-		%Arrow.clear_points()
+		%ArrowPlace.clear_points()
+		
+@rpc("any_peer")
+func make_attack_rpc(focusedPlaceCard:int , focusedEnemyCard:int) -> void:
+		%EnemyPlace.cardSlots[focusedEnemyCard].get_damaged(cardSlots[focusedPlaceCard].currentAttack)
+		cardSlots[focusedPlaceCard].get_damaged(%EnemyPlace.cardSlots[focusedEnemyCard].currentAttack)
+		if cardSlots[focusedPlaceCard].currentLife < 1:
+			cardSlots[focusedPlaceCard].disconnect("button_down", make_focused.bind(focusedPlaceCard))
+			cardSlots[focusedPlaceCard].disconnect("button_up", make_attack)
+			#cardSlots[focusedPlaceCard].whenDies() #TODO
+			cardSlots[focusedPlaceCard].queue_free()
+			cardSlots[focusedPlaceCard] = null
+		if %EnemyPlace.cardSlots[focusedEnemyCard].currentLife < 1:
+			%EnemyPlace.cardSlots[focusedEnemyCard].disconnect("mouse_entered", %YourPlace.make_focused_enemy.bind(focusedEnemyCard))
+			%EnemyPlace.cardSlots[focusedEnemyCard].disconnect("mouse_exited", %YourPlace.make_focused_enemy.bind(-1))
+			#cardSlots[focusedPlaceCard].whenDies()
+			%EnemyPlace.cardSlots[focusedEnemyCard].queue_free()
+			%EnemyPlace.cardSlots[focusedEnemyCard] = null
+
 func make_attack() -> void:
-	print(%Arrow.points)
-	if focusedPlaceCard != -1 and focusedEnemyCard != -1:
+	if (focusedPlaceCard != -1 and
+		focusedEnemyCard != -1 and
+		Global.yourTurn and
+		!cardSlots[focusedPlaceCard].asleep) :
 		cardSlots[focusedPlaceCard].whenAttack()
 		%EnemyPlace.cardSlots[focusedEnemyCard].get_damaged(cardSlots[focusedPlaceCard].currentAttack)
+		cardSlots[focusedPlaceCard].get_damaged(%EnemyPlace.cardSlots[focusedEnemyCard].currentAttack)
+		multiplayer.rpc(Global.peerID, %YourPlace, "make_attack_rpc", [focusedEnemyCard, focusedPlaceCard])
+		cardSlots[focusedPlaceCard].asleep = true
+		
+		
+		if cardSlots[focusedPlaceCard].currentLife < 1:
+			cardSlots[focusedPlaceCard].disconnect("button_down", make_focused.bind(focusedPlaceCard))
+			cardSlots[focusedPlaceCard].disconnect("button_up", make_attack)
+			#cardSlots[focusedPlaceCard].whenDies()
+			cardSlots[focusedPlaceCard].queue_free()
+			cardSlots[focusedPlaceCard] = null
+		if %EnemyPlace.cardSlots[focusedEnemyCard].currentLife < 1:
+			%EnemyPlace.cardSlots[focusedEnemyCard].disconnect("mouse_entered", %YourPlace.make_focused_enemy.bind(focusedEnemyCard))
+			%EnemyPlace.cardSlots[focusedEnemyCard].disconnect("mouse_exited", %YourPlace.make_focused_enemy.bind(-1))
+			#cardSlots[focusedPlaceCard].whenDies()
+			%EnemyPlace.cardSlots[focusedEnemyCard].queue_free()
+			%EnemyPlace.cardSlots[focusedEnemyCard] = null
+			
 	make_focused(-1)
-func _on_your_slot_0_pressed() -> void:
-	put_card(0)
-
-func _on_your_slot_1_pressed() -> void:
-	put_card(1)
-
-func _on_your_slot_2_pressed() -> void:
-	put_card(2)
-
-func _on_your_slot_3_pressed() -> void:
-	put_card(3)
-
-func _on_your_slot_4_pressed() -> void:
-	put_card(4)

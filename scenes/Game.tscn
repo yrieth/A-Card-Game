@@ -54,20 +54,11 @@ offset_right = 1024.0
 offset_bottom = 704.0
 script = ExtResource("1_s0nni")
 
-[node name="FocusedDisplay" type="Label" parent="YourHand"]
+[node name="GoldDisplay" type="Label" parent="YourHand"]
 layout_mode = 0
 offset_top = -512.0
 offset_right = 342.0
 offset_bottom = -480.0
-theme = ExtResource("6_aug50")
-text = "Focused in hand: -1"
-label_settings = ExtResource("3_kiw3p")
-
-[node name="GoldDisplay" type="Label" parent="YourHand"]
-layout_mode = 0
-offset_top = -480.0
-offset_right = 342.0
-offset_bottom = -448.0
 theme = ExtResource("6_aug50")
 text = "Gold: 0/0"
 label_settings = ExtResource("3_kiw3p")
@@ -148,9 +139,9 @@ script = ExtResource("10_qy1jj")
 
 [node name="TurnDisplay" type="Label" parent="."]
 layout_mode = 0
-offset_top = 64.0
+offset_top = 32.0
 offset_right = 344.0
-offset_bottom = 96.0
+offset_bottom = 64.0
 text = "Your turn: false"
 label_settings = ExtResource("3_kiw3p")
 
@@ -162,12 +153,10 @@ script = ExtResource("11_3xj3m")
 unique_name_in_owner = true
 script = ExtResource("12_mcffj")
 
-[node name="Arrow" type="Line2D" parent="."]
+[node name="ArrowHand" type="Line2D" parent="."]
 unique_name_in_owner = true
 
-[connection signal="pressed" from="YourPlace/YourSlot0" to="YourPlace" method="_on_your_slot_0_pressed"]
-[connection signal="pressed" from="YourPlace/YourSlot1" to="YourPlace" method="_on_your_slot_1_pressed"]
-[connection signal="pressed" from="YourPlace/YourSlot2" to="YourPlace" method="_on_your_slot_2_pressed"]
-[connection signal="pressed" from="YourPlace/YourSlot3" to="YourPlace" method="_on_your_slot_3_pressed"]
-[connection signal="pressed" from="YourPlace/YourSlot4" to="YourPlace" method="_on_your_slot_4_pressed"]
-[connection signal="pressed" from="EndTurnButton" to="EndTurnButton" method="_on_pressed"]
+[node name="ArrowPlace" type="Line2D" parent="."]
+unique_name_in_owner = true
+
+[connection signal="button_up" from="EndTurnButton" to="EndTurnButton" method="_on_button_up"]

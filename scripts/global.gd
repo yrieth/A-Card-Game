@@ -18,6 +18,15 @@ const COLLECTION = [
 		Cost = 3,
 		whenPlacedFunc = "whenPlacedSomething",
 		whenAttackFunc = ""
+	},
+	{
+		Name = "AnotherCard",
+		Description = "None",
+		Life = 3,
+		Attack = 2,
+		Cost = 2,
+		whenPlacedFunc = "",
+		whenAttackFunc = ""
 	}
 ]
 
@@ -28,10 +37,3 @@ const COLLECTION = [
 var peerID: int
 var gameNode: Control
 @onready var yourTurn: bool = false
-
-
-#@rpc("any_peer")
-#func rpc_turn_change() ->void:
-	#yourTurn = true
-	#$EndTurnButton.disabled = yourTurn
-	#$TurnDisplay.text = "Your turn: " + str(yourTurn)
