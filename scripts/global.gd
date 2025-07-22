@@ -47,6 +47,6 @@ func _ready() -> void:
 			unlockedCards.get_or_add(i.Name, false)
 		unlockedCardsFile.store_var(unlockedCards)
 		unlockedCardsFile.close()
-	unlockedCardsFile = FileAccess.open("res://saves/unlockedCards.save", FileAccess.READ)
+		unlockedCardsFile = FileAccess.open("res://saves/unlockedCards.save", FileAccess.READ)
 	unlockedCards = unlockedCardsFile.get_var()
 	print(unlockedCards)

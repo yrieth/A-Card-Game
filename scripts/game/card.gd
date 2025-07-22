@@ -23,7 +23,7 @@ var whenAttackFunc: String
 
 var asleep: bool
 
-func getValues(id:int) -> void:
+func get_values(id:int) -> void:
 	var dict = Global.COLLECTION[id]
 	self.cardId = id
 	self.life = dict.Life

@@ -108,10 +108,11 @@ texture_normal = ExtResource("3_aug50")
 
 [node name="CardTemplate2" type="TextureButton" parent="."]
 layout_mode = 0
-offset_left = -176.0
-offset_top = 104.0
-offset_right = -56.0
-offset_bottom = 284.0
+offset_left = 16.0
+offset_top = 120.0
+offset_right = 136.0
+offset_bottom = 300.0
+disabled = true
 texture_normal = ExtResource("1_cpr0p")
 stretch_mode = 0
 

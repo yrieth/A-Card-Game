@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://m17gunt0t2i6"]
+[gd_scene load_steps=10 format=3 uid="uid://m17gunt0t2i6"]
 
 [ext_resource type="Theme" uid="uid://dvp0ubmmq4iyk" path="res://misc/ThemeMain.tres" id="1_yqorp"]
 [ext_resource type="Script" uid="uid://dotocl54g1gqh" path="res://scripts/main/exit_button.gd" id="2_0ykhv"]
@@ -6,7 +6,9 @@
 [ext_resource type="Script" uid="uid://bh87lvt88f38v" path="res://scripts/main/join_lobby_button.gd" id="3_ow34m"]
 [ext_resource type="Script" uid="uid://ctocr445rob06" path="res://scripts/main/help_button.gd" id="5_vcsgt"]
 [ext_resource type="Script" uid="uid://c7eu86rct6wkl" path="res://scripts/main/back_button.gd" id="6_c01mt"]
+[ext_resource type="Script" uid="uid://brjo3r0pxsp6p" path="res://scripts/main/collection_button.gd" id="6_jlsqs"]
 [ext_resource type="Script" uid="uid://7xbapiuih2pg" path="res://scripts/main/help_tree.gd" id="7_nxtc6"]
+[ext_resource type="Script" uid="uid://q1dq4j1spfav" path="res://scripts/main/collection.gd" id="9_wp0k4"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -18,6 +20,7 @@ grow_vertical = 2
 
 [node name="MainMenu" type="Control" parent="."]
 unique_name_in_owner = true
+visible = false
 anchors_preset = 0
 offset_right = 1280.0
 offset_bottom = 720.0
@@ -87,6 +90,15 @@ offset_right = 576.0
 offset_bottom = 448.0
 text = "Help"
 script = ExtResource("5_vcsgt")
+
+[node name="CollectionButton" type="Button" parent="MainMenu"]
+layout_mode = 0
+offset_left = 320.0
+offset_top = 512.0
+offset_right = 576.0
+offset_bottom = 576.0
+text = "Collection"
+script = ExtResource("6_jlsqs")
 
 [node name="HelpMenu" type="Control" parent="."]
 unique_name_in_owner = true
@@ -161,5 +173,22 @@ offset_bottom = 704.0
 text = "Back"
 script = ExtResource("6_c01mt")
 
+[node name="Collection" type="Control" parent="."]
+unique_name_in_owner = true
+anchors_preset = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+script = ExtResource("9_wp0k4")
+
+[node name="BackButton" type="Button" parent="Collection"]
+offset_left = 1024.0
+offset_top = 640.0
+offset_right = 1216.0
+offset_bottom = 704.0
+text = "Back"
+script = ExtResource("6_c01mt")
+
 [connection signal="pressed" from="MainMenu/HelpButton" to="MainMenu/HelpButton" method="_on_pressed"]
+[connection signal="pressed" from="MainMenu/CollectionButton" to="MainMenu/CollectionButton" method="_on_pressed"]
 [connection signal="pressed" from="HelpMenu/BackButton" to="HelpMenu/BackButton" method="_on_pressed"]
+[connection signal="pressed" from="Collection/BackButton" to="Collection/BackButton" method="_on_pressed"]

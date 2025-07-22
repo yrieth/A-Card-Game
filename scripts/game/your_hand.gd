@@ -20,7 +20,7 @@ func get_card() -> void:
 		#Substitute for deck
 		#card:Card = deck.get_card()
 		var card:Card = Card.new()
-		card.getValues(1)
+		card.get_values(1)
 		card.position = Vector2(SLOT_POSITIONS[numCards], 0)
 		self.add_child(card)
 		cardSlots[numCards] = card
