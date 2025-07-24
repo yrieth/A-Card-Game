@@ -17,6 +17,7 @@ var currentCost: int
 var displayCost: Label
 var cardName: String
 var cardDesc: String
+var rarity: String
 
 var whenPlacedFunc: String
 var whenAttackFunc: String
@@ -33,6 +34,7 @@ func get_values(id:int) -> void:
 	self.cardDesc = dict.Description
 	self.whenPlacedFunc = dict.whenPlacedFunc
 	self.whenAttackFunc = dict.whenAttackFunc
+	self.rarity = dict.Rarity
 	self.asleep = true
 
 func makeLife() -> Label:
@@ -76,6 +78,24 @@ func makeName() -> void:
 	tempLabel.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	self.add_child(tempLabel)
 
+func makeRarity() -> void:
+	var tempTexture: TextureRect = TextureRect.new()
+	self.add_child(tempTexture)
+	tempTexture.position = Vector2(6,6)
+	tempTexture.size = Vector2(15,15)
+	match rarity:
+		"s":
+			tempTexture.texture = load("res://sprites/StarterRarity.png")
+		"b":
+			tempTexture.texture = load("res://sprites/BlazingRarity.png")
+		"n":
+			tempTexture.texture = load("res://sprites/NioticRarity.png")
+		"S":
+			tempTexture.texture = load("res://sprites/SpiritedRarity.png")
+		"N":
+			tempTexture.texture = load("res://sprites/NitroRarity.png")
+	
+
 func _ready() -> void:
 	self.stretch_mode = TextureButton.STRETCH_SCALE
 	self.texture_normal = load("res://sprites/CardTemplate.png")
@@ -95,6 +115,7 @@ func _ready() -> void:
 	displayAttack = makeAttack()
 	displayCost = makeCost()
 	makeName()
+	makeRarity()
 
 @rpc("any_peer")
 func get_damaged(amount: int)->void:

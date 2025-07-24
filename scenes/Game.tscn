@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://djur2hwfvtgsb"]
+[gd_scene load_steps=16 format=3 uid="uid://djur2hwfvtgsb"]
 
 [ext_resource type="Script" uid="uid://dku4vyxuhqe52" path="res://scripts/game/enemy_place.gd" id="1_400sg"]
 [ext_resource type="Texture2D" uid="uid://dip3afap5pgvb" path="res://sprites/CardTemplate.png" id="1_cpr0p"]
@@ -9,6 +9,7 @@
 [ext_resource type="LabelSettings" uid="uid://dcan5rmdigkqp" path="res://misc/LabelSettingTitle.tres" id="3_kiw3p"]
 [ext_resource type="LabelSettings" uid="uid://2peck6xro5bh" path="res://misc/LabelSettingMain.tres" id="3_s0nni"]
 [ext_resource type="Theme" uid="uid://dvp0ubmmq4iyk" path="res://misc/ThemeMain.tres" id="6_aug50"]
+[ext_resource type="Texture2D" uid="uid://b8gr62eju4piu" path="res://sprites/StarterRarity.png" id="10_2rd6h"]
 [ext_resource type="Script" uid="uid://b7j6bdqwhmora" path="res://scripts/game/end_turn_button.gd" id="10_qy1jj"]
 [ext_resource type="Script" uid="uid://nrg5nnpb4trf" path="res://scripts/game/when_placed_functions.gd" id="11_3xj3m"]
 [ext_resource type="Script" uid="uid://bry6aajngt5l0" path="res://scripts/game/when_attack_functions.gd" id="12_mcffj"]
@@ -127,6 +128,14 @@ text = "Something"
 label_settings = ExtResource("3_s0nni")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="CardTemplate2"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 6.0
+offset_right = 21.0
+offset_bottom = 21.0
+texture = ExtResource("10_2rd6h")
 
 [node name="EndTurnButton" type="Button" parent="."]
 layout_mode = 0

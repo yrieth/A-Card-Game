@@ -7,6 +7,7 @@ const COLLECTION = [
 		Life = 1,
 		Attack = 1,
 		Cost = 1,
+		Rarity = "s",
 		whenPlacedFunc = "",
 		whenAttackFunc = ""
 	},
@@ -16,6 +17,7 @@ const COLLECTION = [
 		Life = 3,
 		Attack = 3,
 		Cost = 3,
+		Rarity = "s",
 		whenPlacedFunc = "whenPlacedSomething",
 		whenAttackFunc = ""
 	},
@@ -25,6 +27,7 @@ const COLLECTION = [
 		Life = 3,
 		Attack = 2,
 		Cost = 2,
+		Rarity = "s",
 		whenPlacedFunc = "",
 		whenAttackFunc = ""
 	}
