@@ -6,7 +6,9 @@ class Page extends Control:
 	#func adopt_cards() -> void:
 		#for card:Card in self.cards:
 			#self.add_child(card)
-		
+class Deck:
+	var name: String
+	var deck: Array[int]
 
 const SLOTPOSITIONS: Array[Vector2] = [
 	Vector2(64.0, 64.0),
@@ -32,19 +34,25 @@ const SLOTPOSITIONS: Array[Vector2] = [
 	Vector2(832.0, 448.0)
 ]
 
+@onready var selectedDeck: int = -1
 @onready var currentPage:int = 0
 @onready var maxPages:int = 0
 var pages:Array[Page]
-
+var decks:Array[Deck]
 
 func _ready() -> void:
+	var testDeck: Deck = Deck.new()
+	testDeck.deck.append(1)
+	testDeck.deck.append(2)
+	print(testDeck.deck)
+	print("[1, 2]")
+	
 	var numCardsToDisplay:int = len(Global.COLLECTION)
 	var numCardsDisplayed: int = 0
-	var numCardsOnPage: int = 21
+	var numCardsOnPage: int = 15
 	var card:Card
 	while numCardsDisplayed < numCardsToDisplay:
-		
-		if numCardsOnPage == 21:
+		if numCardsOnPage == 15:
 			pages.append(Page.new())
 			pages[maxPages].visible = false
 			add_child(pages[maxPages])
@@ -55,9 +63,111 @@ func _ready() -> void:
 			card.get_values(numCardsDisplayed)
 			card.position = SLOTPOSITIONS[numCardsOnPage]
 			card.disabled = false
+			card.connect("pressed", add_card_to_deck.bind(card.cardId))
 			pages[maxPages-1].cards.append(card)
 			pages[maxPages-1].add_child(card)
 			numCardsOnPage+=1
 			numCardsDisplayed+=1
 	pages[currentPage].visible = true
 	
+	var decksFile: FileAccess = FileAccess.open("res://saves/decks.save", FileAccess.READ)
+	if decksFile != null:
+		var tempDeck: Deck
+		while decksFile.get_position() < decksFile.get_length():
+			tempDeck = Deck.new()
+			tempDeck.name = decksFile.get_line()
+			tempDeck.deck = decksFile.get_var()
+			decks.append(tempDeck)
+		
+		var counter = 0
+		for i:Deck in decks:
+			$Decks.add_item(i.name)
+			$Decks.set_item_tooltip_enabled(counter, false)
+			counter += 1
+		decksFile.close()
+	
+func _on_button_prev_page_pressed() -> void:
+	if currentPage > 1:
+		pages[currentPage].visible = false
+		currentPage -= 1
+		pages[currentPage].visible = true
+	elif currentPage == 1:
+		pages[currentPage].visible = false
+		currentPage -= 1
+		pages[currentPage].visible = true
+		$ButtonPrevPage.disabled = true
+	$ButtonNextPage.disabled = false
+func _on_button_next_page_pressed() -> void:
+	if currentPage < maxPages - 2:
+		pages[currentPage].visible = false
+		currentPage += 1
+		pages[currentPage].visible = true
+	elif currentPage == maxPages - 2:
+		pages[currentPage].visible = false
+		currentPage += 1
+		pages[currentPage].visible = true
+		$ButtonNextPage.disabled = true
+	$ButtonPrevPage.disabled = false
+
+
+func _on_decks_item_selected(index: int) -> void:
+	if selectedDeck == index:
+		$Decks.deselect(index)
+		$SelectedDeck.clear()
+		selectedDeck = -1
+	else: 
+		selectedDeck = index
+		for i in decks[selectedDeck].deck:
+			$SelectedDeck.add_item(Global.COLLECTION[i].Name)
+
+func _on_decks_item_activated(index: int) -> void:
+	var tempLine: LineEdit = LineEdit.new()
+	$Decks.add_child(tempLine)
+	tempLine.theme = load("res://misc/ThemeMain.tres")
+	tempLine.position = $Decks.get_item_rect(index).position
+	tempLine.size = $Decks.get_item_rect(index).size
+	tempLine.placeholder_text = $Decks.get_item_text(index)
+	tempLine.connect("editing_toggled", rename_deck.bind(tempLine, index))
+	tempLine.edit()
+
+func rename_deck(toggled_on:bool, tempLine: LineEdit, index:int) -> void:
+	if !toggled_on:
+		if tempLine.text != "":
+			$Decks.set_item_text(index, tempLine.text)
+			decks[index].name = tempLine.text
+		$Decks.remove_child(tempLine)
+		tempLine.queue_free()
+
+func _on_new_deck_pressed() -> void:
+	$Decks.add_item("New Deck")
+	$Decks.set_item_tooltip_enabled(len(decks), false)
+	decks.append(Deck.new())
+	
+
+func _on_remove_deck_pressed() -> void:
+	if selectedDeck != -1:
+		$Decks.remove_item(selectedDeck)
+		$SelectedDeck.clear()
+		decks.remove_at(selectedDeck)
+func add_card_to_deck(id:int) -> void:
+	if selectedDeck != -1 and !decks[selectedDeck].deck.has(id):
+		var index: int = $SelectedDeck.add_item(Global.COLLECTION[id].Name)
+		$SelectedDeck.set_item_tooltip(index, str(id))
+		match Global.COLLECTION[id].Rarity:
+			"s":
+				$SelectedDeck.set_item_icon(index, load("res://sprites/StarterRarity.png"))
+			"b":
+				$SelectedDeck.set_item_icon(index, load("res://sprites/BlazingRarity.png"))
+			"n":
+				$SelectedDeck.set_item_icon(index, load("res://sprites/NioticRarity.png"))
+			"S":
+				$SelectedDeck.set_item_icon(index, load("res://sprites/SpiritedRarity.png"))
+			"N":
+				$SelectedDeck.set_item_icon(index, load("res://sprites/NitroRarity.png"))
+		decks[selectedDeck].deck.append(id)
+
+func remove_card_from_deck(index:int, _at_position: Vector2, mouse_button_index: int) -> void:
+	if mouse_button_index == 2:
+		decks[selectedDeck].deck.erase(int($SelectedDeck.get_item_tooltip(index)))
+		$SelectedDeck.remove_item(index)
+		

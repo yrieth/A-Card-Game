@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://m17gunt0t2i6"]
+[gd_scene load_steps=11 format=3 uid="uid://m17gunt0t2i6"]
 
 [ext_resource type="Theme" uid="uid://dvp0ubmmq4iyk" path="res://misc/ThemeMain.tres" id="1_yqorp"]
 [ext_resource type="Script" uid="uid://dotocl54g1gqh" path="res://scripts/main/exit_button.gd" id="2_0ykhv"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://brjo3r0pxsp6p" path="res://scripts/main/collection_button.gd" id="6_jlsqs"]
 [ext_resource type="Script" uid="uid://7xbapiuih2pg" path="res://scripts/main/help_tree.gd" id="7_nxtc6"]
 [ext_resource type="Script" uid="uid://q1dq4j1spfav" path="res://scripts/main/collection.gd" id="9_wp0k4"]
+[ext_resource type="Script" uid="uid://biksq3vi4gylu" path="res://scripts/main/back_collection_button.gd" id="10_lhr70"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -180,16 +181,71 @@ offset_right = 1280.0
 offset_bottom = 720.0
 script = ExtResource("9_wp0k4")
 
-[node name="BackButton" type="Button" parent="Collection"]
+[node name="Decks" type="ItemList" parent="Collection"]
+layout_mode = 0
+offset_left = 1024.0
+offset_top = 64.0
+offset_right = 1216.0
+offset_bottom = 576.0
+theme = ExtResource("1_yqorp")
+allow_reselect = true
+
+[node name="SelectedDeck" type="ItemList" parent="Collection"]
+layout_mode = 0
+offset_left = 768.0
+offset_top = 64.0
+offset_right = 960.0
+offset_bottom = 632.0
+
+[node name="BackCollectionButton" type="Button" parent="Collection"]
 layout_mode = 0
 offset_left = 1024.0
 offset_top = 640.0
 offset_right = 1216.0
 offset_bottom = 704.0
 text = "Back"
-script = ExtResource("6_c01mt")
+script = ExtResource("10_lhr70")
+
+[node name="ButtonNextPage" type="Button" parent="Collection"]
+layout_mode = 0
+offset_left = 896.0
+offset_top = 640.0
+offset_right = 960.0
+offset_bottom = 704.0
+text = "->"
+
+[node name="ButtonPrevPage" type="Button" parent="Collection"]
+offset_left = 768.0
+offset_top = 640.0
+offset_right = 832.0
+offset_bottom = 704.0
+disabled = true
+text = "<-"
+
+[node name="NewDeck" type="Button" parent="Collection"]
+layout_mode = 0
+offset_left = 1032.0
+offset_top = 584.0
+offset_right = 1080.0
+offset_bottom = 632.0
+text = "+"
+
+[node name="RemoveDeck" type="Button" parent="Collection"]
+layout_mode = 0
+offset_left = 1160.0
+offset_top = 584.0
+offset_right = 1208.0
+offset_bottom = 632.0
+text = "-"
 
 [connection signal="pressed" from="MainMenu/HelpButton" to="MainMenu/HelpButton" method="_on_pressed"]
 [connection signal="pressed" from="MainMenu/CollectionButton" to="MainMenu/CollectionButton" method="_on_pressed"]
 [connection signal="pressed" from="HelpMenu/BackButton" to="HelpMenu/BackButton" method="_on_pressed"]
-[connection signal="pressed" from="Collection/BackButton" to="Collection/BackButton" method="_on_pressed"]
+[connection signal="item_activated" from="Collection/Decks" to="Collection" method="_on_decks_item_activated"]
+[connection signal="item_selected" from="Collection/Decks" to="Collection" method="_on_decks_item_selected"]
+[connection signal="item_clicked" from="Collection/SelectedDeck" to="Collection" method="remove_card_from_deck"]
+[connection signal="pressed" from="Collection/BackCollectionButton" to="Collection/BackCollectionButton" method="_on_pressed"]
+[connection signal="pressed" from="Collection/ButtonNextPage" to="Collection" method="_on_button_next_page_pressed"]
+[connection signal="pressed" from="Collection/ButtonPrevPage" to="Collection" method="_on_button_prev_page_pressed"]
+[connection signal="pressed" from="Collection/NewDeck" to="Collection" method="_on_new_deck_pressed"]
+[connection signal="pressed" from="Collection/RemoveDeck" to="Collection" method="_on_remove_deck_pressed"]

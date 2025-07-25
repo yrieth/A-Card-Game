@@ -40,8 +40,8 @@ func get_values(id:int) -> void:
 func makeLife() -> Label:
 	var tempLabel:Label = Label.new()
 	tempLabel.label_settings = load("res://misc/LabelSettingMain.tres")
-	tempLabel.size = Vector2(12, 9)
-	tempLabel.position = Vector2(102, 162)
+	tempLabel.size = Vector2(12, 18)
+	tempLabel.position = Vector2(103, 156)
 	tempLabel.text = str(currentLife)
 	tempLabel.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	self.add_child(tempLabel)
@@ -50,8 +50,8 @@ func makeLife() -> Label:
 func makeAttack() -> Label:
 	var tempLabel:Label = Label.new()
 	tempLabel.label_settings = load("res://misc/LabelSettingMain.tres")
-	tempLabel.size = Vector2(12, 9)
-	tempLabel.position = Vector2(9, 162)
+	tempLabel.size = Vector2(12, 18)
+	tempLabel.position = Vector2(7, 156)
 	tempLabel.text = str(currentAttack)
 	tempLabel.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	self.add_child(tempLabel)
@@ -60,8 +60,8 @@ func makeAttack() -> Label:
 func makeCost() -> Label:
 	var tempLabel:Label = Label.new()
 	tempLabel.label_settings = load("res://misc/LabelSettingMain.tres")
-	tempLabel.size = Vector2(12, 9)
-	tempLabel.position = Vector2(102, 12)
+	tempLabel.size = Vector2(12, 18)
+	tempLabel.position = Vector2(103, 6)
 	tempLabel.text = str(currentCost)
 	tempLabel.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	self.add_child(tempLabel)
@@ -132,9 +132,11 @@ func whenAttack() -> void:
 func _on_mouse_entered() -> void:
 	self.modulate = Color(1.2, 1.2, 1.2)
 	self.scale = Vector2(1.3,1.3)
+	self.top_level = true
 
 
 func _on_mouse_exited() -> void:
 	self.modulate = Color(1,1,1)
 	self.scale = Vector2(1,1)
+	self.top_level = false
 	

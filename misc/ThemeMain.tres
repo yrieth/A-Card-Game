@@ -1,6 +1,16 @@
-[gd_resource type="Theme" load_steps=8 format=3 uid="uid://dvp0ubmmq4iyk"]
+[gd_resource type="Theme" load_steps=10 format=3 uid="uid://dvp0ubmmq4iyk"]
 
 [ext_resource type="FontFile" uid="uid://br13vltb1ppwc" path="res://misc/Monocraft.ttc" id="1_dya70"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_thyhi"]
+bg_color = Color(0.136826, 0.136826, 0.136826, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 16
+corner_radius_bottom_right = 16
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dya70"]
 bg_color = Color(0, 0, 0, 1)
@@ -43,6 +53,14 @@ border_color = Color(1, 1, 1, 1)
 corner_radius_top_left = 16
 corner_radius_bottom_right = 16
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gt8eq"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qtshl"]
 bg_color = Color(0.000113828, 0.000113828, 0.000113828, 1)
 
@@ -55,10 +73,14 @@ Button/colors/font_disabled_color = Color(0.875, 0.875, 0.875, 0.5)
 Button/constants/outline_size = 13
 Button/font_sizes/font_size = 18
 Button/fonts/font = ExtResource("1_dya70")
+Button/styles/disabled = SubResource("StyleBoxFlat_thyhi")
 Button/styles/focus = SubResource("StyleBoxFlat_dya70")
 Button/styles/hover = SubResource("StyleBoxFlat_ycftb")
 Button/styles/normal = SubResource("StyleBoxFlat_bwdhm")
 Button/styles/pressed = SubResource("StyleBoxFlat_fhme1")
+ItemList/font_sizes/font_size = 18
+ItemList/fonts/font = ExtResource("1_dya70")
+ItemList/styles/panel = SubResource("StyleBoxFlat_gt8eq")
 LineEdit/colors/font_selected_color = Color(1, 1, 1, 1)
 LineEdit/font_sizes/font_size = 18
 LineEdit/fonts/font = ExtResource("1_dya70")
