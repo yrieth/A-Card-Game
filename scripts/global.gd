@@ -8,6 +8,7 @@ var unlockedCards: Dictionary[String, bool]
 var peerID: int
 var gameNode: Control
 @onready var yourTurn: bool = false
+var deckToPlay: Array[int]
 
 func _ready() -> void:
 	var unlockedCardsFile: FileAccess = FileAccess.open("res://saves/unlockedCards.save", FileAccess.READ)

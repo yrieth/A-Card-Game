@@ -40,13 +40,8 @@ const SLOTPOSITIONS: Array[Vector2] = [
 var pages:Array[Page]
 var decks:Array[Deck]
 
+
 func _ready() -> void:
-	var testDeck: Deck = Deck.new()
-	testDeck.deck.append(1)
-	testDeck.deck.append(2)
-	print(testDeck.deck)
-	print("[1, 2]")
-	
 	var numCardsToDisplay:int = len(Global.COLLECTION)
 	var numCardsDisplayed: int = 0
 	var numCardsOnPage: int = 15
@@ -76,7 +71,7 @@ func _ready() -> void:
 		while decksFile.get_position() < decksFile.get_length():
 			tempDeck = Deck.new()
 			tempDeck.name = decksFile.get_line()
-			tempDeck.deck = decksFile.get_var()
+			tempDeck.deck = line_into_array(decksFile.get_line())
 			decks.append(tempDeck)
 		
 		var counter = 0
@@ -85,7 +80,22 @@ func _ready() -> void:
 			$Decks.set_item_tooltip_enabled(counter, false)
 			counter += 1
 		decksFile.close()
-	
+
+func line_into_array(string: String) -> Array[int]:
+	var numberArray:Array[int]
+	var bufferNumber: int = 0
+	if string == "[]":
+		numberArray = []
+	else:
+		for char in string:
+			if "0" <= char and char <= "9":
+				bufferNumber = bufferNumber * 10 + int(char)
+			elif char == "," or char == "]":
+				numberArray.append(bufferNumber)
+				bufferNumber = 0
+	return numberArray
+
+
 func _on_button_prev_page_pressed() -> void:
 	if currentPage > 1:
 		pages[currentPage].visible = false
@@ -117,8 +127,21 @@ func _on_decks_item_selected(index: int) -> void:
 		selectedDeck = -1
 	else: 
 		selectedDeck = index
-		for i in decks[selectedDeck].deck:
-			$SelectedDeck.add_item(Global.COLLECTION[i].Name)
+		var tempIndex: int
+		for i:int in decks[selectedDeck].deck:
+			tempIndex = $SelectedDeck.add_item(Global.COLLECTION[i].Name)
+			$SelectedDeck.set_item_tooltip(tempIndex, str(i))
+			match Global.COLLECTION[i].Rarity:
+				"s":
+					$SelectedDeck.set_item_icon(tempIndex, load("res://sprites/StarterRarity.png"))
+				"b":
+					$SelectedDeck.set_item_icon(tempIndex, load("res://sprites/BlazingRarity.png"))
+				"n":
+					$SelectedDeck.set_item_icon(tempIndex, load("res://sprites/NioticRarity.png"))
+				"S":
+					$SelectedDeck.set_item_icon(tempIndex, load("res://sprites/SpiritedRarity.png"))
+				"N":
+					$SelectedDeck.set_item_icon(tempIndex, load("res://sprites/NitroRarity.png"))
 
 func _on_decks_item_activated(index: int) -> void:
 	var tempLine: LineEdit = LineEdit.new()
@@ -142,15 +165,16 @@ func _on_new_deck_pressed() -> void:
 	$Decks.add_item("New Deck")
 	$Decks.set_item_tooltip_enabled(len(decks), false)
 	decks.append(Deck.new())
-	
+	decks[len(decks)-1].name = "New Deck"
 
 func _on_remove_deck_pressed() -> void:
 	if selectedDeck != -1:
 		$Decks.remove_item(selectedDeck)
 		$SelectedDeck.clear()
 		decks.remove_at(selectedDeck)
+
 func add_card_to_deck(id:int) -> void:
-	if selectedDeck != -1 and !decks[selectedDeck].deck.has(id):
+	if selectedDeck != -1 and !decks[selectedDeck].deck.has(id) and len(decks[selectedDeck].deck) < 20:
 		var index: int = $SelectedDeck.add_item(Global.COLLECTION[id].Name)
 		$SelectedDeck.set_item_tooltip(index, str(id))
 		match Global.COLLECTION[id].Rarity:

@@ -147,6 +147,7 @@ text = "3"
 label_settings = ExtResource("3_s0nni")
 
 [node name="Attack" type="Label" parent="CardTemplate2"]
+layout_mode = 0
 offset_left = 7.0
 offset_top = 156.0
 offset_right = 19.0
@@ -155,6 +156,7 @@ text = "1"
 label_settings = ExtResource("3_s0nni")
 
 [node name="Cost" type="Label" parent="CardTemplate2"]
+layout_mode = 0
 offset_left = 103.0
 offset_top = 6.0
 offset_right = 115.0

@@ -215,6 +215,7 @@ offset_bottom = 704.0
 text = "->"
 
 [node name="ButtonPrevPage" type="Button" parent="Collection"]
+layout_mode = 0
 offset_left = 768.0
 offset_top = 640.0
 offset_right = 832.0
