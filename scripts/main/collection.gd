@@ -80,6 +80,9 @@ func _ready() -> void:
 			$Decks.set_item_tooltip_enabled(counter, false)
 			counter += 1
 		decksFile.close()
+	
+	if decks[0] != null:
+		Global.deckToPlay = decks[0].deck
 
 func line_into_array(string: String) -> Array[int]:
 	var numberArray:Array[int]

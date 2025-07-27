@@ -21,6 +21,7 @@ func _ready() -> void:
 		unlockedCardsFile = FileAccess.open("res://saves/unlockedCards.save", FileAccess.READ)
 	unlockedCards = unlockedCardsFile.get_var()
 	print(unlockedCards)
+	
 
 
 const COLLECTION = [

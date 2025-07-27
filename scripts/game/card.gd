@@ -132,11 +132,13 @@ func whenAttack() -> void:
 func _on_mouse_entered() -> void:
 	self.modulate = Color(1.2, 1.2, 1.2)
 	self.scale = Vector2(1.3,1.3)
-	self.top_level = true
+	#self.top_level = true
+	self.z_index = 1
 
 
 func _on_mouse_exited() -> void:
 	self.modulate = Color(1,1,1)
 	self.scale = Vector2(1,1)
-	self.top_level = false
+	#self.top_level = false
+	self.z_index = 0
 	
