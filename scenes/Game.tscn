@@ -47,6 +47,13 @@ offset_right = 944.0
 offset_bottom = 272.0
 script = ExtResource("1_400sg")
 
+[node name="EnemyHero" type="Button" parent="EnemyPlace"]
+layout_mode = 0
+offset_left = 296.0
+offset_top = -96.0
+offset_right = 416.0
+offset_bottom = -32.0
+
 [node name="YourHand" type="Control" parent="."]
 unique_name_in_owner = true
 anchors_preset = 0
@@ -62,6 +69,15 @@ offset_right = 342.0
 offset_bottom = -480.0
 theme = ExtResource("6_aug50")
 text = "Gold: 0/0"
+label_settings = ExtResource("3_kiw3p")
+
+[node name="LifeDisplay" type="Label" parent="YourHand"]
+layout_mode = 0
+offset_left = 1052.0
+offset_top = 64.0
+offset_right = 1088.0
+offset_bottom = 91.0
+text = "25"
 label_settings = ExtResource("3_kiw3p")
 
 [node name="ShowDeck" type="MenuButton" parent="YourHand"]
@@ -200,8 +216,28 @@ script = ExtResource("12_mcffj")
 
 [node name="ArrowHand" type="Line2D" parent="."]
 unique_name_in_owner = true
+z_index = 2
 
 [node name="ArrowPlace" type="Line2D" parent="."]
 unique_name_in_owner = true
+z_index = 2
+
+[node name="YouLoseButton" type="Button" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+text = "You Lose"
+
+[node name="YouWinButton" type="Button" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+text = "You Win"
 
 [connection signal="button_up" from="EndTurnButton" to="EndTurnButton" method="_on_button_up"]
+[connection signal="pressed" from="YouLoseButton" to="." method="_on_you_lose_button_pressed"]
+[connection signal="pressed" from="YouWinButton" to="." method="_on_you_win_button_pressed"]

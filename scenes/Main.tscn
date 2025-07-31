@@ -239,6 +239,14 @@ offset_right = 1208.0
 offset_bottom = 632.0
 text = "-"
 
+[node name="StartUnlocker" type="Button" parent="Collection"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 640.0
+offset_right = 320.0
+offset_bottom = 704.0
+text = "Unlock Starter Cards"
+
 [connection signal="pressed" from="MainMenu/HelpButton" to="MainMenu/HelpButton" method="_on_pressed"]
 [connection signal="pressed" from="MainMenu/CollectionButton" to="MainMenu/CollectionButton" method="_on_pressed"]
 [connection signal="pressed" from="HelpMenu/BackButton" to="HelpMenu/BackButton" method="_on_pressed"]
@@ -250,3 +258,4 @@ text = "-"
 [connection signal="pressed" from="Collection/ButtonPrevPage" to="Collection" method="_on_button_prev_page_pressed"]
 [connection signal="pressed" from="Collection/NewDeck" to="Collection" method="_on_new_deck_pressed"]
 [connection signal="pressed" from="Collection/RemoveDeck" to="Collection" method="_on_remove_deck_pressed"]
+[connection signal="pressed" from="Collection/StartUnlocker" to="Collection" method="_on_start_unlocker_pressed"]

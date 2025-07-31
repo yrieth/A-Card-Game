@@ -39,13 +39,45 @@ const SLOTPOSITIONS: Array[Vector2] = [
 @onready var maxPages:int = 0
 var pages:Array[Page]
 var decks:Array[Deck]
-
+var unlockedCards: Dictionary[String, bool]
 
 func _ready() -> void:
+	var unlockedCardsFile: FileAccess = FileAccess.open("res://saves/unlockedCards.save", FileAccess.READ)
+	if unlockedCardsFile == null:
+		unlockedCardsFile = FileAccess.open("res://saves/unlockedCards.save", FileAccess.WRITE)
+		for i in Global.COLLECTION:
+			unlockedCards.get_or_add(i.Name, false)
+		unlockedCardsFile.store_var(unlockedCards)
+		unlockedCardsFile.close()
+		unlockedCardsFile = FileAccess.open("res://saves/unlockedCards.save", FileAccess.READ)
+	unlockedCards = unlockedCardsFile.get_var()
+	unlockedCardsFile.close()
+	if len(unlockedCards) < len(Global.COLLECTION):
+		for i in Global.COLLECTION:
+			unlockedCards.get_or_add(i.Name, false)
+		unlockedCardsFile = FileAccess.open("res://saves/unlockedCards.save", FileAccess.WRITE)
+		unlockedCardsFile.store_var(unlockedCards)
+		unlockedCardsFile.close()
+	elif len(unlockedCards) > len(Global.COLLECTION):
+		var tempNamesArray: Array[String]
+		for i in Global.COLLECTION:
+			tempNamesArray.append(i.Name)
+		for i in unlockedCards:
+			if i not in tempNamesArray:
+				unlockedCards.erase(i)
+		unlockedCardsFile = FileAccess.open("res://saves/unlockedCards.save", FileAccess.WRITE)
+		unlockedCardsFile.store_var(unlockedCards)
+		unlockedCardsFile.close()
+	
+	
+	
 	var numCardsToDisplay:int = len(Global.COLLECTION)
 	var numCardsDisplayed: int = 0
 	var numCardsOnPage: int = 15
 	var card:Card
+	
+	
+	
 	while numCardsDisplayed < numCardsToDisplay:
 		if numCardsOnPage == 15:
 			pages.append(Page.new())
@@ -57,7 +89,7 @@ func _ready() -> void:
 			card=Card.new()
 			card.get_values(numCardsDisplayed)
 			card.position = SLOTPOSITIONS[numCardsOnPage]
-			card.disabled = false
+			card.disabled = !unlockedCards.get(card.cardName)
 			card.connect("pressed", add_card_to_deck.bind(card.cardId))
 			pages[maxPages-1].cards.append(card)
 			pages[maxPages-1].add_child(card)
@@ -81,8 +113,12 @@ func _ready() -> void:
 			counter += 1
 		decksFile.close()
 	
-	if decks[0] != null:
+	if decks == []:
+		for i in range(0,20):
+			Global.deckToPlay.append(i)
+	else:
 		Global.deckToPlay = decks[0].deck
+		
 
 func line_into_array(string: String) -> Array[int]:
 	var numberArray:Array[int]
@@ -90,10 +126,10 @@ func line_into_array(string: String) -> Array[int]:
 	if string == "[]":
 		numberArray = []
 	else:
-		for char in string:
-			if "0" <= char and char <= "9":
-				bufferNumber = bufferNumber * 10 + int(char)
-			elif char == "," or char == "]":
+		for c in string:
+			if "0" <= c and c <= "9":
+				bufferNumber = bufferNumber * 10 + int(c)
+			elif c == "," or c == "]":
 				numberArray.append(bufferNumber)
 				bufferNumber = 0
 	return numberArray
@@ -129,6 +165,8 @@ func _on_decks_item_selected(index: int) -> void:
 		$SelectedDeck.clear()
 		selectedDeck = -1
 	else: 
+		if selectedDeck != -1:
+			$SelectedDeck.clear()
 		selectedDeck = index
 		var tempIndex: int
 		for i:int in decks[selectedDeck].deck:
@@ -145,6 +183,7 @@ func _on_decks_item_selected(index: int) -> void:
 					$SelectedDeck.set_item_icon(tempIndex, load("res://sprites/SpiritedRarity.png"))
 				"N":
 					$SelectedDeck.set_item_icon(tempIndex, load("res://sprites/NitroRarity.png"))
+		print(decks[selectedDeck].deck)
 
 func _on_decks_item_activated(index: int) -> void:
 	var tempLine: LineEdit = LineEdit.new()
@@ -197,4 +236,9 @@ func remove_card_from_deck(index:int, _at_position: Vector2, mouse_button_index:
 	if mouse_button_index == 2:
 		decks[selectedDeck].deck.erase(int($SelectedDeck.get_item_tooltip(index)))
 		$SelectedDeck.remove_item(index)
-		
+
+func _on_start_unlocker_pressed() -> void:
+	for i in Global.COLLECTION:
+		if i.Rarity == "s":
+			unlockedCards.set(i.Name, true)
+	$StartUnlocker.disabled = true

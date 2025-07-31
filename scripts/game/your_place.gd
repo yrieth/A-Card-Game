@@ -5,6 +5,7 @@ const SLOT_POSITIONS: Array[int] = [8, 8+24+120, 8+2*24+120*2, 8+3*24+120*3, 8+4
 @onready var focusedPlaceCard: int = -1
 @onready var focusedEnemyCard: int = -1
 
+
 func put_card(slot:int, card:Card) -> void:
 	cardSlots[slot] = card
 	get_parent().gold -= card.cost
@@ -26,9 +27,15 @@ func make_focused(from: int) -> void:
 		%ArrowPlace.clear_points()
 func make_focused_enemy(from: int) -> void:
 	focusedEnemyCard = from
-	if focusedPlaceCard != -1 and focusedEnemyCard != -1:
+	
+	if focusedPlaceCard != -1 :
 		%ArrowPlace.add_point(Vector2(232, 288) + Vector2(SLOT_POSITIONS[focusedPlaceCard], 8) + Vector2(60, 90))
-		%ArrowPlace.add_point(Vector2(232, 80) + Vector2(%EnemyPlace.SLOT_POSITIONS[focusedEnemyCard], 8) + Vector2(60, 90))
+		if focusedEnemyCard == 5:
+			%ArrowPlace.add_point(Vector2(232 + 296 + 60,80 - 96 + 32))
+		elif focusedEnemyCard != -1:
+			%ArrowPlace.add_point(Vector2(232, 80) + Vector2(%EnemyPlace.SLOT_POSITIONS[focusedEnemyCard], 8) + Vector2(60, 90))
+		else :
+			%ArrowPlace.clear_points()
 	else:
 		%ArrowPlace.clear_points()
 		
@@ -51,7 +58,17 @@ func make_attack_rpc(focusedPlaceCard:int , focusedEnemyCard:int) -> void:
 
 func make_attack() -> void:
 	if (focusedPlaceCard != -1 and
+		focusedEnemyCard == 5 and
+		Global.yourTurn and
+		!cardSlots[focusedPlaceCard].asleep and 
+		%EnemyPlace.cardSlots[focusedPlaceCard] == null):
+		%EnemyPlace.update_enemy_life(-cardSlots[focusedPlaceCard].currentAttack)
+		multiplayer.rpc(Global.peerID, %YourHand, "update_your_life", [-cardSlots[focusedPlaceCard].currentAttack])
+		cardSlots[focusedPlaceCard].asleep = true
+			
+	elif (focusedPlaceCard != -1 and
 		focusedEnemyCard != -1 and
+		focusedEnemyCard != 5 and
 		Global.yourTurn and
 		!cardSlots[focusedPlaceCard].asleep) :
 		cardSlots[focusedPlaceCard].whenAttack()

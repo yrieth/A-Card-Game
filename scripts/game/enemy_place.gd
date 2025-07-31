@@ -2,6 +2,12 @@ extends Control
 
 const SLOT_POSITIONS: Array[int] = [8, 8+24+120, 8+2*24+120*2, 8+3*24+120*3, 8+4*24+120*4]
 @onready var cardSlots: Array[Card] = [null, null, null, null, null]
+@onready var enemyLife: int = 25
+
+func _ready() -> void:
+	$EnemyHero.connect("mouse_entered", %YourPlace.make_focused_enemy.bind(5))
+	$EnemyHero.connect("mouse_exited", %YourPlace.make_focused_enemy.bind(-1))
+	$EnemyHero.text = str(enemyLife)
 
 @rpc("any_peer")
 func put_card(cardId: int ,slot:int) -> void:
@@ -22,3 +28,9 @@ func remove_card(slot:int) -> void:
 	cardSlots[slot].queue_free()
 	cardSlots[slot] = null
 	
+@rpc("any_peer")
+func update_enemy_life(amount: int) -> void:
+	enemyLife += amount
+	$EnemyHero.text = str(enemyLife)
+	if enemyLife < 1:
+		%YouWinButton.visible = true

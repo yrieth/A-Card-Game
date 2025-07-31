@@ -7,6 +7,8 @@ const MAX_CARDS = 7
 @onready var focusedHandCard: int = -1
 @onready var focusedPlaceSlot: int = -1
 @onready var numCards: int = 0
+@onready var yourLife: int = 25
+
 
 func _ready() -> void:
 	var popup:PopupMenu = $ShowDeck.get_popup()
@@ -18,23 +20,30 @@ func _ready() -> void:
 		tempSlotArray[i].connect("mouse_exited", make_focused_place.bind(-1))
 	for i in Global.deckToPlay:
 		$ShowDeck.get_popup().add_item(Global.COLLECTION[i].Name)
+	$LifeDisplay.text = str(yourLife)
 
 func get_card() -> void:
-	if numCards < MAX_CARDS and !Global.deckToPlay.is_empty():
+	if numCards < MAX_CARDS and !get_parent().deckToPlay.is_empty():
 		var card:Card = Card.new()
-		card.get_values(Global.deckToPlay.pop_back())
-		$ShowDeck.get_popup().remove_item(len(Global.deckToPlay))
+		var tempCardId: int = get_parent().deckToPlay.pop_back()
+		card.get_values(tempCardId)
+		tempCardId = Global.deckToPlay.find(tempCardId)
+		$ShowDeck.get_popup().remove_item(tempCardId)
+		Global.deckToPlay.remove_at(tempCardId)
 		card.position = Vector2(SLOT_POSITIONS[numCards], 0)
 		self.add_child(card)
 		cardSlots[numCards] = card
 		card.connect("button_down",make_focused.bind(numCards))
 		card.connect("button_up",make_move)
 		numCards+=1
-	elif numCards >= MAX_CARDS and !Global.deckToPlay.is_empty():
-		Global.deckToPlay.pop_back()
-		$ShowDeck.get_popup().remove_item(len(Global.deckToPlay))
-	elif Global.deckToPlay.is_empty():
-		pass #fatigue
+	elif numCards >= MAX_CARDS and !get_parent().deckToPlay.is_empty():
+		var tempCardId: int = Global.deckToPlay.find(get_parent().deckToPlay.pop_back())
+		$ShowDeck.get_popup().remove_item(tempCardId)
+		Global.deckToPlay.remove_at(tempCardId)
+	elif get_parent().deckToPlay.is_empty():
+		update_your_life(-fatigue)
+		multiplayer.rpc(Global.peerID, %EnemyPlace, "update_enemy_life", [-fatigue])
+		fatigue += 1
 
 func make_focused(from: int) -> void:
 	focusedHandCard = from
@@ -71,3 +80,10 @@ func remove_focused() -> void:
 
 func update_gold() -> void:
 	$GoldDisplay.text = "Gold: " + str(get_parent().gold) + "/" + str(get_parent().maxGold)
+
+@rpc("any_peer")
+func update_your_life(amount: int) -> void:
+	yourLife += amount
+	$LifeDisplay.text = str(yourLife)
+	if yourLife < 1:
+		%YouLoseButton.visible = true

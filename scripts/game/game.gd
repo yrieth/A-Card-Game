@@ -1,6 +1,6 @@
 extends Control
 
-
+@onready var deckToPlay = Global.deckToPlay.duplicate()
 const MAX_CLIENTS = 1
 @onready var maxGold = 0
 var gold: int
@@ -50,8 +50,17 @@ func change_turn() -> void:
 
 func start_game(_id: int)->void:
 	gold = maxGold
+	deckToPlay.shuffle()
 	if Global.isServer:
 		if randf() > 0.5:
 			change_turn()
 		else :
 			multiplayer.rpc(Global.peerID, self, "change_turn")
+
+
+func _on_you_win_button_pressed() -> void:
+	get_tree().change_scene_to_file("res://scenes/Main.tscn")
+	
+
+func _on_you_lose_button_pressed() -> void:
+	get_tree().change_scene_to_file("res://scenes/Main.tscn")

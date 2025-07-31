@@ -99,6 +99,7 @@ func makeRarity() -> void:
 func _ready() -> void:
 	self.stretch_mode = TextureButton.STRETCH_SCALE
 	self.texture_normal = load("res://sprites/CardTemplate.png")
+	self.texture_disabled = load("res://sprites/CardTemplateDisabled.png")
 	self.size = Vector2(120, 180)
 	self.modulate = Color(1,1,1)
 	self.pivot_offset = Vector2(60, 90)
