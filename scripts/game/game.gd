@@ -82,6 +82,6 @@ func _on_you_lose_button_pressed() -> void:
 	#Code goes before this command
 	end_game()
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("ui_cancel"):
 		$ConcedeButton.visible = !$ConcedeButton.visible

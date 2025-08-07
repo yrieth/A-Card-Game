@@ -86,13 +86,23 @@ func remove_focused() -> void:
 	cardSlots[numCards] = null
 
 func update_gold() -> void:
-	$GoldDisplay.value = get_parent().gold
+	var goldTween: Tween = create_tween()
+	goldTween.set_trans(Tween.TRANS_CUBIC)
+	goldTween.tween_property($GoldDisplay, "value", get_parent().gold, 1)
+	#$GoldDisplay.value = get_parent().gold
 	$GoldDisplay.tooltip_text =str(get_parent().gold) + "/" + str(get_parent().maxGold)
 
 @rpc("any_peer")
 func update_your_life(amount: int) -> void:
+	
 	yourLife += amount
+	var lifeTween: Tween = create_tween()
+	lifeTween.set_trans(Tween.TRANS_CUBIC)
+	lifeTween.tween_property($LifeDisplay, "value", yourLife, 1)
 	$LifeDisplay.tooltip_text = str(yourLife)
-	$LifeDisplay.value = yourLife
+	#$LifeDisplay.value = yourLife
 	if yourLife < 1:
-		%YouLoseButton.visible = true
+		var buttonTween: Tween = create_tween()
+		buttonTween.tween_property(%YouLoseButton, "visible", true, 0)
+		buttonTween.tween_property(%YouLoseButton, "modulate", Color(1,1,1,1), 3)
+		buttonTween.tween_property(%YouLoseButton, "disabled", false, 0)

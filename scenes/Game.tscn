@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://djur2hwfvtgsb"]
+[gd_scene load_steps=21 format=3 uid="uid://djur2hwfvtgsb"]
 
 [ext_resource type="Script" uid="uid://dku4vyxuhqe52" path="res://scripts/game/enemy_place.gd" id="1_400sg"]
 [ext_resource type="Texture2D" uid="uid://dip3afap5pgvb" path="res://sprites/CardTemplate.png" id="1_cpr0p"]
@@ -54,6 +54,16 @@ border_color = Color(0, 0, 0, 1)
 corner_radius_top_left = 16
 corner_radius_bottom_right = 16
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bwdhm"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 16
+corner_radius_bottom_right = 16
+
 [node name="Game" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -103,7 +113,6 @@ offset_right = 1144.0
 offset_bottom = 120.0
 theme_override_styles/fill = SubResource("StyleBoxFlat_2rd6h")
 max_value = 25.0
-step = 1.0
 value = 25.0
 allow_greater = true
 allow_lesser = true
@@ -117,6 +126,7 @@ text = "Deck"
 flat = false
 
 [node name="GoldDisplay" type="ProgressBar" parent="YourHand"]
+layout_mode = 0
 offset_left = 1160.0
 offset_top = 72.0
 offset_right = 1256.0
@@ -124,10 +134,10 @@ offset_bottom = 120.0
 tooltip_text = "0/0"
 theme_override_styles/fill = SubResource("StyleBoxFlat_7ua8r")
 max_value = 8.0
-step = 1.0
 allow_greater = true
 
 [node name="TurnDisplay" type="ProgressBar" parent="YourHand"]
+layout_mode = 0
 offset_left = 1048.0
 offset_top = 136.0
 offset_right = 1144.0
@@ -284,17 +294,29 @@ script = ExtResource("14_7ua8r")
 [node name="YouLoseButton" type="Button" parent="."]
 unique_name_in_owner = true
 visible = false
+modulate = Color(1, 1, 1, 0)
 layout_mode = 0
 offset_right = 1280.0
 offset_bottom = 720.0
+theme_override_styles/focus = SubResource("StyleBoxFlat_bwdhm")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_bwdhm")
+theme_override_styles/hover = SubResource("StyleBoxFlat_bwdhm")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_bwdhm")
+disabled = true
 text = "You Lose"
 
 [node name="YouWinButton" type="Button" parent="."]
 unique_name_in_owner = true
 visible = false
+modulate = Color(1, 1, 1, 0)
 layout_mode = 0
 offset_right = 1280.0
 offset_bottom = 720.0
+theme_override_styles/focus = SubResource("StyleBoxFlat_bwdhm")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_bwdhm")
+theme_override_styles/hover = SubResource("StyleBoxFlat_bwdhm")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_bwdhm")
+disabled = true
 text = "You Win"
 
 [connection signal="button_up" from="EndTurnButton" to="EndTurnButton" method="_on_button_up"]

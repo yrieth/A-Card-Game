@@ -91,6 +91,8 @@ func make_attack() -> void:
 			%EnemyPlace.cardSlots[focusedEnemyCard].disconnect("mouse_entered", %YourPlace.make_focused_enemy.bind(focusedEnemyCard))
 			%EnemyPlace.cardSlots[focusedEnemyCard].disconnect("mouse_exited", %YourPlace.make_focused_enemy.bind(-1))
 			#cardSlots[focusedPlaceCard].whenDies()
+			var deathTween: Tween = create_tween()
+			deathTween.tween_property(%EnemyPlace.cardSlots[focusedEnemyCard], "modulate", Color(1,1,1,0), 0.5)
 			%EnemyPlace.cardSlots[focusedEnemyCard].queue_free()
 			%EnemyPlace.cardSlots[focusedEnemyCard] = null
 			

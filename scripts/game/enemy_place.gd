@@ -36,4 +36,7 @@ func update_enemy_life(amount: int) -> void:
 	enemyLife += amount
 	$EnemyHero.text = str(enemyLife)
 	if enemyLife < 1:
-		%YouWinButton.visible = true
+		var buttonTween: Tween = create_tween()
+		buttonTween.tween_property(%YouWinButton, "visible", true, 0)
+		buttonTween.tween_property(%YouWinButton, "modulate", Color(1,1,1,1), 3)
+		buttonTween.tween_property(%YouWinButton, "disabled", false, 0)
