@@ -43,6 +43,10 @@ func get_card() -> void:
 		$ShowDeck.get_popup().remove_item(tempCardId)
 		Global.deckToPlay.remove_at(tempCardId)
 	elif get_parent().deckToPlay.is_empty():
+		var fatigueTween: Tween = create_tween()
+		$FatigueDisplay.text = "Fatigue: " + str(fatigue)
+		$FatigueDisplay.position = Vector2(-512.0, -448.0)
+		fatigueTween.tween_property($FatigueDisplay, "position", Vector2(1280.0, -448.0), 3)
 		update_your_life(-fatigue)
 		multiplayer.rpc(Global.peerID, %EnemyPlace, "update_enemy_life", [-fatigue])
 		fatigue += 1
