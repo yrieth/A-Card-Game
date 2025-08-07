@@ -9,7 +9,6 @@ const MAX_CARDS = 7
 @onready var numCards: int = 0
 @onready var yourLife: int = 25
 
-
 func _ready() -> void:
 	var popup:PopupMenu = $ShowDeck.get_popup()
 	popup.hide_on_item_selection = false
@@ -20,17 +19,20 @@ func _ready() -> void:
 		tempSlotArray[i].connect("mouse_exited", make_focused_place.bind(-1))
 	for i in Global.deckToPlay:
 		$ShowDeck.get_popup().add_item(Global.COLLECTION[i].Name)
-	$LifeDisplay.text = str(yourLife)
+	$LifeDisplay.tooltip_text = str(yourLife)
+	$LifeDisplay.value = yourLife
 
 func get_card() -> void:
 	if numCards < MAX_CARDS and !get_parent().deckToPlay.is_empty():
 		var card:Card = Card.new()
 		var tempCardId: int = get_parent().deckToPlay.pop_back()
+		var cardTween: Tween = create_tween()
+		cardTween.set_trans(Tween.TRANS_CUBIC)
 		card.get_values(tempCardId)
 		tempCardId = Global.deckToPlay.find(tempCardId)
 		$ShowDeck.get_popup().remove_item(tempCardId)
 		Global.deckToPlay.remove_at(tempCardId)
-		card.position = Vector2(SLOT_POSITIONS[numCards], 0)
+		cardTween.tween_property(card, "position", Vector2(SLOT_POSITIONS[numCards], 0), 0.5)
 		self.add_child(card)
 		cardSlots[numCards] = card
 		card.connect("button_down",make_focused.bind(numCards))
@@ -67,23 +69,30 @@ func make_move() -> void:
 	make_focused(-1)
 
 func remove_focused() -> void:
+	var cardTween: Tween
+	if focusedHandCard != numCards-1:
+		cardTween = create_tween()
+		cardTween.set_trans(Tween.TRANS_CUBIC)
 	cardSlots[focusedHandCard].disconnect("button_down", make_focused.bind(focusedHandCard))
 	cardSlots[focusedHandCard].disconnect("button_up", make_move)
 	self.remove_child(cardSlots[focusedHandCard])
 	numCards-=1
+
 	for i in range(focusedHandCard, numCards):
 		cardSlots[i] = cardSlots[i+1]
 		cardSlots[i].disconnect("button_down", make_focused.bind(i+1))
 		cardSlots[i].connect("button_down",make_focused.bind(i))
-		cardSlots[i].position = Vector2(SLOT_POSITIONS[i], 0)
+		cardTween.tween_property(cardSlots[i], "position", Vector2(SLOT_POSITIONS[i], 0), 0.5)
 	cardSlots[numCards] = null
 
 func update_gold() -> void:
-	$GoldDisplay.text = "Gold: " + str(get_parent().gold) + "/" + str(get_parent().maxGold)
+	$GoldDisplay.value = get_parent().gold
+	$GoldDisplay.tooltip_text =str(get_parent().gold) + "/" + str(get_parent().maxGold)
 
 @rpc("any_peer")
 func update_your_life(amount: int) -> void:
 	yourLife += amount
-	$LifeDisplay.text = str(yourLife)
+	$LifeDisplay.tooltip_text = str(yourLife)
+	$LifeDisplay.value = yourLife
 	if yourLife < 1:
 		%YouLoseButton.visible = true

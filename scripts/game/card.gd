@@ -3,6 +3,7 @@ class_name Card
 
 static var whenPlacedFunctions: Node
 static var whenAttackFunctions: Node
+static var whenDiesFunctions: Node
 
 var cardId: int
 var life: int
@@ -21,6 +22,7 @@ var rarity: String
 
 var whenPlacedFunc: String
 var whenAttackFunc: String
+var whenDiesFunc: String
 
 var asleep: bool
 
@@ -34,6 +36,7 @@ func get_values(id:int) -> void:
 	self.cardDesc = dict.Description
 	self.whenPlacedFunc = dict.whenPlacedFunc
 	self.whenAttackFunc = dict.whenAttackFunc
+	self.whenDiesFunc = dict.whenDiesFunc
 	self.rarity = dict.Rarity
 	self.asleep = true
 
@@ -124,11 +127,13 @@ func get_damaged(amount: int)->void:
 	self.displayLife.text = str(currentLife)
 func whenPlaced() -> void:
 	if whenPlacedFunc != "":
-		whenPlacedFunctions.call(whenPlacedFunc)
+		whenPlacedFunctions.call(whenPlacedFunc, self)
 func whenAttack() -> void:
 	if whenAttackFunc != "":
-		whenAttackFunctions.call(whenAttackFunc)
-	
+		whenAttackFunctions.call(whenAttackFunc, self)
+func whenDies() -> void:
+	if whenDiesFunc != "":
+		whenDiesFunctions.call(whenDiesFunc, self)
 
 func _on_mouse_entered() -> void:
 	self.modulate = Color(1.2, 1.2, 1.2)

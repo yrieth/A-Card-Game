@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=10 format=3 uid="uid://dvp0ubmmq4iyk"]
+[gd_resource type="Theme" load_steps=11 format=3 uid="uid://dvp0ubmmq4iyk"]
 
 [ext_resource type="FontFile" uid="uid://br13vltb1ppwc" path="res://misc/Monocraft.ttc" id="1_dya70"]
 
@@ -64,6 +64,14 @@ border_color = Color(1, 1, 1, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qtshl"]
 bg_color = Color(0.000113828, 0.000113828, 0.000113828, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6r0fd"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x3tb2"]
 bg_color = Color(0.117647, 0.117647, 0.180392, 1)
 
@@ -85,6 +93,9 @@ LineEdit/colors/font_selected_color = Color(1, 1, 1, 1)
 LineEdit/font_sizes/font_size = 18
 LineEdit/fonts/font = ExtResource("1_dya70")
 LineEdit/styles/normal = SubResource("StyleBoxFlat_qtshl")
+ProgressBar/font_sizes/font_size = 18
+ProgressBar/fonts/font = ExtResource("1_dya70")
+ProgressBar/styles/background = SubResource("StyleBoxFlat_6r0fd")
 Tree/font_sizes/font_size = 18
 Tree/fonts/font = ExtResource("1_dya70")
 Tree/styles/panel = SubResource("StyleBoxFlat_x3tb2")

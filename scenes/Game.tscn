@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://djur2hwfvtgsb"]
+[gd_scene load_steps=20 format=3 uid="uid://djur2hwfvtgsb"]
 
 [ext_resource type="Script" uid="uid://dku4vyxuhqe52" path="res://scripts/game/enemy_place.gd" id="1_400sg"]
 [ext_resource type="Texture2D" uid="uid://dip3afap5pgvb" path="res://sprites/CardTemplate.png" id="1_cpr0p"]
@@ -6,13 +6,13 @@
 [ext_resource type="Script" uid="uid://yvrt72bb60o3" path="res://scripts/game/your_hand.gd" id="1_s0nni"]
 [ext_resource type="Script" uid="uid://ceuewbxdpvp7k" path="res://scripts/game/your_place.gd" id="2_s0nni"]
 [ext_resource type="Texture2D" uid="uid://brbgsydsbn5fy" path="res://sprites/CardSlotBorder.png" id="3_aug50"]
-[ext_resource type="LabelSettings" uid="uid://dcan5rmdigkqp" path="res://misc/LabelSettingTitle.tres" id="3_kiw3p"]
 [ext_resource type="LabelSettings" uid="uid://2peck6xro5bh" path="res://misc/LabelSettingMain.tres" id="3_s0nni"]
-[ext_resource type="Theme" uid="uid://dvp0ubmmq4iyk" path="res://misc/ThemeMain.tres" id="6_aug50"]
 [ext_resource type="Texture2D" uid="uid://b8gr62eju4piu" path="res://sprites/StarterRarity.png" id="10_2rd6h"]
 [ext_resource type="Script" uid="uid://b7j6bdqwhmora" path="res://scripts/game/end_turn_button.gd" id="10_qy1jj"]
 [ext_resource type="Script" uid="uid://nrg5nnpb4trf" path="res://scripts/game/when_placed_functions.gd" id="11_3xj3m"]
+[ext_resource type="Script" uid="uid://de8wn4ve0q211" path="res://scripts/game/when_dies_functions.gd" id="12_2rd6h"]
 [ext_resource type="Script" uid="uid://bry6aajngt5l0" path="res://scripts/game/when_attack_functions.gd" id="12_mcffj"]
+[ext_resource type="Script" uid="uid://cjfr0ykneybwc" path="res://scripts/game/concede_button.gd" id="14_7ua8r"]
 
 [sub_resource type="Gradient" id="Gradient_78awf"]
 offsets = PackedFloat32Array(0)
@@ -20,6 +20,39 @@ colors = PackedColorArray(0.334106, 0.35314, 0.450613, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_s0nni"]
 gradient = SubResource("Gradient_78awf")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2rd6h"]
+bg_color = Color(0.398235, 0.737577, 0.488264, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7ua8r"]
+bg_color = Color(0.915974, 0.726988, 0.352937, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y5y3l"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r7sob"]
+bg_color = Color(0.949169, 0.318377, 0.318289, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 16
+corner_radius_bottom_right = 16
 
 [node name="Game" type="Control"]
 layout_mode = 3
@@ -62,23 +95,18 @@ offset_right = 1024.0
 offset_bottom = 704.0
 script = ExtResource("1_s0nni")
 
-[node name="GoldDisplay" type="Label" parent="YourHand"]
+[node name="LifeDisplay" type="ProgressBar" parent="YourHand"]
 layout_mode = 0
-offset_top = -512.0
-offset_right = 342.0
-offset_bottom = -480.0
-theme = ExtResource("6_aug50")
-text = "Gold: 0/0"
-label_settings = ExtResource("3_kiw3p")
-
-[node name="LifeDisplay" type="Label" parent="YourHand"]
-layout_mode = 0
-offset_left = 1052.0
-offset_top = 64.0
-offset_right = 1088.0
-offset_bottom = 91.0
-text = "25"
-label_settings = ExtResource("3_kiw3p")
+offset_left = 1048.0
+offset_top = 72.0
+offset_right = 1144.0
+offset_bottom = 120.0
+theme_override_styles/fill = SubResource("StyleBoxFlat_2rd6h")
+max_value = 25.0
+step = 1.0
+value = 25.0
+allow_greater = true
+allow_lesser = true
 
 [node name="ShowDeck" type="MenuButton" parent="YourHand"]
 layout_mode = 0
@@ -87,6 +115,30 @@ offset_right = 1264.0
 offset_bottom = 40.0
 text = "Deck"
 flat = false
+
+[node name="GoldDisplay" type="ProgressBar" parent="YourHand"]
+offset_left = 1160.0
+offset_top = 72.0
+offset_right = 1256.0
+offset_bottom = 120.0
+tooltip_text = "0/0"
+theme_override_styles/fill = SubResource("StyleBoxFlat_7ua8r")
+max_value = 8.0
+step = 1.0
+allow_greater = true
+
+[node name="TurnDisplay" type="ProgressBar" parent="YourHand"]
+offset_left = 1048.0
+offset_top = 136.0
+offset_right = 1144.0
+offset_bottom = 184.0
+tooltip_text = "Waiting for opponent"
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_styles/fill = SubResource("StyleBoxFlat_y5y3l")
+max_value = 1.0
+step = 1.0
+allow_greater = true
 
 [node name="YourPlace" type="Control" parent="."]
 unique_name_in_owner = true
@@ -131,17 +183,17 @@ offset_right = 712.0
 offset_bottom = 192.0
 texture_normal = ExtResource("3_aug50")
 
-[node name="CardTemplate2" type="TextureButton" parent="."]
+[node name="CardTemplate2" type="TextureButton" parent="YourPlace"]
 layout_mode = 0
-offset_left = -192.0
-offset_top = 136.0
-offset_right = -72.0
-offset_bottom = 316.0
+offset_left = -384.0
+offset_top = 72.0
+offset_right = -264.0
+offset_bottom = 252.0
 disabled = true
 texture_normal = ExtResource("1_cpr0p")
 stretch_mode = 0
 
-[node name="Label" type="Label" parent="CardTemplate2"]
+[node name="Label" type="Label" parent="YourPlace/CardTemplate2"]
 layout_mode = 0
 offset_left = 8.0
 offset_top = 72.0
@@ -153,7 +205,7 @@ label_settings = ExtResource("3_s0nni")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="CardTemplate2"]
+[node name="TextureRect" type="TextureRect" parent="YourPlace/CardTemplate2"]
 layout_mode = 0
 offset_left = 6.0
 offset_top = 6.0
@@ -161,7 +213,7 @@ offset_right = 21.0
 offset_bottom = 21.0
 texture = ExtResource("10_2rd6h")
 
-[node name="Life" type="Label" parent="CardTemplate2"]
+[node name="Life" type="Label" parent="YourPlace/CardTemplate2"]
 layout_mode = 0
 offset_left = 103.0
 offset_top = 156.0
@@ -170,7 +222,7 @@ offset_bottom = 174.0
 text = "3"
 label_settings = ExtResource("3_s0nni")
 
-[node name="Attack" type="Label" parent="CardTemplate2"]
+[node name="Attack" type="Label" parent="YourPlace/CardTemplate2"]
 layout_mode = 0
 offset_left = 7.0
 offset_top = 156.0
@@ -179,7 +231,7 @@ offset_bottom = 174.0
 text = "1"
 label_settings = ExtResource("3_s0nni")
 
-[node name="Cost" type="Label" parent="CardTemplate2"]
+[node name="Cost" type="Label" parent="YourPlace/CardTemplate2"]
 layout_mode = 0
 offset_left = 103.0
 offset_top = 6.0
@@ -198,14 +250,6 @@ disabled = true
 text = "End Turn"
 script = ExtResource("10_qy1jj")
 
-[node name="TurnDisplay" type="Label" parent="."]
-layout_mode = 0
-offset_top = 32.0
-offset_right = 344.0
-offset_bottom = 64.0
-text = "Your turn: false"
-label_settings = ExtResource("3_kiw3p")
-
 [node name="whenPlacedFunctions" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("11_3xj3m")
@@ -214,6 +258,10 @@ script = ExtResource("11_3xj3m")
 unique_name_in_owner = true
 script = ExtResource("12_mcffj")
 
+[node name="whenDiesFunctions" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("12_2rd6h")
+
 [node name="ArrowHand" type="Line2D" parent="."]
 unique_name_in_owner = true
 z_index = 2
@@ -221,6 +269,17 @@ z_index = 2
 [node name="ArrowPlace" type="Line2D" parent="."]
 unique_name_in_owner = true
 z_index = 2
+
+[node name="ConcedeButton" type="Button" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 552.0
+offset_top = 128.0
+offset_right = 744.0
+offset_bottom = 192.0
+theme_override_styles/hover = SubResource("StyleBoxFlat_r7sob")
+text = "Concede"
+script = ExtResource("14_7ua8r")
 
 [node name="YouLoseButton" type="Button" parent="."]
 unique_name_in_owner = true
@@ -239,5 +298,6 @@ offset_bottom = 720.0
 text = "You Win"
 
 [connection signal="button_up" from="EndTurnButton" to="EndTurnButton" method="_on_button_up"]
+[connection signal="pressed" from="ConcedeButton" to="ConcedeButton" method="_on_pressed"]
 [connection signal="pressed" from="YouLoseButton" to="." method="_on_you_lose_button_pressed"]
 [connection signal="pressed" from="YouWinButton" to="." method="_on_you_win_button_pressed"]

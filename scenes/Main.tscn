@@ -83,20 +83,21 @@ text = "Exit"
 script = ExtResource("2_0ykhv")
 
 [node name="HelpButton" type="Button" parent="MainMenu"]
+visible = false
 layout_mode = 0
-offset_left = 320.0
-offset_top = 384.0
-offset_right = 576.0
-offset_bottom = 448.0
+offset_left = 704.0
+offset_top = 512.0
+offset_right = 960.0
+offset_bottom = 576.0
 text = "Help"
 script = ExtResource("5_vcsgt")
 
 [node name="CollectionButton" type="Button" parent="MainMenu"]
 layout_mode = 0
 offset_left = 320.0
-offset_top = 512.0
+offset_top = 384.0
 offset_right = 576.0
-offset_bottom = 576.0
+offset_bottom = 448.0
 text = "Collection"
 script = ExtResource("6_jlsqs")
 

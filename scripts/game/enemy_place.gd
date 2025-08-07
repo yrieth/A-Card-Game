@@ -15,7 +15,10 @@ func put_card(cardId: int ,slot:int) -> void:
 	card.get_values(cardId)
 	cardSlots[slot] = card
 	self.add_child(card)
-	card.position = Vector2(SLOT_POSITIONS[slot], 8)
+	card.position = Vector2(SLOT_POSITIONS[slot], 8-88-180)
+	var cardTween: Tween = create_tween()
+	cardTween.set_trans(Tween.TRANS_CUBIC)
+	cardTween.tween_property(card, "position", Vector2(SLOT_POSITIONS[slot], 8), 0.5)
 	
 	#Signals
 	card.connect("mouse_entered", %YourPlace.make_focused_enemy.bind(slot))

@@ -23,6 +23,7 @@ func _ready() -> void:
 	print(Global.ipAdress + ':' + str(Global.port))
 	Card.whenPlacedFunctions = %whenPlacedFunctions
 	Card.whenAttackFunctions = %whenAttackFunctions
+	Card.whenDiesFunctions = %whenDiesFunctions
 	
 	
 
@@ -33,7 +34,12 @@ func assign_id(id: int) -> void:
 func change_turn() -> void:
 	$EndTurnButton.disabled = Global.yourTurn
 	Global.yourTurn = !Global.yourTurn
-	$TurnDisplay.text = "Your turn: " + str(Global.yourTurn)
+	if Global.yourTurn:
+		$YourHand/TurnDisplay.tooltip_text = "Your Turn"
+		$YourHand/TurnDisplay.value = 1
+	else:
+		$YourHand/TurnDisplay.tooltip_text = "Enemy Turn"
+		$YourHand/TurnDisplay.value = 0
 
 	#For start and end turn mechanics
 	if Global.yourTurn:
@@ -57,10 +63,25 @@ func start_game(_id: int)->void:
 		else :
 			multiplayer.rpc(Global.peerID, self, "change_turn")
 
+func end_game()->void:
+	multiplayer.multiplayer_peer = null
+	Global.isClient = false
+	Global.isServer = false
+	Global.peerID = 0
+	Global.yourTurn = false
+	#Code goes before this command
+	get_tree().change_scene_to_file("res://scenes/Main.tscn")
+
 
 func _on_you_win_button_pressed() -> void:
-	get_tree().change_scene_to_file("res://scenes/Main.tscn")
+	#Code goes before this command
+	end_game()
 	
 
 func _on_you_lose_button_pressed() -> void:
-	get_tree().change_scene_to_file("res://scenes/Main.tscn")
+	#Code goes before this command
+	end_game()
+
+func _process(delta: float) -> void:
+	if Input.is_action_just_pressed("ui_cancel"):
+		$ConcedeButton.visible = !$ConcedeButton.visible

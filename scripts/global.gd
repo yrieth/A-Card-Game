@@ -20,7 +20,8 @@ const COLLECTION = [
 		Cost = 1,
 		Rarity = "s",
 		whenPlacedFunc = "",
-		whenAttackFunc = ""
+		whenAttackFunc = "",
+		whenDiesFunc = ""
 	},
 	{
 		Name = "Something",
@@ -30,7 +31,8 @@ const COLLECTION = [
 		Cost = 3,
 		Rarity = "b",
 		whenPlacedFunc = "whenPlacedSomething",
-		whenAttackFunc = ""
+		whenAttackFunc = "",
+		whenDiesFunc = ""
 	},
 	{
 		Name = "AnotherCard",
@@ -40,7 +42,8 @@ const COLLECTION = [
 		Cost = 2,
 		Rarity = "n",
 		whenPlacedFunc = "",
-		whenAttackFunc = ""
+		whenAttackFunc = "",
+		whenDiesFunc = ""
 	},
 	{
 		Name = "Something1",
@@ -50,7 +53,8 @@ const COLLECTION = [
 		Cost = 3,
 		Rarity = "S",
 		whenPlacedFunc = "whenPlacedSomething",
-		whenAttackFunc = ""
+		whenAttackFunc = "",
+		whenDiesFunc = ""
 	},
 	{
 		Name = "Something2",
@@ -60,7 +64,8 @@ const COLLECTION = [
 		Cost = 3,
 		Rarity = "N",
 		whenPlacedFunc = "whenPlacedSomething",
-		whenAttackFunc = ""
+		whenAttackFunc = "",
+		whenDiesFunc = ""
 	},
 	{
 		Name = "Something3",
@@ -70,7 +75,8 @@ const COLLECTION = [
 		Cost = 3,
 		Rarity = "s",
 		whenPlacedFunc = "whenPlacedSomething",
-		whenAttackFunc = ""
+		whenAttackFunc = "",
+		whenDiesFunc = ""
 	},
 	{
 		Name = "Something4",
@@ -80,7 +86,8 @@ const COLLECTION = [
 		Cost = 3,
 		Rarity = "s",
 		whenPlacedFunc = "whenPlacedSomething",
-		whenAttackFunc = ""
+		whenAttackFunc = "",
+		whenDiesFunc = ""
 	},
 	{
 		Name = "Something5",
@@ -90,7 +97,8 @@ const COLLECTION = [
 		Cost = 3,
 		Rarity = "s",
 		whenPlacedFunc = "whenPlacedSomething",
-		whenAttackFunc = ""
+		whenAttackFunc = "",
+		whenDiesFunc = ""
 	},
 	{
 		Name = "Something6",
@@ -100,7 +108,8 @@ const COLLECTION = [
 		Cost = 3,
 		Rarity = "s",
 		whenPlacedFunc = "whenPlacedSomething",
-		whenAttackFunc = ""
+		whenAttackFunc = "",
+		whenDiesFunc = ""
 	},
 	{
 		Name = "Something7",
@@ -110,7 +119,8 @@ const COLLECTION = [
 		Cost = 3,
 		Rarity = "s",
 		whenPlacedFunc = "whenPlacedSomething",
-		whenAttackFunc = ""
+		whenAttackFunc = "",
+		whenDiesFunc = ""
 	},
 	{
 		Name = "Something8",
@@ -120,7 +130,8 @@ const COLLECTION = [
 		Cost = 3,
 		Rarity = "s",
 		whenPlacedFunc = "whenPlacedSomething",
-		whenAttackFunc = ""
+		whenAttackFunc = "",
+		whenDiesFunc = ""
 	},
 	{
 		Name = "Something9",
@@ -130,7 +141,8 @@ const COLLECTION = [
 		Cost = 3,
 		Rarity = "s",
 		whenPlacedFunc = "whenPlacedSomething",
-		whenAttackFunc = ""
+		whenAttackFunc = "",
+		whenDiesFunc = ""
 	},
 	{
 		Name = "Something10",
@@ -140,7 +152,8 @@ const COLLECTION = [
 		Cost = 3,
 		Rarity = "s",
 		whenPlacedFunc = "whenPlacedSomething",
-		whenAttackFunc = ""
+		whenAttackFunc = "",
+		whenDiesFunc = ""
 	},
 	{
 		Name = "Something11",
@@ -150,7 +163,8 @@ const COLLECTION = [
 		Cost = 3,
 		Rarity = "s",
 		whenPlacedFunc = "whenPlacedSomething",
-		whenAttackFunc = ""
+		whenAttackFunc = "",
+		whenDiesFunc = ""
 	},
 	{
 		Name = "Something12",
@@ -160,7 +174,8 @@ const COLLECTION = [
 		Cost = 3,
 		Rarity = "s",
 		whenPlacedFunc = "whenPlacedSomething",
-		whenAttackFunc = ""
+		whenAttackFunc = "",
+		whenDiesFunc = ""
 	},
 	{
 		Name = "Something13",
@@ -170,7 +185,8 @@ const COLLECTION = [
 		Cost = 3,
 		Rarity = "s",
 		whenPlacedFunc = "whenPlacedSomething",
-		whenAttackFunc = ""
+		whenAttackFunc = "",
+		whenDiesFunc = ""
 	},
 	{
 		Name = "Something14",
@@ -180,7 +196,8 @@ const COLLECTION = [
 		Cost = 3,
 		Rarity = "s",
 		whenPlacedFunc = "whenPlacedSomething",
-		whenAttackFunc = ""
+		whenAttackFunc = "",
+		whenDiesFunc = ""
 	},
 	{
 		Name = "Something15",
@@ -190,7 +207,8 @@ const COLLECTION = [
 		Cost = 3,
 		Rarity = "s",
 		whenPlacedFunc = "whenPlacedSomething",
-		whenAttackFunc = ""
+		whenAttackFunc = "",
+		whenDiesFunc = ""
 	},
 	{
 		Name = "Something16",
@@ -200,7 +218,8 @@ const COLLECTION = [
 		Cost = 3,
 		Rarity = "s",
 		whenPlacedFunc = "whenPlacedSomething",
-		whenAttackFunc = ""
+		whenAttackFunc = "",
+		whenDiesFunc = ""
 	},
 	{
 		Name = "Something17",
@@ -210,7 +229,8 @@ const COLLECTION = [
 		Cost = 3,
 		Rarity = "s",
 		whenPlacedFunc = "whenPlacedSomething",
-		whenAttackFunc = ""
+		whenAttackFunc = "",
+		whenDiesFunc = ""
 	},
 	{
 		Name = "Something18",
@@ -220,7 +240,8 @@ const COLLECTION = [
 		Cost = 3,
 		Rarity = "s",
 		whenPlacedFunc = "whenPlacedSomething",
-		whenAttackFunc = ""
+		whenAttackFunc = "",
+		whenDiesFunc = ""
 	},
 	{
 		Name = "Something19",
@@ -230,7 +251,8 @@ const COLLECTION = [
 		Cost = 3,
 		Rarity = "s",
 		whenPlacedFunc = "whenPlacedSomething",
-		whenAttackFunc = ""
+		whenAttackFunc = "",
+		whenDiesFunc = ""
 	},
 	{
 		Name = "Something20",
@@ -240,6 +262,7 @@ const COLLECTION = [
 		Cost = 3,
 		Rarity = "s",
 		whenPlacedFunc = "whenPlacedSomething",
-		whenAttackFunc = ""
+		whenAttackFunc = "",
+		whenDiesFunc = ""
 	},
 ]

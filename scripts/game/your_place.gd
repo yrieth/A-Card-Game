@@ -7,12 +7,15 @@ const SLOT_POSITIONS: Array[int] = [8, 8+24+120, 8+2*24+120*2, 8+3*24+120*3, 8+4
 
 
 func put_card(slot:int, card:Card) -> void:
+	var cardTween: Tween = create_tween()
+	cardTween.set_trans(Tween.TRANS_CUBIC)
 	cardSlots[slot] = card
 	get_parent().gold -= card.cost
 	%YourHand.update_gold()
 	%YourHand.remove_focused()
 	self.add_child(card)
-	card.position = Vector2(SLOT_POSITIONS[slot], 8)
+	card.position += Vector2(-232, -288+512)
+	cardTween.tween_property(card, "position", Vector2(SLOT_POSITIONS[slot], 8), 0.5)
 	card.whenPlaced()
 	multiplayer.rpc(Global.peerID, %EnemyPlace, "put_card", [card.cardId,slot])
 	

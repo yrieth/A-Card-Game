@@ -104,6 +104,14 @@ func _ready() -> void:
 			tempDeck = Deck.new()
 			tempDeck.name = decksFile.get_line()
 			tempDeck.deck = line_into_array(decksFile.get_line())
+			#var loopCounter = 0
+			#var pushBack = 0
+			#while loopCounter < len(tempDeck.deck):
+				#if !unlockedCards[Global.COLLECTION[tempDeck.deck[loopCounter]].Name]:
+					#pushBack += 1
+				#else:
+					#loopCounter += 1
+			tempDeck.deck = tempDeck.deck.filter(deck_unlocking_filter)
 			decks.append(tempDeck)
 		
 		var counter = 0
@@ -119,6 +127,8 @@ func _ready() -> void:
 	else:
 		Global.deckToPlay = decks[0].deck
 		
+func deck_unlocking_filter(cardId) -> bool:
+	return unlockedCards[Global.COLLECTION[cardId].Name]
 
 func line_into_array(string: String) -> Array[int]:
 	var numberArray:Array[int]
@@ -183,7 +193,6 @@ func _on_decks_item_selected(index: int) -> void:
 					$SelectedDeck.set_item_icon(tempIndex, load("res://sprites/SpiritedRarity.png"))
 				"N":
 					$SelectedDeck.set_item_icon(tempIndex, load("res://sprites/NitroRarity.png"))
-		print(decks[selectedDeck].deck)
 
 func _on_decks_item_activated(index: int) -> void:
 	var tempLine: LineEdit = LineEdit.new()
