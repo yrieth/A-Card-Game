@@ -84,16 +84,18 @@ func make_attack() -> void:
 		if cardSlots[focusedPlaceCard].currentLife < 1:
 			cardSlots[focusedPlaceCard].disconnect("button_down", make_focused.bind(focusedPlaceCard))
 			cardSlots[focusedPlaceCard].disconnect("button_up", make_attack)
-			#cardSlots[focusedPlaceCard].whenDies()
-			cardSlots[focusedPlaceCard].queue_free()
+			cardSlots[focusedPlaceCard].whenDies()
+			var deathTween: Tween = create_tween()
+			deathTween.tween_property(cardSlots[focusedPlaceCard], "modulate", Color(1,1,1,0), 0.5)
+			deathTween.tween_callback(cardSlots[focusedPlaceCard].queue_free)
 			cardSlots[focusedPlaceCard] = null
 		if %EnemyPlace.cardSlots[focusedEnemyCard].currentLife < 1:
 			%EnemyPlace.cardSlots[focusedEnemyCard].disconnect("mouse_entered", %YourPlace.make_focused_enemy.bind(focusedEnemyCard))
 			%EnemyPlace.cardSlots[focusedEnemyCard].disconnect("mouse_exited", %YourPlace.make_focused_enemy.bind(-1))
-			#cardSlots[focusedPlaceCard].whenDies()
+			cardSlots[focusedPlaceCard].whenDies()
 			var deathTween: Tween = create_tween()
 			deathTween.tween_property(%EnemyPlace.cardSlots[focusedEnemyCard], "modulate", Color(1,1,1,0), 0.5)
-			%EnemyPlace.cardSlots[focusedEnemyCard].queue_free()
+			deathTween.tween_callback(%EnemyPlace.cardSlots[focusedEnemyCard].queue_free)
 			%EnemyPlace.cardSlots[focusedEnemyCard] = null
 			
 	make_focused(-1)

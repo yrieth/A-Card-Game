@@ -41,7 +41,7 @@ func get_values(id:int) -> void:
 	self.asleep = true
 
 func makeLife() -> Label:
-	var tempLabel:Label = Label.new()
+	var tempLabel: Label = Label.new()
 	tempLabel.label_settings = load("res://misc/LabelSettingMain.tres")
 	tempLabel.size = Vector2(12, 18)
 	tempLabel.position = Vector2(103, 156)
@@ -51,7 +51,7 @@ func makeLife() -> Label:
 	return tempLabel
 
 func makeAttack() -> Label:
-	var tempLabel:Label = Label.new()
+	var tempLabel: Label = Label.new()
 	tempLabel.label_settings = load("res://misc/LabelSettingMain.tres")
 	tempLabel.size = Vector2(12, 18)
 	tempLabel.position = Vector2(7, 156)
@@ -61,7 +61,7 @@ func makeAttack() -> Label:
 	return tempLabel
 	
 func makeCost() -> Label:
-	var tempLabel:Label = Label.new()
+	var tempLabel: Label = Label.new()
 	tempLabel.label_settings = load("res://misc/LabelSettingMain.tres")
 	tempLabel.size = Vector2(12, 18)
 	tempLabel.position = Vector2(103, 6)
@@ -71,7 +71,7 @@ func makeCost() -> Label:
 	return tempLabel
 
 func makeName() -> void:
-	var tempLabel:Label = Label.new()
+	var tempLabel: Label = Label.new()
 	tempLabel.label_settings = load("res://misc/LabelSettingMain.tres")
 	tempLabel.scale = Vector2(0.8, 0.8)
 	tempLabel.size = Vector2(130, 20)
@@ -81,6 +81,16 @@ func makeName() -> void:
 	tempLabel.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	self.add_child(tempLabel)
 
+func makeDesc() -> void:
+	var tempLabel: Label = Label.new()
+	tempLabel.label_settings = load("res://misc/LabelSettingMain.tres")
+	tempLabel.scale = Vector2(0.5, 0.5)
+	tempLabel.size = Vector2(208, 96)
+	tempLabel.position = Vector2(8, 96)
+	tempLabel.text = cardDesc
+	tempLabel.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	self.add_child(tempLabel)
+	
 func makeRarity() -> void:
 	var tempTexture: TextureRect = TextureRect.new()
 	self.add_child(tempTexture)
@@ -119,7 +129,9 @@ func _ready() -> void:
 	displayAttack = makeAttack()
 	displayCost = makeCost()
 	makeName()
+	makeDesc()
 	makeRarity()
+	
 
 @rpc("any_peer")
 func get_damaged(amount: int)->void:
