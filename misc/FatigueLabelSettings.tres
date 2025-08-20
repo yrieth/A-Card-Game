@@ -1,0 +1,10 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://dnmf2b60ythhi"]
+
+[ext_resource type="FontFile" uid="uid://br13vltb1ppwc" path="res://misc/Monocraft.ttc" id="1_p6sib"]
+
+[resource]
+font = ExtResource("1_p6sib")
+font_size = 18
+font_color = Color(0.843892, 0.360543, 0.306997, 1)
+outline_size = 6
+outline_color = Color(0, 0, 0, 1)

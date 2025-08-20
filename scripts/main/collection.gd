@@ -122,13 +122,14 @@ func _ready() -> void:
 		decksFile.close()
 	
 	if decks == []:
-		for i in range(0,20):
-			Global.deckToPlay.append(i)
+		Global.deckToPlay.append(0)
 	else:
 		Global.deckToPlay = decks[0].deck
 		
 func deck_unlocking_filter(cardId) -> bool:
-	return unlockedCards[Global.COLLECTION[cardId].Name]
+	if len(Global.COLLECTION) > cardId and Global.COLLECTION[cardId].Name in unlockedCards:
+		return unlockedCards[Global.COLLECTION[cardId].Name]
+	return false
 
 func line_into_array(string: String) -> Array[int]:
 	var numberArray:Array[int]

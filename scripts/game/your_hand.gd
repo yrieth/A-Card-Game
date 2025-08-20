@@ -22,8 +22,23 @@ func _ready() -> void:
 	$LifeDisplay.tooltip_text = str(yourLife)
 	$LifeDisplay.value = yourLife
 
-func get_card() -> void:
-	if numCards < MAX_CARDS and !get_parent().deckToPlay.is_empty():
+@rpc("any_peer")
+func draw_card() -> void:
+	if get_parent().deckToPlay.is_empty():
+		var fatigueTween: Tween = create_tween()
+		var fatigueDisplay: Label = Label.new()
+		fatigueDisplay.scale = Vector2(3.0, 3.0)
+		fatigueDisplay.size = Vector2(171, 21)
+		fatigueDisplay.position = Vector2(-512.0, -448.0)
+		fatigueDisplay.label_settings = load("res://misc/FatigueLabelSettings.tres")
+		fatigueDisplay.text = "Fatigue: " + str(fatigue)
+		self.add_child(fatigueDisplay)
+		fatigueTween.tween_property(fatigueDisplay, "position", Vector2(1280.0, -448.0), 3)
+		fatigueTween.tween_callback(fatigueDisplay.queue_free)
+		update_your_life(-fatigue)
+		multiplayer.rpc(Global.peerID, %EnemyPlace, "update_enemy_life", [-fatigue])
+		fatigue += 1
+	elif numCards < MAX_CARDS:
 		var card:Card = Card.new()
 		var tempCardId: int = get_parent().deckToPlay.pop_back()
 		var cardTween: Tween = create_tween()
@@ -38,18 +53,11 @@ func get_card() -> void:
 		card.connect("button_down",make_focused.bind(numCards))
 		card.connect("button_up",make_move)
 		numCards+=1
-	elif numCards >= MAX_CARDS and !get_parent().deckToPlay.is_empty():
+	elif numCards >= MAX_CARDS:
 		var tempCardId: int = Global.deckToPlay.find(get_parent().deckToPlay.pop_back())
 		$ShowDeck.get_popup().remove_item(tempCardId)
 		Global.deckToPlay.remove_at(tempCardId)
-	elif get_parent().deckToPlay.is_empty():
-		var fatigueTween: Tween = create_tween()
-		$FatigueDisplay.text = "Fatigue: " + str(fatigue)
-		$FatigueDisplay.position = Vector2(-512.0, -448.0)
-		fatigueTween.tween_property($FatigueDisplay, "position", Vector2(1280.0, -448.0), 3)
-		update_your_life(-fatigue)
-		multiplayer.rpc(Global.peerID, %EnemyPlace, "update_enemy_life", [-fatigue])
-		fatigue += 1
+	
 
 func make_focused(from: int) -> void:
 	focusedHandCard = from
@@ -68,8 +76,9 @@ func make_move() -> void:
 		focusedPlaceSlot != -1 and
 		%YourPlace.cardSlots[focusedPlaceSlot] == null and
 		Global.yourTurn and
-		cardSlots[focusedHandCard].cost <= get_parent().gold):
-			%YourPlace.put_card(focusedPlaceSlot, cardSlots[focusedHandCard])
+		cardSlots[focusedHandCard].cost <= get_parent().gold and 
+		!%ChoiceNode.choosing):
+			%YourPlace.put_card(cardSlots[focusedHandCard], focusedPlaceSlot)
 	make_focused(-1)
 
 func remove_focused() -> void:

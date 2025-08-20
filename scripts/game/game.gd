@@ -24,6 +24,8 @@ func _ready() -> void:
 	Card.whenPlacedFunctions = %whenPlacedFunctions
 	Card.whenAttackFunctions = %whenAttackFunctions
 	Card.whenDiesFunctions = %whenDiesFunctions
+	Card.EnemyPlace = %EnemyPlace
+	Card.YourPlace = %YourPlace
 	
 	
 
@@ -43,10 +45,11 @@ func change_turn() -> void:
 
 	#For start and end turn mechanics
 	if Global.yourTurn:
-		maxGold += 1
+		if maxGold < 8:
+			maxGold += 1
 		gold = maxGold
 		%YourHand.update_gold()
-		%YourHand.get_card()
+		%YourHand.draw_card()
 		for card:Card in %YourPlace.cardSlots:
 			if card!=null:
 				card.asleep = false
@@ -72,6 +75,22 @@ func end_game()->void:
 	#Code goes before this command
 	get_tree().change_scene_to_file("res://scenes/Main.tscn")
 
+@rpc("any_peer")
+func card_methods_rpc(methodToCall: String, amount: int, yours: bool, slot: int):
+	var nodeToPerformOn: Control
+	if yours:
+		nodeToPerformOn = %YourPlace
+	else:
+		nodeToPerformOn = %EnemyPlace
+	match methodToCall:
+		"get_damaged":
+			nodeToPerformOn.cardSlots[slot].get_damaged(amount, yours, slot)
+		"change_max_life":
+			nodeToPerformOn.cardSlots[slot].change_max_life(amount)
+		"change_current_attack":
+			nodeToPerformOn.cardSlots[slot].change_current_attack(amount)
+		"change_current_cost":
+			nodeToPerformOn.cardSlots[slot].change_current_cost(amount)
 
 func _on_you_win_button_pressed() -> void:
 	#Code goes before this command

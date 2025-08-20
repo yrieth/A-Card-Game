@@ -4,6 +4,8 @@ class_name Card
 static var whenPlacedFunctions: Node
 static var whenAttackFunctions: Node
 static var whenDiesFunctions: Node
+static var EnemyPlace: Control
+static var YourPlace: Control
 
 var cardId: int
 var life: int
@@ -73,8 +75,8 @@ func makeCost() -> Label:
 func makeName() -> void:
 	var tempLabel: Label = Label.new()
 	tempLabel.label_settings = load("res://misc/LabelSettingMain.tres")
-	tempLabel.scale = Vector2(0.8, 0.8)
-	tempLabel.size = Vector2(130, 20)
+	tempLabel.scale = Vector2(0.6, 0.6)
+	tempLabel.size = Vector2(173, 27)
 	tempLabel.position = Vector2(8, 72)
 	tempLabel.text = cardName
 	tempLabel.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -89,6 +91,7 @@ func makeDesc() -> void:
 	tempLabel.position = Vector2(8, 96)
 	tempLabel.text = cardDesc
 	tempLabel.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	tempLabel.autowrap_mode = TextServer.AUTOWRAP_WORD
 	self.add_child(tempLabel)
 	
 func makeRarity() -> void:
@@ -134,9 +137,36 @@ func _ready() -> void:
 	
 
 @rpc("any_peer")
-func get_damaged(amount: int)->void:
+func get_damaged(amount: int, yours: bool, slot: int)->void:
 	self.currentLife -= amount
 	self.displayLife.text = str(currentLife)
+	if currentLife < 1:
+		if yours:
+			self.whenDies()
+			var deathTween: Tween = create_tween()
+			deathTween.tween_property(self, "modulate", Color(1,1,1,0), 0.5)
+			deathTween.tween_callback(self.queue_free)
+			YourPlace.cardSlots[slot] = null
+		else:
+			var deathTween: Tween = create_tween()
+			deathTween.tween_property(self, "modulate", Color(1,1,1,0), 0.5)
+			deathTween.tween_callback(self.queue_free)
+			EnemyPlace.cardSlots[slot] = null
+			
+@rpc("any_peer")
+func change_max_life(amount: int)->void:
+	self.maxLife += amount
+	self.currentLife += amount
+	self.displayLife.text = str(currentLife)
+@rpc("any_peer")
+func change_current_attack(amount: int)->void:
+	self.currentAttack += amount
+	self.displayAttack.text = str(currentAttack)
+@rpc("any_peer")
+func change_current_cost(amount: int)->void:
+	self.currentCost += amount
+	self.displayCost.text = str(currentCost)
+
 func whenPlaced() -> void:
 	if whenPlacedFunc != "":
 		whenPlacedFunctions.call(whenPlacedFunc, self)

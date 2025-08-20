@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://djur2hwfvtgsb"]
+[gd_scene load_steps=27 format=3 uid="uid://djur2hwfvtgsb"]
 
 [ext_resource type="Script" uid="uid://dku4vyxuhqe52" path="res://scripts/game/enemy_place.gd" id="1_400sg"]
 [ext_resource type="Texture2D" uid="uid://dip3afap5pgvb" path="res://sprites/CardTemplate.png" id="1_cpr0p"]
@@ -7,12 +7,14 @@
 [ext_resource type="Script" uid="uid://ceuewbxdpvp7k" path="res://scripts/game/your_place.gd" id="2_s0nni"]
 [ext_resource type="Texture2D" uid="uid://brbgsydsbn5fy" path="res://sprites/CardSlotBorder.png" id="3_aug50"]
 [ext_resource type="LabelSettings" uid="uid://2peck6xro5bh" path="res://misc/LabelSettingMain.tres" id="3_s0nni"]
-[ext_resource type="FontFile" uid="uid://br13vltb1ppwc" path="res://misc/Monocraft.ttc" id="4_7ua8r"]
+[ext_resource type="LabelSettings" uid="uid://dnmf2b60ythhi" path="res://misc/FatigueLabelSettings.tres" id="4_7ua8r"]
 [ext_resource type="Texture2D" uid="uid://b8gr62eju4piu" path="res://sprites/StarterRarity.png" id="10_2rd6h"]
 [ext_resource type="Script" uid="uid://b7j6bdqwhmora" path="res://scripts/game/end_turn_button.gd" id="10_qy1jj"]
 [ext_resource type="Script" uid="uid://nrg5nnpb4trf" path="res://scripts/game/when_placed_functions.gd" id="11_3xj3m"]
+[ext_resource type="Script" uid="uid://dr5m4iggdxljs" path="res://scripts/game/choice_node.gd" id="11_y5y3l"]
 [ext_resource type="Script" uid="uid://de8wn4ve0q211" path="res://scripts/game/when_dies_functions.gd" id="12_2rd6h"]
 [ext_resource type="Script" uid="uid://bry6aajngt5l0" path="res://scripts/game/when_attack_functions.gd" id="12_mcffj"]
+[ext_resource type="Theme" uid="uid://b6khc0pa47s1u" path="res://misc/ThemeChoose.tres" id="12_vjgi4"]
 [ext_resource type="Script" uid="uid://cjfr0ykneybwc" path="res://scripts/game/concede_button.gd" id="14_7ua8r"]
 
 [sub_resource type="Gradient" id="Gradient_78awf"]
@@ -45,12 +47,23 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color(0, 0, 0, 1)
 
-[sub_resource type="LabelSettings" id="LabelSettings_r7sob"]
-font = ExtResource("4_7ua8r")
-font_size = 18
-font_color = Color(0.843892, 0.360543, 0.306997, 1)
-outline_size = 6
-outline_color = Color(0, 0, 0, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bwdhm"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 16
+corner_radius_bottom_right = 16
+
+[sub_resource type="GDScript" id="GDScript_kyk2p"]
+script/source = "extends Button
+"
+
+[sub_resource type="GDScript" id="GDScript_45i86"]
+script/source = "extends Button
+"
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r7sob"]
 bg_color = Color(0.949169, 0.318377, 0.318289, 1)
@@ -62,7 +75,7 @@ border_color = Color(0, 0, 0, 1)
 corner_radius_top_left = 16
 corner_radius_bottom_right = 16
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bwdhm"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vjgi4"]
 bg_color = Color(0, 0, 0, 1)
 border_width_left = 2
 border_width_top = 2
@@ -159,6 +172,7 @@ step = 1.0
 allow_greater = true
 
 [node name="FatigueDisplay" type="Label" parent="YourHand"]
+visible = false
 layout_mode = 0
 offset_left = 1280.0
 offset_top = -448.0
@@ -166,7 +180,7 @@ offset_right = 1451.0
 offset_bottom = -427.0
 scale = Vector2(3, 3)
 text = "Fatigue: 1"
-label_settings = SubResource("LabelSettings_r7sob")
+label_settings = ExtResource("4_7ua8r")
 horizontal_alignment = 1
 
 [node name="YourPlace" type="Control" parent="."]
@@ -226,10 +240,10 @@ stretch_mode = 0
 layout_mode = 0
 offset_left = 8.0
 offset_top = 72.0
-offset_right = 138.0
-offset_bottom = 90.0
-scale = Vector2(0.8, 0.8)
-text = "Something"
+offset_right = 181.0
+offset_bottom = 99.0
+scale = Vector2(0.6, 0.6)
+text = "Healing Beetle"
 label_settings = ExtResource("3_s0nni")
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -291,6 +305,131 @@ disabled = true
 text = "End Turn"
 script = ExtResource("10_qy1jj")
 
+[node name="ChoiceNode" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 0
+offset_left = 856.0
+offset_right = 1280.0
+offset_bottom = 256.0
+script = ExtResource("11_y5y3l")
+
+[node name="ChooseEnemy" type="Button" parent="ChoiceNode"]
+visible = false
+offset_left = 96.0
+offset_right = 424.0
+offset_bottom = 256.0
+theme_override_styles/disabled = SubResource("StyleBoxFlat_bwdhm")
+disabled = true
+script = SubResource("GDScript_kyk2p")
+
+[node name="Slot0" type="Button" parent="ChoiceNode/ChooseEnemy"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 112.0
+offset_right = 56.0
+offset_bottom = 176.0
+theme = ExtResource("12_vjgi4")
+text = "0"
+
+[node name="Slot1" type="Button" parent="ChoiceNode/ChooseEnemy"]
+offset_left = 80.0
+offset_top = 144.0
+offset_right = 120.0
+offset_bottom = 208.0
+theme = ExtResource("12_vjgi4")
+text = "1"
+
+[node name="Slot2" type="Button" parent="ChoiceNode/ChooseEnemy"]
+offset_left = 144.0
+offset_top = 144.0
+offset_right = 184.0
+offset_bottom = 208.0
+theme = ExtResource("12_vjgi4")
+text = "2"
+
+[node name="Slot3" type="Button" parent="ChoiceNode/ChooseEnemy"]
+offset_left = 208.0
+offset_top = 144.0
+offset_right = 248.0
+offset_bottom = 208.0
+theme = ExtResource("12_vjgi4")
+text = "3"
+
+[node name="Slot4" type="Button" parent="ChoiceNode/ChooseEnemy"]
+offset_left = 272.0
+offset_top = 112.0
+offset_right = 312.0
+offset_bottom = 176.0
+theme = ExtResource("12_vjgi4")
+text = "4"
+
+[node name="Slot5" type="Button" parent="ChoiceNode/ChooseEnemy"]
+offset_left = 120.0
+offset_top = 16.0
+offset_right = 208.0
+offset_bottom = 56.0
+theme = ExtResource("12_vjgi4")
+text = "5"
+
+[node name="ChooseAlly" type="Button" parent="ChoiceNode"]
+visible = false
+offset_left = 96.0
+offset_right = 424.0
+offset_bottom = 256.0
+theme_override_styles/disabled = SubResource("StyleBoxFlat_bwdhm")
+disabled = true
+script = SubResource("GDScript_45i86")
+
+[node name="Slot0" type="Button" parent="ChoiceNode/ChooseAlly"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 80.0
+offset_right = 56.0
+offset_bottom = 144.0
+theme = ExtResource("12_vjgi4")
+text = "0"
+
+[node name="Slot1" type="Button" parent="ChoiceNode/ChooseAlly"]
+offset_left = 80.0
+offset_top = 48.0
+offset_right = 120.0
+offset_bottom = 112.0
+theme = ExtResource("12_vjgi4")
+text = "1"
+
+[node name="Slot2" type="Button" parent="ChoiceNode/ChooseAlly"]
+offset_left = 144.0
+offset_top = 48.0
+offset_right = 184.0
+offset_bottom = 112.0
+theme = ExtResource("12_vjgi4")
+text = "2"
+
+[node name="Slot3" type="Button" parent="ChoiceNode/ChooseAlly"]
+offset_left = 208.0
+offset_top = 48.0
+offset_right = 248.0
+offset_bottom = 112.0
+theme = ExtResource("12_vjgi4")
+text = "3"
+
+[node name="Slot4" type="Button" parent="ChoiceNode/ChooseAlly"]
+offset_left = 272.0
+offset_top = 80.0
+offset_right = 312.0
+offset_bottom = 144.0
+theme = ExtResource("12_vjgi4")
+text = "4"
+
+[node name="Slot5" type="Button" parent="ChoiceNode/ChooseAlly"]
+offset_left = 120.0
+offset_top = 200.0
+offset_right = 208.0
+offset_bottom = 240.0
+theme = ExtResource("12_vjgi4")
+text = "5"
+
 [node name="whenPlacedFunctions" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("11_3xj3m")
@@ -329,10 +468,10 @@ modulate = Color(1, 1, 1, 0)
 layout_mode = 0
 offset_right = 1280.0
 offset_bottom = 720.0
-theme_override_styles/focus = SubResource("StyleBoxFlat_bwdhm")
-theme_override_styles/disabled = SubResource("StyleBoxFlat_bwdhm")
-theme_override_styles/hover = SubResource("StyleBoxFlat_bwdhm")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_bwdhm")
+theme_override_styles/focus = SubResource("StyleBoxFlat_vjgi4")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_vjgi4")
+theme_override_styles/hover = SubResource("StyleBoxFlat_vjgi4")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vjgi4")
 disabled = true
 text = "You Lose"
 
@@ -343,10 +482,10 @@ modulate = Color(1, 1, 1, 0)
 layout_mode = 0
 offset_right = 1280.0
 offset_bottom = 720.0
-theme_override_styles/focus = SubResource("StyleBoxFlat_bwdhm")
-theme_override_styles/disabled = SubResource("StyleBoxFlat_bwdhm")
-theme_override_styles/hover = SubResource("StyleBoxFlat_bwdhm")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_bwdhm")
+theme_override_styles/focus = SubResource("StyleBoxFlat_vjgi4")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_vjgi4")
+theme_override_styles/hover = SubResource("StyleBoxFlat_vjgi4")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vjgi4")
 disabled = true
 text = "You Win"
 
