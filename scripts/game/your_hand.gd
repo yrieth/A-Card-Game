@@ -30,7 +30,7 @@ func draw_card() -> void:
 		fatigueDisplay.scale = Vector2(3.0, 3.0)
 		fatigueDisplay.size = Vector2(171, 21)
 		fatigueDisplay.position = Vector2(-512.0, -448.0)
-		fatigueDisplay.label_settings = load("res://misc/FatigueLabelSettings.tres")
+		fatigueDisplay.label_settings = load("res://misc/LabelSettingsFatigue.tres")
 		fatigueDisplay.text = "Fatigue: " + str(fatigue)
 		self.add_child(fatigueDisplay)
 		fatigueTween.tween_property(fatigueDisplay, "position", Vector2(1280.0, -448.0), 3)

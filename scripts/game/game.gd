@@ -91,6 +91,8 @@ func card_methods_rpc(methodToCall: String, amount: int, yours: bool, slot: int)
 			nodeToPerformOn.cardSlots[slot].change_current_attack(amount)
 		"change_current_cost":
 			nodeToPerformOn.cardSlots[slot].change_current_cost(amount)
+		"get_silanced":
+			nodeToPerformOn.cardSlots[slot].get_silanced()
 
 func _on_you_win_button_pressed() -> void:
 	#Code goes before this command

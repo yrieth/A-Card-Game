@@ -42,6 +42,7 @@ var decks:Array[Deck]
 var unlockedCards: Dictionary[String, bool]
 
 func _ready() -> void:
+	print(len(Global.COLLECTION))
 	var unlockedCardsFile: FileAccess = FileAccess.open("res://saves/unlockedCards.save", FileAccess.READ)
 	if unlockedCardsFile == null:
 		unlockedCardsFile = FileAccess.open("res://saves/unlockedCards.save", FileAccess.WRITE)

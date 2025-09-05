@@ -45,3 +45,81 @@ func whenPlacedRenegadeRogue(card: Card) -> void:
 	if target != -1:
 		%EnemyPlace.cardSlots[target].get_damaged(5, false, target)
 		multiplayer.rpc(Global.peerID, get_parent(), "card_methods_rpc", ["get_damaged", 5, true, target])
+func whenPlacedVoid(card: Card) -> void:
+	var tempCardArray: Array[Card] = %YourPlace.cardSlots
+	for i in range(0,5):
+		if tempCardArray[i]!=null and tempCardArray[i].cardName != "Void":
+			tempCardArray[i].get_damaged(20, true, i)
+			multiplayer.rpc(Global.peerID, get_parent(), "card_methods_rpc", ["get_damaged", 20, false, i])
+	tempCardArray = %EnemyPlace.cardSlots
+	for i in range(0,5):
+		if tempCardArray[i]!=null and tempCardArray[i].cardName != "Void":
+			tempCardArray[i].get_damaged(20, false, i)
+			multiplayer.rpc(Global.peerID, get_parent(), "card_methods_rpc", ["get_damaged", 20, true, i])
+func whenPlacedSanok(card: Card) -> void:
+	var tempCardArray: Array[Card] = %YourPlace.cardSlots
+	var yourCards: int = 0
+	for i in range(0, 5):
+		if tempCardArray[i]!=null:
+			yourCards += 1
+	if yourCards == 1:
+		var target: int = await %ChoiceNode.choose_ally(true)
+		if target == 5:
+			var amount: int = 15-%YourHand.yourLife
+			%YourHand.update_your_life(amount)
+			multiplayer.rpc(Global.peerID, %EnemyPlace, "update_enemy_life", [amount])
+		else :
+			card.change_max_life(14)
+			multiplayer.rpc(Global.peerID, get_parent(), "card_methods_rpc", ["change_max_life", 14, false, target])
+func whenPlacedBureaucrat(card: Card) -> void:
+	get_parent().maxGold += 1
+	%YourHand.update_gold()
+func whenPlacedAncient(card:Card) -> void:
+	var amount: int = 1-%EnemyPlace.enemyLife
+	%EnemyPlace.update_enemy_life(amount)
+	multiplayer.rpc(Global.peerID, %YourHand, "update_your_life", [amount])
+func whenPlacedDoubleBomb(card: Card) -> void:
+	var tempCardArray: Array[Card] = %YourPlace.cardSlots
+	for i in range(0,5):
+		if tempCardArray[i]!=null and tempCardArray[i].cardName != "Double Bomb":
+			tempCardArray[i].get_damaged(2, true, i)
+			multiplayer.rpc(Global.peerID, get_parent(), "card_methods_rpc", ["get_damaged", 2, false, i])
+	tempCardArray = %EnemyPlace.cardSlots
+	for i in range(0,5):
+		if tempCardArray[i]!=null:
+			tempCardArray[i].get_damaged(2, false, i)
+			multiplayer.rpc(Global.peerID, get_parent(), "card_methods_rpc", ["get_damaged", 2, true, i])
+func whenPlacedArcanist(card: Card) -> void:
+	var tempCardArray: Array[Card] = %EnemyPlace.cardSlots
+	for i in range(0,5):
+		if tempCardArray[i]!=null:
+			tempCardArray[i].get_damaged(1, false, i)
+			multiplayer.rpc(Global.peerID, get_parent(), "card_methods_rpc", ["get_damaged", 1, true, i])
+func whenPlacedPyromaniac(card: Card) -> void:
+	var target: int = await %ChoiceNode.choose_enemy(true)
+	var tempCardArray: Array[Card] = %YourPlace.cardSlots
+	if target == 5:
+		%EnemyPlace.update_enemy_life(-6)
+		multiplayer.rpc(Global.peerID, %YourHand, "update_your_life", [-6])
+	else:
+		%EnemyPlace.cardSlots[target].get_damaged(6, false, target)
+		multiplayer.rpc(Global.peerID, get_parent(), "card_methods_rpc", ["get_damaged", 6, true, target])
+	for i in range(0,5):
+		if tempCardArray[i] != null and tempCardArray[i].cardName == "Pyromaniac":
+			tempCardArray[i].get_damaged(1, true, i)
+			multiplayer.rpc(Global.peerID, get_parent(), "card_methods_rpc", ["get_damaged", 1, false, i])
+			return
+func whenPlacedSilancer(card: Card) -> void:
+	var target: int = await %ChoiceNode.choose_enemy(false)
+	if target!=-1:
+		%EnemyPlace.cardSlots[target].get_silanced()
+		multiplayer.rpc(Global.peerID, get_parent(), "card_methods_rpc", ["get_silanced", 0, true, target])
+func whenPlacedBloodHound(card: Card) -> void:
+	var target: int = await %ChoiceNode.choose_ally(false)
+	if %YourPlace.cardSlots[target].cardName == card.cardName:
+		card.get_damaged(2, true, target)
+		multiplayer.rpc(Global.peerID, get_parent(), "card_methods_rpc", ["get_damaged", 2, false, target])
+		
+	else:
+		%YourPlace.cardSlots[target].get_silanced()
+		multiplayer.rpc(Global.peerID, get_parent(), "card_methods_rpc", ["get_silanced", 0, false, target])

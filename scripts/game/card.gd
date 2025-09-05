@@ -152,6 +152,8 @@ func get_damaged(amount: int, yours: bool, slot: int)->void:
 			deathTween.tween_property(self, "modulate", Color(1,1,1,0), 0.5)
 			deathTween.tween_callback(self.queue_free)
 			EnemyPlace.cardSlots[slot] = null
+	elif currentLife > maxLife:
+		currentLife = maxLife
 			
 @rpc("any_peer")
 func change_max_life(amount: int)->void:
@@ -166,6 +168,19 @@ func change_current_attack(amount: int)->void:
 func change_current_cost(amount: int)->void:
 	self.currentCost += amount
 	self.displayCost.text = str(currentCost)
+@rpc("any_peer")
+func get_silanced()->void:
+	self.change_max_life(-self.maxLife + self.life)
+	self.change_current_attack(-self.currentAttack + self.attack)
+	self.change_current_cost(-self.currentCost + self.cost)
+	self.whenPlacedFunc = ""
+	self.whenAttackFunc = ""
+	self.whenDiesFunc = ""
+	var tempTexture: TextureRect = TextureRect.new()
+	tempTexture.texture = load("res://sprites/CardSilanced.png")
+	self.add_child(tempTexture)
+	tempTexture.position = Vector2(0,0)
+	tempTexture.size = self.size
 
 func whenPlaced() -> void:
 	if whenPlacedFunc != "":

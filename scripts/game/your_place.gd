@@ -70,9 +70,10 @@ func make_attack() -> void:
 		!cardSlots[focusedPlaceCard].asleep and 
 		%EnemyPlace.cardSlots[focusedPlaceCard] == null and 
 		!%ChoiceNode.choosing):
+		cardSlots[focusedPlaceCard].asleep = true
+		cardSlots[focusedPlaceCard].whenAttack()
 		%EnemyPlace.update_enemy_life(-cardSlots[focusedPlaceCard].currentAttack)
 		multiplayer.rpc(Global.peerID, %YourHand, "update_your_life", [-cardSlots[focusedPlaceCard].currentAttack])
-		cardSlots[focusedPlaceCard].asleep = true
 			
 	elif (focusedPlaceCard != -1 and
 		focusedEnemyCard != -1 and
