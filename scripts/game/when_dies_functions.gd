@@ -39,3 +39,33 @@ func whenDiesLesserUrsa(card: Card):
 		if %YourPlace.cardSlots[i]!=null:
 			%YourPlace.cardSlots[i].change_current_attack(1)
 			multiplayer.rpc(Global.peerID, %EnemyPlace, "card_methods_rpc", ["change_current_attack", 1, false, i])
+func whenDiesBumBum(card: Card)->void:
+	var emptySlots: int = %YourPlace.cardSlots.count(null)
+	if emptySlots > 0:
+		var i: int = 0
+		emptySlots = 1
+		while emptySlots != 0:
+			if %YourPlace.cardSlots[i] != null:
+				emptySlots -= 1
+				%YourPlace.put_card(0, i)
+				multiplayer.rpc(Global.peerID, %EnemyPlace, "put_card", [0, i])
+			i += 1
+func whenDiesBeggarUnion(card:Card)->void:
+	var emptySlots: int = %YourPlace.cardSlots.count(null)
+	if emptySlots > 1:
+		emptySlots = 2
+		var i: int = 0
+		while emptySlots > 0:
+			if %YourPlace.cardSlots[i] == null:
+				emptySlots-=1
+				%YourPlace.put_card(0, i)
+				multiplayer.rpc(Global.peerID, %EnemyPlace, "put_card_rpc", [0, i])
+			i+=1
+	elif emptySlots == 1:
+		var i: int = 0
+		while emptySlots > 0:
+			if %YourPlace.cardSlots[i] == null:
+				emptySlots-=1
+				%YourPlace.put_card(0, i)
+				multiplayer.rpc(Global.peerID, %EnemyPlace, "put_card_rpc", [0, i])
+			i+=1

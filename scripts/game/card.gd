@@ -185,9 +185,9 @@ func get_silanced()->void:
 func whenPlaced() -> void:
 	if whenPlacedFunc != "":
 		whenPlacedFunctions.call(whenPlacedFunc, self)
-func whenAttack() -> void:
+func whenAttack(target: int) -> void:
 	if whenAttackFunc != "":
-		whenAttackFunctions.call(whenAttackFunc, self)
+		whenAttackFunctions.call(whenAttackFunc, self, target)
 func whenDies() -> void:
 	if whenDiesFunc != "":
 		whenDiesFunctions.call(whenDiesFunc, self)

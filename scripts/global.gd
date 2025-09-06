@@ -289,21 +289,21 @@ const COLLECTION = [
 		whenDiesFunc = ""
 	},
 	{
-		Name = "Silancer",
-		Description = "When Placed: Silances an enemy card",
+		Name = "Drow Huntress",
+		Description = "When Placed: choose an enemy card. Silances it",
 		Attack = 4,
 		Life = 3,
 		Cost = 4,
 		Rarity = "s",
-		whenPlacedFunc = "whenPlacedSilancer",
+		whenPlacedFunc = "whenPlacedDrowHuntress",
 		whenAttackFunc = "",
 		whenDiesFunc = ""
 	},
 	{
 		Name = "Blood Hound",
-		Description = "When Placed: Choose an ally card. Silances it. If this card is choosen deals 2 damage to itself instead",
+		Description = "When Placed: choose an ally card. Silances it. If this card is choosen deals 2 damage to itself instead",
 		Attack = 3,
-		Life = 5,
+		Life = 3,
 		Cost = 3,
 		Rarity = "s",
 		whenPlacedFunc = "whenPlacedBloodHound",
@@ -334,7 +334,7 @@ const COLLECTION = [
 	},
 	{
 		Name = "Reckless Fighter",
-		Description = "When Dies: Deals 8 damage to your hero",
+		Description = "When Dies: deals 8 damage to your hero",
 		Attack = 6,
 		Life = 5,
 		Cost = 4,
@@ -345,7 +345,7 @@ const COLLECTION = [
 	},
 	{
 		Name = "Furious Ursa",
-		Description = "When Attacks: Increases its attack by 1",
+		Description = "When Attacks: increases its attack by 1",
 		Attack = 1,
 		Life = 5,
 		Cost = 4,
@@ -356,7 +356,7 @@ const COLLECTION = [
 	},
 	{
 		Name = "Lesser Ursa",
-		Description = "When Dies: Increases all ally cards attack by 1",
+		Description = "When Dies: increases all ally cards attack by 1",
 		Attack = 3,
 		Life = 2,
 		Cost = 3,
@@ -364,6 +364,72 @@ const COLLECTION = [
 		whenPlacedFunc = "",
 		whenAttackFunc = "",
 		whenDiesFunc = "whenDiesLesserUrsa"
+	},
+	{
+		Name = "Healing Statue",
+		Description = "When Attacks: heals the enemy for double the amount of its attack",
+		Attack = 3,
+		Life = 5,
+		Cost = 2,
+		Rarity = "s",
+		whenPlacedFunc = "",
+		whenAttackFunc = "whenAttackHealingStatue",
+		whenDiesFunc = ""
+	},
+	{
+		Name = "Silancer",
+		Description = "When Placed: silances all cards",
+		Attack = 4,
+		Life = 4,
+		Cost = 5,
+		Rarity = "s",
+		whenPlacedFunc = "whenPlacedSilancer",
+		whenAttackFunc = "",
+		whenDiesFunc = ""
+	},
+	{
+		Name = "Wise Owl",
+		Description = "When Placed: choose an enemy card. Silances it",
+		Attack = 2,
+		Life = 1,
+		Cost = 3,
+		Rarity = "s",
+		whenPlacedFunc = "whenPlacedDrowHuntress",
+		whenAttackFunc = "",
+		whenDiesFunc = ""
+	},
+	{
+		Name = "Confused Owl",
+		Description = "When Placed: choose an ally card. Silances it",
+		Attack = 2,
+		Life = 3,
+		Cost = 3,
+		Rarity = "s",
+		whenPlacedFunc = "whenPlacedConfusedOwl",
+		whenAttackFunc = "",
+		whenDiesFunc = ""
+	},
+	{
+		Name = "Bum Bum",
+		Description = "When Dies: summons a bum",
+		Attack = 1,
+		Life = 1,
+		Cost = 1,
+		Rarity = "s",
+		whenPlacedFunc = "",
+		whenAttackFunc = "whenDiesBumBum",
+		whenDiesFunc = ""
+	},
+	{
+		Name = "Beggar Union",
+		Description = "When Dies: summons 2 bums",
+		Attack = 2,
+		Life = 2,
+		Cost = 3,
+		Rarity = "s",
+		whenPlacedFunc = "",
+		whenAttackFunc = "whenDiesBeggarUnion",
+		whenDiesFunc = ""
 	},
 	
 ]

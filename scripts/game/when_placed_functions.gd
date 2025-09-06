@@ -29,8 +29,6 @@ func whenPlacedFriedChicken(card: Card) -> void:
 		while emptySlots > 0:
 			if %EnemyPlace.cardSlots[i] == null:
 				emptySlots-=1
-				var bumCard: Card = Card.new()
-				bumCard.get_values(0)
 				%EnemyPlace.put_card(0, i)
 				multiplayer.rpc(Global.peerID, %YourPlace, "put_card_rpc", [0, i])
 			i+=1
@@ -109,7 +107,7 @@ func whenPlacedPyromaniac(card: Card) -> void:
 			tempCardArray[i].get_damaged(1, true, i)
 			multiplayer.rpc(Global.peerID, get_parent(), "card_methods_rpc", ["get_damaged", 1, false, i])
 			return
-func whenPlacedSilancer(card: Card) -> void:
+func whenPlacedDrowHuntress(card: Card) -> void:
 	var target: int = await %ChoiceNode.choose_enemy(false)
 	if target!=-1:
 		%EnemyPlace.cardSlots[target].get_silanced()
@@ -123,3 +121,16 @@ func whenPlacedBloodHound(card: Card) -> void:
 	else:
 		%YourPlace.cardSlots[target].get_silanced()
 		multiplayer.rpc(Global.peerID, get_parent(), "card_methods_rpc", ["get_silanced", 0, false, target])
+func whenPlacedSilancer(card: Card)->void:
+	for i in range(0,5):
+		if %EnemyPlace.cardSlots[i] != null:
+			%EnemyPlace.cardSlots[i].get_silanced()
+			multiplayer.rpc(Global.peerID, get_parent(), "card_methods_rpc", ["get_silanced", 0, true, i])
+	for i in range(0,5):
+		if %YourPlace.cardSlots[i] != null:
+			%YourPlace.cardSlots[i].get_silanced()
+			multiplayer.rpc(Global.peerID, get_parent(), "card_methods_rpc", ["get_silanced", 0, false, i])
+func whenPlacedConfusedOwl(card: Card):
+	var target: int = await %ChoiceNode.choose_ally(false)
+	%YourPlace.cardSlots[target].get_silanced()
+	multiplayer.rpc(Global.peerID, get_parent(), "card_methods_rpc", ["get_silanced", 0, false, target])

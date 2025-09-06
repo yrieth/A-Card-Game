@@ -71,7 +71,7 @@ func make_attack() -> void:
 		%EnemyPlace.cardSlots[focusedPlaceCard] == null and 
 		!%ChoiceNode.choosing):
 		cardSlots[focusedPlaceCard].asleep = true
-		cardSlots[focusedPlaceCard].whenAttack()
+		cardSlots[focusedPlaceCard].whenAttack(focusedEnemyCard)
 		%EnemyPlace.update_enemy_life(-cardSlots[focusedPlaceCard].currentAttack)
 		multiplayer.rpc(Global.peerID, %YourHand, "update_your_life", [-cardSlots[focusedPlaceCard].currentAttack])
 			
@@ -82,7 +82,7 @@ func make_attack() -> void:
 		!cardSlots[focusedPlaceCard].asleep and 
 		!%ChoiceNode.choosing) :
 		cardSlots[focusedPlaceCard].asleep = true
-		cardSlots[focusedPlaceCard].whenAttack()
+		cardSlots[focusedPlaceCard].whenAttack(focusedEnemyCard)
 		var tempEnemyAttack: int = %EnemyPlace.cardSlots[focusedEnemyCard].currentAttack
 		%EnemyPlace.cardSlots[focusedEnemyCard].get_damaged(cardSlots[focusedPlaceCard].currentAttack, false, focusedEnemyCard)
 		cardSlots[focusedPlaceCard].get_damaged(tempEnemyAttack, true, focusedPlaceCard)
