@@ -127,10 +127,19 @@ func whenPlacedSilancer(card: Card)->void:
 			%EnemyPlace.cardSlots[i].get_silanced()
 			multiplayer.rpc(Global.peerID, get_parent(), "card_methods_rpc", ["get_silanced", 0, true, i])
 	for i in range(0,5):
-		if %YourPlace.cardSlots[i] != null:
+		if %YourPlace.cardSlots[i] != null and %YourPlace.cardSlots[i].cardName != "Silancer":
 			%YourPlace.cardSlots[i].get_silanced()
 			multiplayer.rpc(Global.peerID, get_parent(), "card_methods_rpc", ["get_silanced", 0, false, i])
-func whenPlacedConfusedOwl(card: Card):
+func whenPlacedConfusedOwl(card: Card)->void:
 	var target: int = await %ChoiceNode.choose_ally(false)
 	%YourPlace.cardSlots[target].get_silanced()
 	multiplayer.rpc(Global.peerID, get_parent(), "card_methods_rpc", ["get_silanced", 0, false, target])
+func whenPlacedBes(card: Card)->void:
+	%YourHand.update_your_life(-2)
+	multiplayer.rpc(Global.peerID, %EnemyPlace, "update_enemy_life", [-2])
+func whenPlacedTraitorPriest(card: Card)->void:
+	%EnemyPlace.update_enemy_life(3)
+	multiplayer.rpc(Global.peerID, %YourHand, "update_your_life", [3])
+func whenPlacedFellowPriest(card: Card)->void:
+	%YourHand.update_your_life(7)
+	multiplayer.rpc(Global.peerID, %EnemyPlace, "update_enemy_life", [7])

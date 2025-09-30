@@ -11,3 +11,7 @@ func whenAttackHealingStatue(card: Card, target: int)->void:
 	else :
 		%EnemyPlace.cardSlots[target].get_damaged(-2*card.currentAttack)
 		multiplayer.rpc(Global.peerID, get_parent(), "card_methods_rpc", ["get_damaged", -2*card.currentAttack, true, target])
+func whenAttackVengefulWasp(card: Card, target: int)->void:
+	%EnemyPlace.update_enemy_life(-card.currentAttack)
+	multiplayer.rpc(Global.peerID, %YourHand, "update_your_life", [-card.currentAttack])
+	

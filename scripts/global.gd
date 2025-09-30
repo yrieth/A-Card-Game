@@ -378,7 +378,7 @@ const COLLECTION = [
 	},
 	{
 		Name = "Silancer",
-		Description = "When Placed: silances all cards",
+		Description = "When Placed: silances all other cards",
 		Attack = 4,
 		Life = 4,
 		Cost = 5,
@@ -429,6 +429,72 @@ const COLLECTION = [
 		Rarity = "s",
 		whenPlacedFunc = "",
 		whenAttackFunc = "whenDiesBeggarUnion",
+		whenDiesFunc = ""
+	},
+	{
+		Name = "Talking drawer",
+		Description = "When Placed and When Dies: draw a card",
+		Attack = 3,
+		Life = 5,
+		Cost = 6,
+		Rarity = "s",
+		whenPlacedFunc = "whenPlacedTechAprentice",
+		whenAttackFunc = "",
+		whenDiesFunc = "whenPlacedTechAprentice"
+	},
+	{
+		Name = "A wall",
+		Description = "",
+		Attack = 0,
+		Life = 10,
+		Cost = 3,
+		Rarity = "s",
+		whenPlacedFunc = "",
+		whenAttackFunc = "",
+		whenDiesFunc = ""
+	},
+	{
+		Name = "Vengeful Wasp",
+		Description = "When Attacks: Also deals damage to enemy hero",
+		Attack = 3,
+		Life = 2,
+		Cost = 4,
+		Rarity = "s",
+		whenPlacedFunc = "",
+		whenAttackFunc = "whenAttackVengefulWasp",
+		whenDiesFunc = ""
+	},
+	{
+		Name = "Bes",
+		Description = "When Placed: Deals 2 damage to your hero",
+		Attack = 3,
+		Life = 2,
+		Cost = 1,
+		Rarity = "s",
+		whenPlacedFunc = "whenPlacedBes",
+		whenAttackFunc = "",
+		whenDiesFunc = ""
+	},
+	{
+		Name = "Traitor Prist",
+		Description = "When Placed: Restore 3 life to enemy hero",
+		Attack = 3,
+		Life = 3,
+		Cost = 2,
+		Rarity = "s",
+		whenPlacedFunc = "whenPlacedTraitorPriest",
+		whenAttackFunc = "",
+		whenDiesFunc = ""
+	},
+	{
+		Name = "Fellow Prist",
+		Description = "When Placed: Restore 7 life to your hero",
+		Attack = 1,
+		Life = 1,
+		Cost = 3,
+		Rarity = "s",
+		whenPlacedFunc = "whenPlacedFellowPriest",
+		whenAttackFunc = "",
 		whenDiesFunc = ""
 	},
 	
