@@ -43,33 +43,35 @@ var unlockedCards: Dictionary[String, bool]
 
 func _ready() -> void:
 	print(len(Global.COLLECTION))
-	var unlockedCardsFile: FileAccess = FileAccess.open("res://saves/unlockedCards.save", FileAccess.READ)
-	if unlockedCardsFile == null:
-		unlockedCardsFile = FileAccess.open("res://saves/unlockedCards.save", FileAccess.WRITE)
-		for i in Global.COLLECTION:
-			unlockedCards.get_or_add(i.Name, false)
-		unlockedCardsFile.store_var(unlockedCards)
-		unlockedCardsFile.close()
-		unlockedCardsFile = FileAccess.open("res://saves/unlockedCards.save", FileAccess.READ)
-	unlockedCards = unlockedCardsFile.get_var()
-	unlockedCardsFile.close()
-	if len(unlockedCards) < len(Global.COLLECTION):
-		for i in Global.COLLECTION:
-			unlockedCards.get_or_add(i.Name, false)
-		unlockedCardsFile = FileAccess.open("res://saves/unlockedCards.save", FileAccess.WRITE)
-		unlockedCardsFile.store_var(unlockedCards)
-		unlockedCardsFile.close()
-	elif len(unlockedCards) > len(Global.COLLECTION):
-		var tempNamesArray: Array[String]
-		for i in Global.COLLECTION:
-			tempNamesArray.append(i.Name)
-		for i in unlockedCards:
-			if i not in tempNamesArray:
-				unlockedCards.erase(i)
-		unlockedCardsFile = FileAccess.open("res://saves/unlockedCards.save", FileAccess.WRITE)
-		unlockedCardsFile.store_var(unlockedCards)
-		unlockedCardsFile.close()
-	
+	#Removing the checker of unclocked cards since it is a small
+	#project and I don't care about implementing a card unlocking mechanic.
+	#var unlockedCardsFile: FileAccess = FileAccess.open("res://saves/unlockedCards.save", FileAccess.READ)
+	#if unlockedCardsFile == null:
+		#unlockedCardsFile = FileAccess.open("res://saves/unlockedCards.save", FileAccess.WRITE)
+		#for i in Global.COLLECTION:
+			#unlockedCards.get_or_add(i.Name, false)
+		#unlockedCardsFile.store_var(unlockedCards)
+		#unlockedCardsFile.close()
+		#unlockedCardsFile = FileAccess.open("res://saves/unlockedCards.save", FileAccess.READ)
+	#unlockedCards = unlockedCardsFile.get_var()
+	#unlockedCardsFile.close()
+	#if len(unlockedCards) < len(Global.COLLECTION):
+		#for i in Global.COLLECTION:
+			#unlockedCards.get_or_add(i.Name, false)
+		#unlockedCardsFile = FileAccess.open("res://saves/unlockedCards.save", FileAccess.WRITE)
+		#unlockedCardsFile.store_var(unlockedCards)
+		#unlockedCardsFile.close()
+	#elif len(unlockedCards) > len(Global.COLLECTION):
+		#var tempNamesArray: Array[String]
+		#for i in Global.COLLECTION:
+			#tempNamesArray.append(i.Name)
+		#for i in unlockedCards:
+			#if i not in tempNamesArray:
+				#unlockedCards.erase(i)
+		#unlockedCardsFile = FileAccess.open("res://saves/unlockedCards.save", FileAccess.WRITE)
+		#unlockedCardsFile.store_var(unlockedCards)
+		#unlockedCardsFile.close()
+	#
 	
 	
 	var numCardsToDisplay:int = len(Global.COLLECTION)
@@ -90,7 +92,7 @@ func _ready() -> void:
 			card=Card.new()
 			card.get_values(numCardsDisplayed)
 			card.position = SLOTPOSITIONS[numCardsOnPage]
-			card.disabled = !unlockedCards.get(card.cardName)
+			#card.disabled = !unlockedCards.get(card.cardName)
 			card.connect("pressed", add_card_to_deck.bind(card.cardId))
 			pages[maxPages-1].cards.append(card)
 			pages[maxPages-1].add_child(card)
@@ -112,7 +114,7 @@ func _ready() -> void:
 					#pushBack += 1
 				#else:
 					#loopCounter += 1
-			tempDeck.deck = tempDeck.deck.filter(deck_unlocking_filter)
+			#tempDeck.deck = tempDeck.deck.filter(deck_unlocking_filter)
 			decks.append(tempDeck)
 		
 		var counter = 0
@@ -127,10 +129,10 @@ func _ready() -> void:
 	else:
 		Global.deckToPlay = decks[0].deck
 		
-func deck_unlocking_filter(cardId) -> bool:
-	if len(Global.COLLECTION) > cardId and Global.COLLECTION[cardId].Name in unlockedCards:
-		return unlockedCards[Global.COLLECTION[cardId].Name]
-	return false
+#func deck_unlocking_filter(cardId) -> bool:
+	#if len(Global.COLLECTION) > cardId and Global.COLLECTION[cardId].Name in unlockedCards:
+		#return unlockedCards[Global.COLLECTION[cardId].Name]
+	#return false
 
 func line_into_array(string: String) -> Array[int]:
 	var numberArray:Array[int]
@@ -248,8 +250,8 @@ func remove_card_from_deck(index:int, _at_position: Vector2, mouse_button_index:
 		decks[selectedDeck].deck.erase(int($SelectedDeck.get_item_tooltip(index)))
 		$SelectedDeck.remove_item(index)
 
-func _on_start_unlocker_pressed() -> void:
-	for i in Global.COLLECTION:
-		if i.Rarity == "s":
-			unlockedCards.set(i.Name, true)
-	$StartUnlocker.disabled = true
+#func _on_start_unlocker_pressed() -> void:
+	#for i in Global.COLLECTION:
+		#if i.Rarity == "s":
+			#unlockedCards.set(i.Name, true)
+	#$StartUnlocker.disabled = true

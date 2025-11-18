@@ -241,6 +241,7 @@ offset_bottom = 632.0
 text = "-"
 
 [node name="StartUnlocker" type="Button" parent="Collection"]
+visible = false
 layout_mode = 0
 offset_left = 64.0
 offset_top = 640.0
