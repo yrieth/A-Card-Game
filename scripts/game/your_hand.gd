@@ -19,7 +19,7 @@ func _ready() -> void:
 		tempSlotArray[i].connect("mouse_exited", make_focused_place.bind(-1))
 	for i in Global.deckToPlay:
 		$ShowDeck.get_popup().add_item(Global.COLLECTION[i].Name)
-	$LifeDisplay.tooltip_text = str(yourLife)
+	$LifeDisplay.get_child(0).text = str(yourLife)
 	$LifeDisplay.value = yourLife
 
 @rpc("any_peer")
@@ -103,7 +103,7 @@ func update_gold() -> void:
 	goldTween.set_trans(Tween.TRANS_CUBIC)
 	goldTween.tween_property($GoldDisplay, "value", get_parent().gold, 1)
 	#$GoldDisplay.value = get_parent().gold
-	$GoldDisplay.tooltip_text =str(get_parent().gold) + "/" + str(get_parent().maxGold)
+	$GoldDisplay.get_child(0).text=str(get_parent().gold) + "/" + str(get_parent().maxGold)
 
 @rpc("any_peer")
 func update_your_life(amount: int) -> void:
@@ -112,7 +112,7 @@ func update_your_life(amount: int) -> void:
 	var lifeTween: Tween = create_tween()
 	lifeTween.set_trans(Tween.TRANS_CUBIC)
 	lifeTween.tween_property($LifeDisplay, "value", yourLife, 1)
-	$LifeDisplay.tooltip_text = str(yourLife)
+	$LifeDisplay.get_child(0).text = str(yourLife)
 	#$LifeDisplay.value = yourLife
 	if yourLife < 1:
 		var buttonTween: Tween = create_tween()

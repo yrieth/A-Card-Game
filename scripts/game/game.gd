@@ -36,12 +36,14 @@ func assign_id(id: int) -> void:
 func change_turn() -> void:
 	$EndTurnButton.disabled = Global.yourTurn
 	Global.yourTurn = !Global.yourTurn
+	var turnTween: Tween = create_tween()
+	turnTween.set_trans(Tween.TRANS_CUBIC)
 	if Global.yourTurn:
 		$YourHand/TurnDisplay.tooltip_text = "Your Turn"
-		$YourHand/TurnDisplay.value = 1
+		turnTween.tween_property($YourHand/TurnDisplay, "value", 1, 1)
 	else:
 		$YourHand/TurnDisplay.tooltip_text = "Enemy Turn"
-		$YourHand/TurnDisplay.value = 0
+		turnTween.tween_property($YourHand/TurnDisplay, "value", 0, 1)
 
 	#For start and end turn mechanics
 	if Global.yourTurn:

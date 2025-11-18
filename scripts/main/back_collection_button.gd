@@ -17,9 +17,9 @@ func _on_pressed() -> void:
 		decksFile.store_line(str(deck.deck))
 	decksFile.close()
 	
-	var unlockedCardsFile: FileAccess = FileAccess.open("res://saves/unlockedCards.save", FileAccess.WRITE)
-	unlockedCardsFile.store_var(collection.unlockedCards)
-	unlockedCardsFile.close()
+	#var unlockedCardsFile: FileAccess = FileAccess.open("res://saves/unlockedCards.save", FileAccess.WRITE)
+	#unlockedCardsFile.store_var(collection.unlockedCards)
+	#unlockedCardsFile.close()
 	
 	
 	

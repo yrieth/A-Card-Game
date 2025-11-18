@@ -39,7 +39,7 @@ const SLOTPOSITIONS: Array[Vector2] = [
 @onready var maxPages:int = 0
 var pages:Array[Page]
 var decks:Array[Deck]
-var unlockedCards: Dictionary[String, bool]
+#var unlockedCards: Dictionary[String, bool]
 
 func _ready() -> void:
 	print(len(Global.COLLECTION))
