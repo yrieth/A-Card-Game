@@ -483,7 +483,7 @@ const COLLECTION = [
 	},
 	{
 		Name = "Traitor Prist",
-		Description = "When Placed: Restore 3 life to enemy hero",
+		Description = "When Placed: Restores 3 life to enemy hero",
 		Attack = 3,
 		Life = 3,
 		Cost = 2,
@@ -494,12 +494,78 @@ const COLLECTION = [
 	},
 	{
 		Name = "Fellow Prist",
-		Description = "When Placed: Restore 7 life to your hero",
+		Description = "When Placed: Restores 7 life to your hero",
 		Attack = 1,
 		Life = 1,
 		Cost = 3,
 		Rarity = "S",
 		whenPlacedFunc = "whenPlacedFellowPriest",
+		whenAttackFunc = "",
+		whenDiesFunc = ""
+	},
+	{
+		Name = "Gold Mine",
+		Description = "When Placed: Temporary get the sum of costs of your cards on board as gold",
+		Attack = 0,
+		Life = 3,
+		Cost = 8,
+		Rarity = "N",
+		whenPlacedFunc = "whenPlacedGoldMine",
+		whenAttackFunc = "",
+		whenDiesFunc = ""
+	},
+	{
+		Name = "Sneaky Trader",
+		Description = "When Placed: Get a copy of a random card in your hand",
+		Attack = 2,
+		Life = 3,
+		Cost = 4,
+		Rarity = "b",
+		whenPlacedFunc = "whenPlacedSneakyTrader",
+		whenAttackFunc = "",
+		whenDiesFunc = ""
+	},
+	{
+		Name = "Value Dealer",
+		Description = "When Placed: Get a copy of each card in your hand",
+		Attack = 3,
+		Life = 3,
+		Cost = 6,
+		Rarity = "N",
+		whenPlacedFunc = "whenPlacedValueDealer",
+		whenAttackFunc = "",
+		whenDiesFunc = ""
+	},
+	{
+		Name = "Lawful Merchant",
+		Description = "When Placed: Get a copy of your left most card in hand",
+		Attack = 1,
+		Life = 3,
+		Cost = 4,
+		Rarity = "n",
+		whenPlacedFunc = "whenPlacedLawfulMerchant",
+		whenAttackFunc = "",
+		whenDiesFunc = ""
+	},
+	{
+		Name = "Cartographer",
+		Description = "When Placed: Choose an ally card. Shuffles a copy of it into your deck, can't shuffle itself",
+		Attack = 2,
+		Life = 2,
+		Cost = 3,
+		Rarity = "b",
+		whenPlacedFunc = "whenPlacedCartographer",
+		whenAttackFunc = "",
+		whenDiesFunc = ""
+	},
+	{
+		Name = "Cornifer",
+		Description = "When Placed: Shuffles 3 random copies of cards from your hand",
+		Attack = 3,
+		Life = 3,
+		Cost = 5,
+		Rarity = "S",
+		whenPlacedFunc = "whenPlacedCornifer",
 		whenAttackFunc = "",
 		whenDiesFunc = ""
 	},

@@ -10,7 +10,7 @@ const MAX_CARDS = 7
 @onready var yourLife: int = 25
 
 func _ready() -> void:
-	var popup:PopupMenu = $ShowDeck.get_popup()
+	var popup:PopupMenu = %ShowDeck.get_popup()
 	popup.hide_on_item_selection = false
 	#Signals
 	var tempSlotArray: Array[Node] = %YourPlace.get_children()
@@ -18,7 +18,7 @@ func _ready() -> void:
 		tempSlotArray[i].connect("mouse_entered", make_focused_place.bind(i))
 		tempSlotArray[i].connect("mouse_exited", make_focused_place.bind(-1))
 	for i in Global.deckToPlay:
-		$ShowDeck.get_popup().add_item(Global.COLLECTION[i].Name)
+		%ShowDeck.get_popup().add_item(Global.COLLECTION[i].Name)
 	$LifeDisplay.get_child(0).text = str(yourLife)
 	$LifeDisplay.value = yourLife
 
@@ -41,12 +41,14 @@ func draw_card() -> void:
 	elif numCards < MAX_CARDS:
 		var card:Card = Card.new()
 		var tempCardId: int = get_parent().deckToPlay.pop_back()
+		var tempCardName: String = Global.COLLECTION[tempCardId].Name
 		var cardTween: Tween = create_tween()
 		cardTween.set_trans(Tween.TRANS_CUBIC)
 		card.get_values(tempCardId)
-		tempCardId = Global.deckToPlay.find(tempCardId)
-		$ShowDeck.get_popup().remove_item(tempCardId)
-		Global.deckToPlay.remove_at(tempCardId)
+		for i in range(0, %ShowDeck.get_popup().item_count):
+			if %ShowDeck.get_popup().get_item_text(i) == tempCardName and !%ShowDeck.get_popup().is_item_disabled(i):
+				%ShowDeck.get_popup().set_item_disabled(i, true)
+				break
 		cardTween.tween_property(card, "position", Vector2(SLOT_POSITIONS[numCards], 0), 0.5)
 		self.add_child(card)
 		cardSlots[numCards] = card
@@ -54,9 +56,12 @@ func draw_card() -> void:
 		card.connect("button_up",make_move)
 		numCards+=1
 	elif numCards >= MAX_CARDS:
-		var tempCardId: int = Global.deckToPlay.find(get_parent().deckToPlay.pop_back())
-		$ShowDeck.get_popup().remove_item(tempCardId)
-		Global.deckToPlay.remove_at(tempCardId)
+		var tempCardId: int = get_parent().deckToPlay.pop_back()
+		var tempCardName: String = Global.COLLECTION[tempCardId].Name
+		for i in range(0, %ShowDeck.get_popup().item_count):
+			if %ShowDeck.get_popup().get_item_text(i) == tempCardName and !%ShowDeck.get_popup().is_item_disabled(i):
+				%ShowDeck.get_popup().set_item_disabled(i, true)
+				break
 	
 
 func make_focused(from: int) -> void:

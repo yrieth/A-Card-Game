@@ -151,6 +151,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ShowDeck" type="MenuButton" parent="YourHand"]
+unique_name_in_owner = true
 layout_mode = 0
 offset_left = 1040.0
 offset_right = 1264.0

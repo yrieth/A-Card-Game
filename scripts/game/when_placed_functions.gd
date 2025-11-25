@@ -143,3 +143,41 @@ func whenPlacedTraitorPriest(card: Card)->void:
 func whenPlacedFellowPriest(card: Card)->void:
 	%YourHand.update_your_life(7)
 	multiplayer.rpc(Global.peerID, %EnemyPlace, "update_enemy_life", [7])
+func whenPlacedGoldMine(card: Card)->void:
+	var goldSum: int = 0
+	for i in range(0,4):
+		if %YourPlace.cardSlots[i]!=null and %YourPlace.cardSlots[i].cardName != "Gold Mine":
+			goldSum += %YourPlace.cardSlots[i].cost
+	%YourHand.update_gold(goldSum)
+func whenPlacedSneakyTrader(card: Card)->void:
+	if %YourHand.numCards > 0:
+		var target: int = randi() % %YourHand.numCards
+		get_parent().deckToPlay.append(%YourHand.cardSlots[target].cardId)
+		%YourHand.draw_card()
+func whenPlacedValueDealer(card: Card)->void:
+	for i in range(0, %YourHand.numCards):
+		get_parent().deckToPlay.append(%YourHand.cardSlots[i].cardId)
+		%YourHand.draw_card()
+func whenPlacedLawfulMerchant(card: Card)->void:
+	if %YourHand.numCards > 0:
+		get_parent().deckToPlay.append(%YourHand.cardSlots[0].cardId)
+		%YourHand.draw_card()
+func whenPlacedCartographer(card: Card)->void:
+	var target: int = await %ChoiceNode.choose_ally(false)
+	if %YourPlace.cardSlots[target].cardName != "Cartographer":
+		get_parent().deckToPlay.insert(randi()%len(get_parent().deckToPlay),%YourPlace.cardSlots[target].cardId)
+		%ShowDeck.get_popup().add_item(%YourPlace.cardSlots[target].cardName)
+func whenPlacedCornifer(card: Card)->void:
+	var cardPool: Array[int]
+	var n: int = 0
+	for i in range(0, %YourHand.numCards):
+		cardPool.append(%YourHand.cardSlots[i].cardId)
+		n+=1
+	var j: int = min(3, n)
+	var tempCardId: int
+	for i in range(0, j):
+		tempCardId = cardPool[randi() % n]
+		get_parent().deckToPlay.append(tempCardId)
+		%ShowDeck.get_popup().add_item(Global.COLLECTION[tempCardId].Name)
+		n-=1
+	get_parent().deckToPlay.shuffle()
