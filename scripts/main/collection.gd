@@ -79,6 +79,7 @@ func _ready() -> void:
 	var numCardsOnPage: int = 15
 	var card:Card
 	
+	DirAccess.make_dir_absolute("user://saves")
 	
 	
 	while numCardsDisplayed < numCardsToDisplay:
@@ -100,7 +101,7 @@ func _ready() -> void:
 			numCardsDisplayed+=1
 	pages[currentPage].visible = true
 	
-	var decksFile: FileAccess = FileAccess.open("res://saves/decks.save", FileAccess.READ)
+	var decksFile: FileAccess = FileAccess.open("user://saves/decks.save", FileAccess.READ)
 	if decksFile != null:
 		var tempDeck: Deck
 		while decksFile.get_position() < decksFile.get_length():

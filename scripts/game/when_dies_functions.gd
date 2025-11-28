@@ -1,6 +1,6 @@
 extends Node
 
-func whenDiesHealingBeetle(card:Card) -> void:
+func whenDiesHealingBeetle(card: Card) -> void:
 	%YourHand.update_your_life(2)
 	multiplayer.rpc(Global.peerID, %EnemyPlace, "update_enemy_life", [2])
 
@@ -34,38 +34,46 @@ func whenDiesRestfulCrystal(card: Card) -> void:
 func whenDiesRecklessFighter(card: Card):
 	%YourHand.update_your_life(-8)
 	multiplayer.rpc(Global.peerID, %EnemyPlace, "update_enemy_life", [-8])
-func whenDiesLesserUrsa(card: Card):
+func whenDiesLesserUrsa(card: Card) -> void:
 	for i in range(0, 5):
 		if %YourPlace.cardSlots[i]!=null:
 			%YourPlace.cardSlots[i].change_current_attack(1)
 			multiplayer.rpc(Global.peerID, %EnemyPlace, "card_methods_rpc", ["change_current_attack", 1, false, i])
-func whenDiesBumBum(card: Card)->void:
+func whenDiesBumBum(card: Card) -> void:
 	var emptySlots: int = %YourPlace.cardSlots.count(null)
 	if emptySlots > 0:
 		var i: int = 0
 		emptySlots = 1
+		var bumCard:Card
 		while emptySlots != 0:
-			if %YourPlace.cardSlots[i] != null:
+			if %YourPlace.cardSlots[i] == null:
 				emptySlots -= 1
-				%YourPlace.put_card(0, i)
-				multiplayer.rpc(Global.peerID, %EnemyPlace, "put_card", [0, i])
+				bumCard = Card.new()
+				bumCard.get_values(0)
+				%YourPlace.put_card(bumCard, i, false)
+				#multiplayer.rpc(Global.peerID, %EnemyPlace, "put_card", [0, i])
 			i += 1
-func whenDiesBeggarUnion(card:Card)->void:
+func whenDiesBeggarUnion(card: Card) -> void:
 	var emptySlots: int = %YourPlace.cardSlots.count(null)
+	var bumCard:Card
 	if emptySlots > 1:
 		emptySlots = 2
 		var i: int = 0
 		while emptySlots > 0:
 			if %YourPlace.cardSlots[i] == null:
 				emptySlots-=1
-				%YourPlace.put_card(0, i)
-				multiplayer.rpc(Global.peerID, %EnemyPlace, "put_card_rpc", [0, i])
+				bumCard = Card.new()
+				bumCard.get_values(0)
+				%YourPlace.put_card(bumCard, i, false)
+				#multiplayer.rpc(Global.peerID, %EnemyPlace, "put_card_rpc", [0, i])
 			i+=1
 	elif emptySlots == 1:
 		var i: int = 0
 		while emptySlots > 0:
 			if %YourPlace.cardSlots[i] == null:
 				emptySlots-=1
-				%YourPlace.put_card(0, i)
-				multiplayer.rpc(Global.peerID, %EnemyPlace, "put_card_rpc", [0, i])
+				bumCard = Card.new()
+				bumCard.get_values(0)
+				%YourPlace.put_card(bumCard, i, false)
+				#multiplayer.rpc(Global.peerID, %EnemyPlace, "put_card_rpc", [0, i])
 			i+=1

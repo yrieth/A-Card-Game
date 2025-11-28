@@ -1,6 +1,6 @@
 extends Node
 
-const FALLENLEORICINDEX: int = 8
+const FALLENLEORICINDEX: int = 11
 
 @onready var isServer: bool = false
 @onready var isClient: bool = false
@@ -76,7 +76,7 @@ const COLLECTION = [
 	},
 	{
 		Name = "Tech Aprentice",
-		Description = "When Placed: Draw a car",
+		Description = "When Placed: Draw a card",
 		Attack = 1,
 		Life = 1,
 		Cost = 2,
@@ -342,7 +342,7 @@ const COLLECTION = [
 		Name = "Reckless Fighter",
 		Description = "When Dies: deals 8 damage to your hero",
 		Attack = 6,
-		Life = 5,
+		Life = 3,
 		Cost = 4,
 		Rarity = "b",
 		whenPlacedFunc = "",
@@ -423,8 +423,8 @@ const COLLECTION = [
 		Cost = 1,
 		Rarity = "s",
 		whenPlacedFunc = "",
-		whenAttackFunc = "whenDiesBumBum",
-		whenDiesFunc = ""
+		whenAttackFunc = "",
+		whenDiesFunc = "whenDiesBumBum"
 	},
 	{
 		Name = "Beggar Union",
@@ -434,8 +434,8 @@ const COLLECTION = [
 		Cost = 3,
 		Rarity = "s",
 		whenPlacedFunc = "",
-		whenAttackFunc = "whenDiesBeggarUnion",
-		whenDiesFunc = ""
+		whenAttackFunc = "",
+		whenDiesFunc = "whenDiesBeggarUnion"
 	},
 	{
 		Name = "Talking drawer",

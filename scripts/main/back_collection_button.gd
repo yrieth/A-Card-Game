@@ -11,7 +11,7 @@ func _on_pressed() -> void:
 		Global.deckToPlay = collection.decks[collection.selectedDeck].deck
 	
 	
-	var decksFile: FileAccess = FileAccess.open("res://saves/decks.save", FileAccess.WRITE)
+	var decksFile: FileAccess = FileAccess.open("user://saves/decks.save", FileAccess.WRITE)
 	for deck in collection.decks:
 		decksFile.store_line(deck.name)
 		decksFile.store_line(str(deck.deck))

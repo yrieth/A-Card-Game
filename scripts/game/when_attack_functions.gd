@@ -1,6 +1,6 @@
 extends Node
 
-func whenAttackFuriousUrsa(card: Card, target: int)->void:
+func whenAttackFuriousUrsa(card: Card, target: int) -> void:
 	var this: int = %YourPlace.cardSlots.find(card)
 	card.change_current_attack(1)
 	multiplayer.rpc(Global.peerID, get_parent(), "card_methods_rpc", ["change_current_attack", 1, false, this])
