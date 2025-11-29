@@ -62,7 +62,7 @@ func draw_card() -> void:
 			if %ShowDeck.get_popup().get_item_text(i) == tempCardName and !%ShowDeck.get_popup().is_item_disabled(i):
 				%ShowDeck.get_popup().set_item_disabled(i, true)
 				break
-	
+	update_deck_number()
 
 func make_focused(from: int) -> void:
 	focusedHandCard = from
@@ -109,6 +109,12 @@ func update_gold() -> void:
 	goldTween.tween_property($GoldDisplay, "value", get_parent().gold, 1)
 	#$GoldDisplay.value = get_parent().gold
 	$GoldDisplay.get_child(0).text=str(get_parent().gold) + "/" + str(get_parent().maxGold)
+
+func update_deck_number() -> void:
+	var deckTween: Tween = create_tween()
+	deckTween.set_trans(Tween.TRANS_CUBIC)
+	deckTween.tween_property($DeckDisplay, "value", len(get_parent().deckToPlay), 1)
+	$DeckDisplay.get_child(0).text = str(len(get_parent().deckToPlay))
 
 @rpc("any_peer")
 func update_your_life(amount: int) -> void:

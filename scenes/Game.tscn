@@ -180,6 +180,28 @@ label_settings = ExtResource("3_s0nni")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="DeckDisplay" type="ProgressBar" parent="YourHand"]
+layout_mode = 0
+offset_left = 1160.0
+offset_top = 136.0
+offset_right = 1256.0
+offset_bottom = 184.0
+tooltip_text = "Cards Left"
+theme_override_styles/fill = SubResource("StyleBoxFlat_7ua8r")
+max_value = 20.0
+allow_greater = true
+allow_lesser = true
+show_percentage = false
+
+[node name="Label" type="Label" parent="YourHand/DeckDisplay"]
+layout_mode = 0
+offset_right = 96.0
+offset_bottom = 48.0
+text = "0"
+label_settings = ExtResource("3_s0nni")
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="TurnDisplay" type="ProgressBar" parent="YourHand"]
 layout_mode = 0
 offset_left = 1048.0

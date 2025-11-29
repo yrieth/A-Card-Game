@@ -148,7 +148,8 @@ func whenPlacedGoldMine(card: Card)->void:
 	for i in range(0,4):
 		if %YourPlace.cardSlots[i]!=null and %YourPlace.cardSlots[i].cardName != "Gold Mine":
 			goldSum += %YourPlace.cardSlots[i].cost
-	%YourHand.update_gold(goldSum)
+	get_parent().gold += goldSum
+	%YourHand.update_gold()
 func whenPlacedSneakyTrader(card: Card)->void:
 	if %YourHand.numCards > 0:
 		var target: int = randi() % %YourHand.numCards
@@ -167,6 +168,7 @@ func whenPlacedCartographer(card: Card)->void:
 	if %YourPlace.cardSlots[target].cardName != "Cartographer":
 		get_parent().deckToPlay.insert(randi()%len(get_parent().deckToPlay),%YourPlace.cardSlots[target].cardId)
 		%ShowDeck.get_popup().add_item(%YourPlace.cardSlots[target].cardName)
+	%YourHand.update_deck_number()
 func whenPlacedCornifer(card: Card)->void:
 	var cardPool: Array[int]
 	var n: int = 0
@@ -181,3 +183,4 @@ func whenPlacedCornifer(card: Card)->void:
 		%ShowDeck.get_popup().add_item(Global.COLLECTION[tempCardId].Name)
 		n-=1
 	get_parent().deckToPlay.shuffle()
+	%YourHand.update_deck_number()
